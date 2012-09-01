@@ -14,6 +14,43 @@ Take a look at the [Wiki](https://github.com/nicoSWD/put.io-API-v2-Wrapper/wiki/
 You can also find me on Twitter: @[nicoSWD](https://twitter.com/nicoSWD)
 
 
+EXAMPLES
+========
+<code>
+<pre>
+require 'PutIO.php';
+$putio = new PutIO($access_token);
+
+// Retrieve a an array of files on your account.
+$files = $putio->files->listall();
+
+// Upload a file.
+$file = 'path/to/file.jpg';
+$putio->files->upload($file);
+
+// Download a file.
+$saveAs = 'my-file.jpg';
+$fileID = 1234;
+
+$putio->files->download($fileID, $saveAs);
+
+// Search for files you have access to.
+$query = 'my file';
+$files = $putio->files->search($query);
+
+// Add a new transfer (file or torrent)
+$url = 'http://torrent.site.com/legal_video.torrent';
+$putio->transfers->add($url);
+
+// Get status of a transfer
+$transferID = 1234;
+$info = $putio->transfers->info($transferID);
+
+// And a lot more...
+</pre>
+</code>
+
+
 LICENSE
 =======
 Copyright (C) 2012  Nicolas Oelgart
