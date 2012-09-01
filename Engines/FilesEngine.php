@@ -87,7 +87,7 @@ class FilesEngine extends ClassEngine
     /**
      * Deletes files from your account.
      *
-     * @param array $fileIDs   IDs of files you want to delete.
+     * @param mixed $fileIDs   IDs of files you want to delete. Array or integer.
      * @return boolean
      *
     **/
@@ -114,12 +114,12 @@ class FilesEngine extends ClassEngine
     /**
      * Moves one of more files to a new directory.
      *
-     * @param array $fileIDs      IDs of files you want to move.
+     * @param mixed $fileIDs      IDs of files you want to move. Array or integer.
      * @param integer $parentID   ID of the folder you want to move the files to.
      * @return boolean
      *
     **/
-    public function move(array $fileIDs, $parentID)
+    public function move($fileIDs, $parentID)
     {
         return $this->post('files/move', array('file_ids' => (is_array($fileIDs) ? implode(',', $fileIDs) : $fileIDs), 'parent_id' => $parentID), true);
     }
