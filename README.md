@@ -3,6 +3,7 @@ PHP PUT.IO OAuth API Wrapper Class
 **(API Version 2)**
 
 A simple, but powerful PHP class for [put.io](https://put.io/)'s [OAuth API](https://api.put.io/v2/docs/) (version 2).
+Supports all features that put.io's API provides, including file uploads, downloads, etc...
 
 Requires PHP 5.3, and the following PHP extensions: cURL and JSON.
 
