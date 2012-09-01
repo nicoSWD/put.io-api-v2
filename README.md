@@ -18,7 +18,6 @@ EXAMPLES
 ========
 
 <pre>
-<code>
 require 'PutIO.php';
 $putio = new PutIO($access_token);
 
@@ -32,7 +31,6 @@ $putio->files->upload($file);
 // Download a file.
 $saveAs = 'my-file.jpg';
 $fileID = 1234;
-
 $putio->files->download($fileID, $saveAs);
 
 // Search for files you have access to.
@@ -48,7 +46,6 @@ $transferID = 1234;
 $info = $putio->transfers->info($transferID);
 
 // And a lot more...
-</code>
 </pre>
 
 
