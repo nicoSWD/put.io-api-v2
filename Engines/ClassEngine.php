@@ -119,7 +119,8 @@ abstract class ClassEngine
      * @param array  $params    OPTIONAL - Variables to be sent.
      * @param string $outFile   OPTIONAL - If $outFile is set, the response will be written to this file instead of StdOut.
      * @return mixed
-     * @throws \Exception
+     * @throws PutIOLocalStorageException
+     * @throws PutIOBadMethodException
      *
     **/
     protected function request($method, $path, array $params = array(), $outFile = '', $returnBool = false)
@@ -151,14 +152,14 @@ abstract class ClassEngine
         }
         else
         {
-            throw new \Exception('Method not supported');
+            throw new PutIOBadMethodException('Method not supported');
         }
         
         if ($outFile !== '')
         {
             if (($outFile = @fopen($outFile, 'w+')) === false)
             {
-                throw new \Exception('Unable to create local file');
+                throw new PutIOLocalStorageException('Unable to create local file');
             }
 
             curl_setopt($ch, CURLOPT_FILE, $outFile);
@@ -180,5 +181,10 @@ abstract class ClassEngine
         return $response;
     }
 }
+
+
+class PutIOBadMethodException extends \Exception {}
+class PutIOLocalStorageException extends \Exception {}
+
 
 ?>
