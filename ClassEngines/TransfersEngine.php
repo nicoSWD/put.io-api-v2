@@ -60,12 +60,12 @@ class TransfersEngine extends ClassEngine
      * Cancels given transfers.
      *
      * @param array $transferIDs   Transfer IDs you want to cancel
-     * @return array
+     * @return boolean
      *
     **/
     public function cancel(array $transferIDs)
     {
-        return $this->post('transfers/cancel', array('transfer_ids' => implode(',', $transferIDs)));
+        return $this->post('transfers/cancel', array('transfer_ids' => implode(',', $transferIDs)), true);
     }
 }
 

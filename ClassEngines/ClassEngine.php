@@ -48,28 +48,30 @@ abstract class ClassEngine
     /**
      * Sends a GET HTTP request.
      *
-     * @param string $path    Path of the API class.
-     * @param array  $params  OPTIONAL - GET variables to be sent.
-     * @return array
+     * @param string  $path         Path of the API class.
+     * @param array   $params       OPTIONAL - GET variables to be sent.
+     * @param boolean $returnBool   OPTIONAL - Will return boolean if true. True if $response['status'] === 'OK'.
+     * @return mixed
      *
     **/
-    protected function get($path, array $params = array())
+    protected function get($path, array $params = array(), $returnBool = false)
     {
-        return $this->request('GET', $path, $params);
+        return $this->request('GET', $path, $params, '', $returnBool);
     }
     
 
     /**
      * Sends a POST HTTP request.
      *
-     * @param string $path    Path of the API class.
-     * @param array  $params  OPTIONAL - POST variables to be sent.
-     * @return array
+     * @param string  $path         Path of the API class.
+     * @param array   $params       OPTIONAL - POST variables to be sent.
+     * @param boolean $returnBool   OPTIONAL - Will return boolean if true. True if $response['status'] === 'OK'.
+     * @return mixed
      *
     **/   
-    protected function post($path, array $params = array())
+    protected function post($path, array $params = array(), $returnBool = false)
     {
-        return $this->request('POST', $path, $params);
+        return $this->request('POST', $path, $params, '', $returnBool);
     }
     
     
@@ -120,7 +122,7 @@ abstract class ClassEngine
      * @throws \Exception
      *
     **/
-    protected function request($method, $path, array $params = array(), $outFile = '')
+    protected function request($method, $path, array $params = array(), $outFile = '', $returnBool = false)
     {
         if (!$params['oauth_token'] = $this->putio->oauthToken)
         {
@@ -165,9 +167,16 @@ abstract class ClassEngine
         curl_setopt($ch, CURLOPT_URL, $url);
         $response = curl_exec($ch);
         
+        // if (curl_getinfo($ch))
+        
         if (($response = json_decode($response, true)) === null)
         {
             return false;
+        }
+        
+        if ($returnBool)
+        {
+            return ((isset($response['status']) AND $response['status'] === 'OK'));
         }
         
         return $response;

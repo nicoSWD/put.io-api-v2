@@ -53,7 +53,7 @@ class FilesEngine extends ClassEngine
     **/
     public function upload($file, $parentID = 0)
     {
-        return $this->uploadFile('files/upload', array('parent_id', $parentID, 'file' => "@{$file}"));
+        return $this->uploadFile('files/upload', array('parent_id', $parentID, 'file' => '@' . realpath($file)));
     }
     
     
@@ -88,12 +88,12 @@ class FilesEngine extends ClassEngine
      * Deletes files from your account.
      *
      * @param array $fileIDs   IDs of files you want to delete.
-     * @return array
+     * @return boolean
      *
     **/
-    public function delete(array $fileIDs)
+    public function delete($fileIDs)
     {
-        return $this->post('files/delete', array('file_ids' => $fileIDs));
+        return $this->post('files/delete', array('file_ids' => is_array($fileIDs) ? implode(',', $fileIDs) : $fileIDs), true);
     }
     
     
@@ -102,12 +102,12 @@ class FilesEngine extends ClassEngine
      *
      * @param integer $fileID  ID of the file you want to rename.
      * @param string  $name    New name of the file.
-     * @return array
+     * @return boolean
      *
     **/
     public function rename($fileID, $name)
     {
-        return $this->post('files/rename', array('file_id' => $fileID, 'name' => $name));
+        return $this->post('files/rename', array('file_id' => $fileID, 'name' => $name), true);
     }
     
     
@@ -116,12 +116,12 @@ class FilesEngine extends ClassEngine
      *
      * @param array $fileIDs      IDs of files you want to move.
      * @param integer $parentID   ID of the folder you want to move the files to.
-     * @return array
+     * @return boolean
      *
     **/
     public function move(array $fileIDs, $parentID)
     {
-        return $this->post('files/move', array('file_ids', $fileIDs, 'parent_id' => $parentID));
+        return $this->post('files/move', array('file_ids' => (is_array($fileIDs) ? implode(',', $fileIDs) : $fileIDs), 'parent_id' => $parentID), true);
     }
     
     
@@ -129,12 +129,12 @@ class FilesEngine extends ClassEngine
      * Converts a remote file to MP4 (whenever possible).
      *
      * @param integer $fileID   ID of the file you want to convert.
-     * @return array
+     * @return boolean
      *
     **/
     public function convertToMP4($fileID)
     {
-        return $this->post('files/' . $fileID . '/mp4');
+        return $this->post('files/' . $fileID . '/mp4', array(), true);
     }
     
     

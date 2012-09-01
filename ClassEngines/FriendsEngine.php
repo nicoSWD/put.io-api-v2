@@ -36,7 +36,7 @@ class FriendsEngine extends ClassEngine
     **/
     public function pendingRequests()
     {
-        return $this->get('friends/requests');
+        return $this->get('friends/waiting-requests');
     }
     
     
@@ -44,12 +44,12 @@ class FriendsEngine extends ClassEngine
      * Sends out a friend request to a specific user.
      *
      * @param string $username User to receive friend request
-     * @return array
+     * @return boolean
      *
     **/
     public function sendRequest($username)
     {
-        return $this->post('friends/' . $username . '/request');
+        return $this->post('friends/' . $username . '/request', array(), true);
     }
     
     
@@ -57,12 +57,12 @@ class FriendsEngine extends ClassEngine
      * Denies a specific friend request.
      *
      * @param string $username User to have their request denied
-     * @return array
+     * @return boolean
      *
     **/
     public function denyRequest($username)
     {
-        return $this->post('friends/' . $username . '/deny');
+        return $this->post('friends/' . $username . '/deny', array(), true);
     }
 }
 
