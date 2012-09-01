@@ -124,9 +124,9 @@ abstract class ClassEngine
     **/
     protected function request($method, $path, array $params = array(), $outFile = '', $returnBool = false)
     {
-        if (!$params['oauth_token'] = $this->putio->oauthToken)
+        if ($this->putio->oauthToken)
         {
-            throw new \Exception('Missing oauth_token');
+            $params['oauth_token'] = $this->putio->oauthToken;
         }
         
         $url = static::API_URL . $path;

@@ -61,17 +61,22 @@ class OauthEngine extends ClassEngine
      * If valid, this function returns the user's access token, which you need to
      * save for all upcoming API requests.
      *
-     * @param integer $clientID
-     * @param string  $redirectURI
-     * @param string  $code
+     * @param integer $clientID       App ID
+     * @param string  $clientSecret   App secret
+     * @param string  $redirectURI    Redirect URI
+     * @param string  $code           Code obtained by first step
      * @return mixed
      *
     **/
-    public function verifyCode($clientID, $redirectURI, $code)
+    public function verifyCode($clientID, $clientSecret, $redirectURI, $code)
     {
-        $response = $this->get('https://api.put.io/v2/oauth2/access_token?client_id=' . $clientID .
-            '&client_secret=' . $clientSecret . '&grant_type=authorization_code' .
-            '&redirect_uri=' . rawurlencode($redirectURI) . '&code=' . $code);
+        $response = $this->get('oauth2/access_token', array(
+            'client_id'     => $clientID,
+            'client_secret' => $clientSecret,
+            'grant_type'    => 'authorization_code',
+            'redirect_uri'  => $redirectURI,
+            'code'          => $code
+        ));
         
         if (!empty($response['access_token']))
         {
