@@ -166,9 +166,7 @@ abstract class ClassEngine
         
         curl_setopt($ch, CURLOPT_URL, $url);
         $response = curl_exec($ch);
-        
-        // if (curl_getinfo($ch))
-        
+                
         if (($response = json_decode($response, true)) === null)
         {
             return false;

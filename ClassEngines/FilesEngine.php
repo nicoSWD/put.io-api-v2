@@ -46,7 +46,7 @@ class FilesEngine extends ClassEngine
     /**
      * Uploads a local file to your account.
      *
-     * @param string $file        FULL (absolute) path to local file.
+     * @param string $file        Path to local file.
      * @param integer $parentID   OPTIONAL - ID of upload folder.
      * @return array
      *
