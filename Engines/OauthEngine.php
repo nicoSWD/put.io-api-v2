@@ -50,8 +50,12 @@ class OauthEngine extends ClassEngine
     **/
     public function requestPermission($clientID, $redirectURI)
     {
-        header('Location: https://api.put.io/v2/oauth2/authenticate?client_id=' . $clientID .
-            '&response_type=code&redirect_uri=' . rawurlencode($redirectURI));
+        header('Location: https://api.put.io/v2/oauth2/authenticate?' .
+            'client_id=' . $clientID . '&' . 
+            'response_type=code&' .
+            'redirect_uri=' . rawurlencode($redirectURI)
+        );
+        
         exit;
     }
     
