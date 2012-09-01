@@ -69,8 +69,8 @@ class PutIO
         
         if (!isset(static::$instances[$class]))
         {
-            require_once __DIR__ . '/ClassEngines/ClassEngine.php';
-            require_once __DIR__ . '/ClassEngines/' . $class . '.php';
+            require_once __DIR__ . '/Engines/ClassEngine.php';
+            require_once __DIR__ . '/Engines/' . $class . '.php';
             
             static::$instances[$class] = new $class($this);
         }
