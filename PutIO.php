@@ -7,7 +7,8 @@
  * @license GPL 3 http://www.gnu.org/copyleft/gpl.html
  *
  * This class enabled easy access to put.io's API (version 2)
- * See the /Examples folder for detailed instructions.
+ * Take a look at the Wiki for detailed instructions:
+ * https://github.com/nicoSWD/put.io-API-v2-Wrapper/wiki
  *
  * @license
  * This program is free software: you can redistribute it and/or modify
