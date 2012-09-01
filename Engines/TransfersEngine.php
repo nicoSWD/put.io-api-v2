@@ -49,6 +49,7 @@ class TransfersEngine extends ClassEngine
      *
      * @param integer $transferID   ID of the transfer
      * @return array
+     * 
     **/
     public function info($transferID)
     {
@@ -59,7 +60,7 @@ class TransfersEngine extends ClassEngine
     /**
      * Cancels given transfers.
      *
-     * @param mixed $transferIDs   Transfer IDs you want to cancel
+     * @param mixed $transferIDs   Transfer IDs you want to cancel. Array or integer.
      * @return boolean
      *
     **/
