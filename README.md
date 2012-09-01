@@ -16,8 +16,9 @@ You can also find me on Twitter: @[nicoSWD](https://twitter.com/nicoSWD)
 
 EXAMPLES
 ========
-<code>
+
 <pre>
+<code>
 require 'PutIO.php';
 $putio = new PutIO($access_token);
 
@@ -47,8 +48,8 @@ $transferID = 1234;
 $info = $putio->transfers->info($transferID);
 
 // And a lot more...
-</pre>
 </code>
+</pre>
 
 
 LICENSE
