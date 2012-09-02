@@ -76,8 +76,8 @@ class API
             require_once __DIR__ . '/Engines/ClassEngine.php';
             require_once __DIR__ . '/Engines/' . $class . '.php';
             
-            $class = __NAMESPACE__ . '\Engines\\' . $class;
-            static::$instances[$class] = new $class($this);
+            $className = __NAMESPACE__ . '\Engines\\' . $class;
+            static::$instances[$class] = new $className($this);
         }
         
         return static::$instances[$class];
