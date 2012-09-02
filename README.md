@@ -29,8 +29,8 @@ $file = 'path/to/file.jpg';
 $putio->files->upload($file);
 
 // Download a file.
-$saveAs = 'my-file.jpg';
 $fileID = 1234;
+$saveAs = 'my-file.jpg';
 $putio->files->download($fileID, $saveAs);
 
 // Search for files you have access to.
