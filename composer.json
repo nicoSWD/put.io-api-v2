@@ -1,5 +1,5 @@
 {
-    "name": "nicoswd/PutIO",
+    "name": "nicoswd/putio",
     "type": "library",
     "description": "PHP 5.3 wrapper for PutIO's OAuth API (v2)",
     "keywords": ["putio,API,storage"],
