@@ -7,7 +7,7 @@ Supports all features that put.io's API provides, including file uploads, downlo
 
 Requires PHP 5.3, and the following PHP extensions: [cURL](http://php.net/book.curl) and [JSON](http://php.net/book.json).
 
-Take a look at the [Wiki](https://github.com/nicoSWD/put.io-API-v2-Wrapper/wiki/) and [put.io's API documentation](https://api.put.io/v2/docs/) to get started.
+Take a look at the [Wiki](https://github.com/nicoSWD/put.io-api-v2/wiki/) and [put.io's API documentation](https://api.put.io/v2/docs/) to get started.
 
 **Pull requests are welcome!**
 
