@@ -46,7 +46,6 @@ class API
     public $oauthToken = '';
  
     
-    
     /**
      * Class constructor, sets the oauth token for later requests.
      *
