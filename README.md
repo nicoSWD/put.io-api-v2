@@ -18,8 +18,8 @@ EXAMPLES
 ========
 
 <pre>
-require 'PutIO.php';
-$putio = new PutIO($access_token);
+require 'PutIO/API.php';
+$putio = new PutIO\API($access_token);
 
 // Retrieve a an array of files on your account.
 $files = $putio->files->listall();

@@ -26,21 +26,25 @@
  *
 **/
 
-class PutIO
+namespace PutIO;
+
+
+class API
 {
-    
-    /**
-     * Holds the user's OAuth token.
-     *
-    **/
-    public $oauthToken          = '';
- 
     
     /**
      * Holds the instances of requested objects.
      *
     **/
     protected static $instances = array();
+    
+  
+    /**
+     * Holds the user's OAuth token.
+     *
+    **/
+    public $oauthToken = '';
+ 
     
     
     /**
@@ -72,6 +76,7 @@ class PutIO
             require_once __DIR__ . '/Engines/ClassEngine.php';
             require_once __DIR__ . '/Engines/' . $class . '.php';
             
+            $class = __NAMESPACE__ . '\Engines\\' . $class;
             static::$instances[$class] = new $class($this);
         }
         

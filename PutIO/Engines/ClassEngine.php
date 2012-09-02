@@ -10,6 +10,10 @@
  *
 **/
 
+namespace PutIO\Engines;
+use PutIO\API;
+
+
 abstract class ClassEngine
 {
     
@@ -39,7 +43,7 @@ abstract class ClassEngine
      * @return void
      *
     **/
-    public function __construct(PutIO $putio)
+    public function __construct(API $putio)
     {
         $this->putio = $putio;
     }
@@ -132,14 +136,6 @@ abstract class ClassEngine
         
         $url = static::API_URL . $path;
         $ch = curl_init();
-            
-        curl_setopt_array($ch, array(
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_SSL_VERIFYHOST => false,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_USERAGENT      => 'nicoswd-putio/' . static::APP_VERSION
-        ));
         
         if ($method === 'POST')
         {
@@ -148,7 +144,6 @@ abstract class ClassEngine
         else if ($method === 'GET')
         {
             $url .= '?' . http_build_query($params, '', '&');
-            curl_setopt($ch, CURLOPT_POST, false);
         }
         else
         {
@@ -157,15 +152,27 @@ abstract class ClassEngine
         
         if ($outFile !== '')
         {
-            if (($outFile = @fopen($outFile, 'w+')) === false)
+            if (($fp = @fopen($outFile, 'w+')) === false)
             {
                 throw new PutIOLocalStorageException('Unable to create local file');
             }
 
-            curl_setopt($ch, CURLOPT_FILE, $outFile);
+            curl_setopt_array($ch, array(
+                CURLOPT_FILE           => $fp,
+                CURLOPT_BINARYTRANSFER => true
+            ));
         }
         
-        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt_array($ch, array(
+            CURLOPT_USERAGENT      => 'nicoswd-putio/' . static::APP_VERSION,
+            CURLOPT_CONNECTTIMEOUT => 10,
+            CURLOPT_URL            => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_FOLLOWLOCATION => true
+        ));
+        
         $response = curl_exec($ch);
                 
         if (($response = json_decode($response, true)) === null)
@@ -175,7 +182,12 @@ abstract class ClassEngine
         
         if ($returnBool)
         {
-            return ((isset($response['status']) AND $response['status'] === 'OK'));
+            if (isset($response['status']) AND $response['status'] === 'OK')
+            {
+                return true;
+            }
+            
+            return false;
         }
         
         return $response;

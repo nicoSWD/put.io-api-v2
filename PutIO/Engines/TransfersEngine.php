@@ -13,6 +13,10 @@
  *
 **/
 
+namespace PutIO\Engines;
+use PutIO\Engines\ClassEngine;
+
+
 class TransfersEngine extends ClassEngine
 {
     

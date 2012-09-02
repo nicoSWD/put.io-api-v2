@@ -13,6 +13,10 @@
  *
 **/
 
+namespace PutIO\Engines;
+use PutIO\Engines\ClassEngine;
+
+
 class FilesEngine extends ClassEngine
 {
     
@@ -46,8 +50,8 @@ class FilesEngine extends ClassEngine
     /**
      * Uploads a local file to your account.
      *
-     * @param string $file        Path to local file.
-     * @param integer $parentID   OPTIONAL - ID of upload folder.
+     * @param string  $file        Path to local file.
+     * @param integer $parentID    OPTIONAL - ID of upload folder.
      * @return array
      *
     **/
@@ -60,8 +64,8 @@ class FilesEngine extends ClassEngine
     /**
      * Creates a new folder
      *
-     * @param string $name        Name of the new folder.
-     * @param integer $parentID   OPTIONAL - ID of the parent folder.
+     * @param string  $name        Name of the new folder.
+     * @param integer $parentID    OPTIONAL - ID of the parent folder.
      * @return array
      *
     **/
@@ -114,8 +118,8 @@ class FilesEngine extends ClassEngine
     /**
      * Moves one of more files to a new directory.
      *
-     * @param mixed $fileIDs      IDs of files you want to move. Array or integer.
-     * @param integer $parentID   ID of the folder you want to move the files to.
+     * @param mixed   $fileIDs      IDs of files you want to move. Array or integer.
+     * @param integer $parentID     ID of the folder you want to move the files to.
      * @return boolean
      *
     **/
@@ -141,7 +145,7 @@ class FilesEngine extends ClassEngine
     /**
      * Returns information about the conversation process of a specific file.
      *
-     * @param integer $fileID  ID of the file you want to get the status of.
+     * @param integer $fileID    ID of the file you want to get the status of.
      * @return array
      *
     **/
@@ -154,8 +158,8 @@ class FilesEngine extends ClassEngine
     /**
      * Downloads a remote file to the local server.
      *
-     * @param integer $fileID  ID of the file you want to download.
-     * @param string $saveAS   Local path you want to save the file to.
+     * @param integer $fileID   ID of the file you want to download.
+     * @param string  $saveAS   Local path you want to save the file to.
      * @return boolean
      *
     **/
