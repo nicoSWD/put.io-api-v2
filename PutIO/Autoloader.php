@@ -11,8 +11,6 @@
  *
 **/
 
-namespace PutIO;
-
 spl_autoload_register(function($className)
 {
     if (strpos($className, 'PutIO') === 0)

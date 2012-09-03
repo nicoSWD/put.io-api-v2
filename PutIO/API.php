@@ -48,7 +48,6 @@ class API
     
     /**
      * Name of the HTTP engine. Possible options: Curl, Native
-     * NOTE: Native engine does not support file uploads yet!
      *
     **/
     public $httpEngine = 'Curl';
@@ -68,9 +67,8 @@ class API
     
     /**
      * Changes the HTTP engine. As of now, only 'Curl' and 'Native' are
-     * valid options. The 'Native' class does not support file uploads yet!
-     * If you have cURL installed, I encourage you to use it rather than the
-     * native option.
+     * valid options. If you have cURL installed, I encourage you to use
+     * it rather than the native option.
      *
      * @param string $name    Name of the HTTP engine.
      * @return void

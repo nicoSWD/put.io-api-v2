@@ -8,9 +8,6 @@
  *
  * Handles HTTP requests using native functions.
  *
- * NOTE: File uploads are NOT supported yet using native functions.
- * If you really must upload files, then use the cURL engine.
- *
 **/
 
 namespace PutIO\Engines\HTTP;
@@ -38,24 +35,56 @@ class Native implements HTTPEngine
     **/
     public function request($method, $url, array $params = array(), $outFile = '', $returnBool = false)
     {
-        $params = http_build_query($params, '', '&');
+        if (isset($params['file']) AND $params['file'][0] === '@')
+        {
+            $file = substr($params['file'], 1);
+            unset($params['file']);
+            
+            if (!$fileData = @file_get_contents($file))
+            {
+                throw new \Exception('Unable to open local file: ' . $file);
+            }
+            
+            $data = '';
+            $boundary = '---------------------' . substr(md5($file . uniqid('', true)), 0, 10);
+            
+            foreach ($params AS $key => $value)
+            {
+                $data .= "--$boundary\n";
+                $data .= "Content-Disposition: form-data; name=\"" . $key . "\"\n\n" . $value . "\n";
+            }
+            
+            $data .= "--$boundary\n";
+            $data .= "Content-Disposition: form-data; name=\"file\"; filename=\"" . basename($file) . '"' . "\n";
+            $data .= "Content-Type: application/json\n";
+            $data .= "Content-Transfer-Encoding: binary\n\n";
+            $data .= $fileData ."\n";
+            $data .= "--$boundary--\n";
+            
+            $contentType = 'multipart/form-data; boundary=' . $boundary;
+        }
+        else
+        {
+            $data = http_build_query($params, '', '&');
+            $contentType = 'application/x-www-form-urlencoded';
+        }
         
         if ($method === 'POST')
         {
             $contextOptions = array(
                 'http' => array(
                     'method' => 'POST',
-                    'header' => "Content-type: application/x-www-form-urlencoded\r\n"
-                        . "Content-Length: " . strlen($params) . "\r\n"
+                    'header' => "Content-type: {$contentType}\r\n"
+                        . "Content-Length: " . strlen($data) . "\r\n"
                         . "User-Agent: nicoswd-putio/2.0\r\n",
-                    'content' => $params
+                    'content' => $data
                 )
             );
         }
         else
         {
             $contextOptions = array();
-            $url .= '?' . $params;
+            $url .= '?' . $data;
         }
 
         $context = stream_context_create($contextOptions);
