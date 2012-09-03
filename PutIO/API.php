@@ -48,6 +48,7 @@ class API
     
     /**
      * Name of the HTTP engine. Possible options: Curl, Native
+     * Defaults to cRUL and for a reason. Use cURL whenever possible.
      *
     **/
     public $httpEngine = 'Curl';

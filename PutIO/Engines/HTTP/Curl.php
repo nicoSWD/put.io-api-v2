@@ -14,6 +14,7 @@ namespace PutIO\Engines\HTTP;
 
 use PutIO\ClassEngine;
 use PutIO\Interfaces\HTTPEngine;
+use PutIO\Engines\HTTP\Helpers\HTTPHelper;
 
 
 class Curl implements HTTPEngine
@@ -81,17 +82,11 @@ class Curl implements HTTPEngine
         
         if ($returnBool)
         {
-            if (isset($response['status']) AND $response['status'] === 'OK')
-            {
-                return true;
-            }
-            
-            return false;
+            return HTTPHelper::getStatus($response);
         }
         
         return $response;
     }
 }
-
 
 ?>

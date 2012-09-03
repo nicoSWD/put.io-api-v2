@@ -14,6 +14,7 @@ namespace PutIO\Engines\HTTP;
 
 use PutIO\ClassEngine;
 use PutIO\Interfaces\HTTPEngine;
+use PutIO\Engines\HTTP\Helpers\HTTPHelper;
 use PutIO\Exceptions\RemoteConnectionException;
 use PutIO\Exceptions\LocalStorageException;
 use PutIO\Exceptions\FileNotFoundException;
@@ -27,7 +28,8 @@ class Native implements HTTPEngine
      * PHP functions.
      *
      * NOTE!! Due to restrictions, files must be loaded into the memory when uploading.
-     * I don't recommend uploading large files using native functions.
+     * I don't recommend uploading large files using native functions. Only use this if
+     * you absolutely must! Otherwise, the cURL engine is much better!
      *
      * Downloading is no issue as long as you're saving the file somewhere on the file system
      * rather than the memory. Set $outFile and you're all set!
@@ -66,7 +68,7 @@ class Native implements HTTPEngine
             
             $data .= "--{$boundary}\n";
             $data .= "Content-Disposition: form-data; name=\"file\"; filename=\"" . basename($file) . '"' . "\n";
-            $data .= "Content-Type: " . $this->getMIMEType($file) . "\n";
+            $data .= "Content-Type: " . HTTPHelper::getMIMEType($file) . "\n";
             $data .= "Content-Transfer-Encoding: binary\n\n";
             $data .= $fileData ."\n";
             $data .= "--{$boundary}--\n";
@@ -103,14 +105,9 @@ class Native implements HTTPEngine
         
         if (($fp = @fopen($url, 'r', false, $context)) === false)
         {
-            if (isset($http_response_header) AND preg_match('~HTTP/1.1\s+(\d+)~', $http_response_header[0], $match))
+            if (HTTPHelper::getResponseCode($http_response_header) === 404)
             {
-                $responseCode = (int) $match[1];
-                
-                if ($responseCode === 404)
-                {
-                    return false;
-                }
+                return false;
             }
             else
             {
@@ -125,7 +122,7 @@ class Native implements HTTPEngine
                 throw new LocalStorageException('Unable to create local file.');
             }
         
-            while (!feof($fp))
+            while (!feof($fp)) 
             {
                 fputs($localfp, fread($fp, 8192));
             }
@@ -151,41 +148,10 @@ class Native implements HTTPEngine
         
         if ($returnBool)
         {
-            if (isset($response['status']) AND $response['status'] === 'OK')
-            {
-                return true;
-            }
-            
-            return false;
+            return HTTPHelper::getStatus($response);
         }
         
         return $response;
-    }
-    
-    
-    /**
-     * Attemps to get the MIME type of a given file.
-     * 
-     * Relies on the file info extension, which is shipped with PHP 5.3
-     * and enabled by default. So,... nothing should go wrong, RIGHT?
-     *
-     * @param string $file    Path of the file you want to get the MIME type of.
-     * @return string
-     *
-    **/
-    protected function getMIMEType($file)
-    {
-        if (function_exists('finfo_open') AND $info = @finfo_open(FILEINFO_MIME))
-        {
-            if (($mime = @finfo_file($info, $file)) !== false)
-            {
-                $mime = explode(';', $mime);
-                return trim($mime[0]);
-            }
-            
-        }
-
-        return 'application/octet-stream';
     }
 }
 
