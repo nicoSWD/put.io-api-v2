@@ -158,7 +158,7 @@ abstract class ClassEngine
         {
             $className = __NAMESPACE__ . '\HTTP\\' . $name;
             
-            if (!class_exists($className))
+            if (!class_exists($className, false))
             {
                 throw UnsupportedHTTPEngineException('Unsupported engine: ' . $className);
             }
