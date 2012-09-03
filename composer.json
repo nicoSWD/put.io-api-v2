@@ -1,0 +1,22 @@
+{
+    "name": "nicoswd/putio",
+    "type": "library",
+    "description": "PHP 5.3 wrapper for PutIO's OAuth API (v2)",
+    "keywords": ["putio,API,storage"],
+    "homepage": "https://github.com/nicoSWD/put.io-api-v2",
+    "license": "GPL3",
+    "authors": [
+        {
+            "name": "Nicolas Oelgart",
+            "homepage": "http://www.nicoswd.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "psr-0": {
+            "PutIO": ""
+        }
+    }
+}
