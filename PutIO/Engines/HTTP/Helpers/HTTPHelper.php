@@ -77,6 +77,30 @@ class HTTPHelper
 
         return 'application/octet-stream';
     }
+    
+    
+    /**
+     * Decodes the response and returns the appropriate value
+     *
+     * @param string $response      Response data from server. Must be JSON encoded.
+     * @param string $returnBool    Whether or not to return boolean
+     * @return mixed
+     *
+    **/
+    public static function getResponse($response, $returnBool)
+    {
+        if (($response = json_decode($response, true)) === null)
+        {
+            return false;
+        }
+        
+        if ($returnBool)
+        {
+            return static::getStatus($response);
+        }
+        
+        return $response;
+    }
 
 }
 

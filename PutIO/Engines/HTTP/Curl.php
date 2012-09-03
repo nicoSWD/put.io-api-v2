@@ -75,17 +75,7 @@ class Curl implements HTTPEngine
             return false;
         }
         
-        if (($response = json_decode($response, true)) === null)
-        {
-            return false;
-        }
-        
-        if ($returnBool)
-        {
-            return HTTPHelper::getStatus($response);
-        }
-        
-        return $response;
+        return HTTPHelper::getResponse($response, $returnBool);
     }
 }
 
