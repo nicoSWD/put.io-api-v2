@@ -109,7 +109,6 @@ class Native implements HTTPEngine
                 
                 if ($responseCode === 404)
                 {
-                    // throw new FileNotFoundException('File not found.');
                     return false;
                 }
             }
@@ -119,7 +118,6 @@ class Native implements HTTPEngine
             }
         }
         
-        // Save response to a local file
         if ($outFile !== '')
         {
             if (($localfp = @fopen($outFile, 'w+')) === false)
@@ -132,20 +130,19 @@ class Native implements HTTPEngine
                 fputs($localfp, fread($fp, 8192));
             }
             
-            fclose($fp);
             fclose($localfp);
-            
             return true;
         }
         else
         {
             $response = '';
-            
             while (!feof($fp))
             {
                 $response .= fread($fp, 8192);
             }
         }
+        
+        fclose($fp);
         
         if (($response = json_decode($response, true)) === null)
         {
@@ -172,26 +169,24 @@ class Native implements HTTPEngine
      * Relies on the file info extension, which is shipped with PHP 5.3
      * and enabled by default. So,... nothing should go wrong, RIGHT?
      *
-     * @param string $file   Path of the file you want to get the MIME type of.
+     * @param string $file    Path of the file you want to get the MIME type of.
      * @return string
      *
     **/
     protected function getMIMEType($file)
     {
-        $magicFile = __DIR__ . '/etc/magic';
-        
-        if (function_exists('finfo_open') AND $info = @finfo_open(FILEINFO_MIME, $magicFile))
+        if (function_exists('finfo_open') AND $info = @finfo_open(FILEINFO_MIME))
         {
-            if (!$mime = @finfo_file($info, $file))
+            if (($mime = @finfo_file($info, $file)) !== false)
             {
                 $mime = explode(';', $mime);
                 return trim($mime[0]);
             }
+            
         }
-        
+
         return 'application/octet-stream';
     }
 }
-
 
 ?>
