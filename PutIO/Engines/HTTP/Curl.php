@@ -29,7 +29,6 @@ class Curl implements HTTPEngine
      * @param string $outFile   OPTIONAL - If $outFile is set, the response will be written to this file instead of StdOut.
      * @return mixed
      * @throws PutIOLocalStorageException
-     * @throws PutIOBadMethodException
      *
     **/
     public function request($method, $url, array $params = array(), $outFile = '', $returnBool = false)
