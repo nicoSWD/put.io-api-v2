@@ -11,7 +11,7 @@ Requires PHP >=5.3, and the [JSON](http://php.net/book.json) extension.
 you now have access to all features using native PHP functions.
 
 If you don't have the JSON extension, you can use [this Services_JSON PEAR class](http://pear.php.net/package/Services_JSON) instead.
-Little code tweaking required.
+Little code [tweaking](http://es.php.net/manual/en/function.json-decode.php#80606) required.
 
 Take a look at the [Wiki](https://github.com/nicoSWD/put.io-api-v2/wiki/) and [put.io's API documentation](https://api.put.io/v2/docs/) to get started.
 
