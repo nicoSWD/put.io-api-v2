@@ -10,6 +10,9 @@ Requires PHP >=5.3, and the [JSON](http://php.net/book.json) extension.
 **UPDATE:** This script does no longer require the cURL extension! It's strongly recommended, but if there's just no way,
 you now have access to all features using native PHP functions.
 
+If you don't have the JSON extension, you can probably borrow [this function from SimpleJSON](http://code.google.com/p/simplejson-php/). It's written in native
+PHP and should work as long as you know how to tweak this class to use it.
+
 Take a look at the [Wiki](https://github.com/nicoSWD/put.io-api-v2/wiki/) and [put.io's API documentation](https://api.put.io/v2/docs/) to get started.
 
 **Pull requests are welcome! Fix, improve, suggest!**
