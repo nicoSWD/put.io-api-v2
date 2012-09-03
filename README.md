@@ -17,9 +17,13 @@ You can also find me on Twitter: @[nicoSWD](https://twitter.com/nicoSWD)
 EXAMPLES
 ========
 
-<pre><code>
-require 'PutIO/API.php';
+<code><pre>
+require 'PutIO/Autoloader.php';
 $putio = new PutIO\API($access_token);
+
+// If you don't have cURL installed, you can use all functions natively as well:
+// Only recommended if you don't have cURL!!
+$putio->setHTTPEngine('Native');
 
 // Retrieve a an array of files on your account.
 $files = $putio->files->listall();
@@ -46,7 +50,7 @@ $transferID = 1234;
 $info = $putio->transfers->info($transferID);
 
 // And a lot more...
-</code></pre>
+</pre></code>
 
 
 LICENSE

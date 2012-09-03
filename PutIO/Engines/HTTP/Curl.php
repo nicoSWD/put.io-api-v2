@@ -69,6 +69,11 @@ class Curl implements HTTPEngine
         curl_setopt_array($ch, $options);
         $response = curl_exec($ch);
         
+        if ((int) curl_getinfo($ch, CURLINFO_HTTP_CODE) === 404)
+        {
+            return false;
+        }
+        
         if (($response = json_decode($response, true)) === null)
         {
             return false;

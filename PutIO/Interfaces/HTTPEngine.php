@@ -23,8 +23,6 @@ interface HTTPEngine
      * @param array  $params    OPTIONAL - Variables to be sent.
      * @param string $outFile   OPTIONAL - If $outFile is set, the response will be written to this file instead of StdOut.
      * @return mixed
-     * @throws PutIOLocalStorageException
-     * @throws RemoteConnectionException
      *
     **/
     public function request($method, $url, array $params = array(), $outFile = '', $returnBool = false);

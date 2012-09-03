@@ -16,13 +16,23 @@ use PutIO\ClassEngine;
 use PutIO\Interfaces\HTTPEngine;
 use PutIO\Exceptions\RemoteConnectionException;
 use PutIO\Exceptions\LocalStorageException;
+use PutIO\Exceptions\FileNotFoundException;
 
 
 class Native implements HTTPEngine
 {
     
     /**
-     * Makes an HTTP request to put.io's API and returns the response.
+     * Makes an HTTP request to put.io's API and returns the response. Relies on native
+     * PHP functions.
+     *
+     * NOTE!! Due to restrictions, files must be loaded into the memory when uploading.
+     * I don't recommend uploading large files using native functions.
+     *
+     * Downloading is no issue as long as you're saving the file somewhere on the file system
+     * rather than the memory. Set $outFile and you're all set!
+     *
+     * Returns false if a file was not found.
      *
      * @param string $method    HTTP request method. Only POST and GET are supported.
      * @param string $url       Remote path to API module.
@@ -42,7 +52,7 @@ class Native implements HTTPEngine
             
             if (!$fileData = @file_get_contents($file))
             {
-                throw new \Exception('Unable to open local file: ' . $file);
+                throw new LocalStorageException('Unable to open local file: ' . basename($file));
             }
             
             $data = '';
@@ -50,18 +60,19 @@ class Native implements HTTPEngine
             
             foreach ($params AS $key => $value)
             {
-                $data .= "--$boundary\n";
+                $data .= "--{$boundary}\n";
                 $data .= "Content-Disposition: form-data; name=\"" . $key . "\"\n\n" . $value . "\n";
             }
             
-            $data .= "--$boundary\n";
+            $data .= "--{$boundary}\n";
             $data .= "Content-Disposition: form-data; name=\"file\"; filename=\"" . basename($file) . '"' . "\n";
-            $data .= "Content-Type: application/json\n";
+            $data .= "Content-Type: " . $this->getMIMEType($file) . "\n";
             $data .= "Content-Transfer-Encoding: binary\n\n";
             $data .= $fileData ."\n";
-            $data .= "--$boundary--\n";
+            $data .= "--{$boundary}--\n";
             
             $contentType = 'multipart/form-data; boundary=' . $boundary;
+            unset($fileData);
         }
         else
         {
@@ -74,9 +85,10 @@ class Native implements HTTPEngine
             $contextOptions = array(
                 'http' => array(
                     'method' => 'POST',
-                    'header' => "Content-type: {$contentType}\r\n"
-                        . "Content-Length: " . strlen($data) . "\r\n"
-                        . "User-Agent: nicoswd-putio/2.0\r\n",
+                    'header' =>
+                        "Content-type: " . $contentType . "\r\n" .
+                        "Content-Length: " . strlen($data) . "\r\n" .
+                        "User-Agent: nicoswd-putio/2.0\r\n",
                     'content' => $data
                 )
             );
@@ -91,9 +103,23 @@ class Native implements HTTPEngine
         
         if (($fp = @fopen($url, 'r', false, $context)) === false)
         {
-            throw new RemoteConnectionException('Unable to connect to remote resource.');
+            if (isset($http_response_header) AND preg_match('~HTTP/1.1\s+(\d+)~', $http_response_header[0], $match))
+            {
+                $responseCode = (int) $match[1];
+                
+                if ($responseCode === 404)
+                {
+                    // throw new FileNotFoundException('File not found.');
+                    return false;
+                }
+            }
+            else
+            {
+                throw new RemoteConnectionException('Unable to connect to remote resource.');
+            }
         }
         
+        // Save response to a local file
         if ($outFile !== '')
         {
             if (($localfp = @fopen($outFile, 'w+')) === false)
@@ -137,6 +163,33 @@ class Native implements HTTPEngine
         }
         
         return $response;
+    }
+    
+    
+    /**
+     * Attemps to get the MIME type of a given file.
+     * 
+     * Relies on the file info extension, which is shipped with PHP 5.3
+     * and enabled by default. So,... nothing should go wrong, RIGHT?
+     *
+     * @param string $file   Path of the file you want to get the MIME type of.
+     * @return string
+     *
+    **/
+    protected function getMIMEType($file)
+    {
+        $magicFile = __DIR__ . '/etc/magic';
+        
+        if (function_exists('finfo_open') AND $info = @finfo_open(FILEINFO_MIME, $magicFile))
+        {
+            if (!$mime = @finfo_file($info, $file))
+            {
+                $mime = explode(';', $mime);
+                return trim($mime[0]);
+            }
+        }
+        
+        return 'application/octet-stream';
     }
 }
 
