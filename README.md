@@ -17,7 +17,7 @@ You can also find me on Twitter: @[nicoSWD](https://twitter.com/nicoSWD)
 EXAMPLES
 ========
 
-<code><pre>
+<pre>
 require 'PutIO/Autoloader.php';
 $putio = new PutIO\API($access_token);
 
@@ -50,7 +50,7 @@ $transferID = 1234;
 $info = $putio->transfers->info($transferID);
 
 // And a lot more...
-</pre></code>
+</pre>
 
 
 LICENSE
