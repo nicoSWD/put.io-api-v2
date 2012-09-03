@@ -44,6 +44,14 @@ class API
      *
     **/
     public $oauthToken = '';
+    
+    
+    /**
+     * Name of the HTTP engine. Possible options: Curl, Native
+     * NOTE: Native engine does not support file uploads yet!
+     *
+    **/
+    public $httpEngine = 'Curl';
  
     
     /**
@@ -55,6 +63,22 @@ class API
     public function __construct($oauthToken = '')
     {
         $this->oauthToken = $oauthToken;
+    }
+    
+    
+    /**
+     * Changes the HTTP engine. As of now, only 'Curl' and 'Native' are
+     * valid options. The 'Native' class does not support file uploads yet!
+     * If you have cURL installed, I encourage you to use it rather than the
+     * native option.
+     *
+     * @param string $name    Name of the HTTP engine.
+     * @return void
+     *
+    **/
+    public function setHTTPEngine($name)
+    {
+        $this->httpEngine = $name;
     }
     
     
@@ -72,10 +96,7 @@ class API
         
         if (!isset(static::$instances[$class]))
         {
-            require_once __DIR__ . '/Engines/ClassEngine.php';
-            require_once __DIR__ . '/Engines/' . $class . '.php';
-            
-            $className = __NAMESPACE__ . '\Engines\\' . $class;
+            $className = __NAMESPACE__ . '\Engines\PutIO\\' . $class;
             static::$instances[$class] = new $className($this);
         }
         

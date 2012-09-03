@@ -11,7 +11,11 @@
 **/
 
 namespace PutIO\Engines;
+
 use PutIO\API;
+use PutIO\Engines\HTTP\Curl;
+use PutIO\Exceptions\LocalStorageException;
+use PutIO\Exceptions\UnsupportedHTTPEngineException;
 
 
 abstract class ClassEngine
@@ -21,19 +25,21 @@ abstract class ClassEngine
      * Holds the main PutIO class instance.
      *
     **/
-    protected $putio        = null;
+    protected $putio = null;
+    
+    
+    /**
+     * Holds the instance of the HTTP Engine class
+     *
+    **/
+    protected static $httpEngine = null;
+    
     
     /**
      * The main URL to the API (v2).
      *
     **/
-    const API_URL           = 'https://api.put.io/v2/';
-    
-    /**
-     * Class version.
-     *
-    **/
-    const APP_VERSION       = '2.0';
+    const API_URL = 'https://api.put.io/v2/';
     
     
     /**
@@ -124,7 +130,6 @@ abstract class ClassEngine
      * @param string $outFile   OPTIONAL - If $outFile is set, the response will be written to this file instead of StdOut.
      * @return mixed
      * @throws PutIOLocalStorageException
-     * @throws PutIOBadMethodException
      *
     **/
     protected function request($method, $path, array $params = array(), $outFile = '', $returnBool = false)
@@ -133,69 +138,36 @@ abstract class ClassEngine
         {
             $params['oauth_token'] = $this->putio->oauthToken;
         }
-        
-        $url = static::API_URL . $path;
-        $ch = curl_init();
-        
-        if ($method === 'POST')
-        {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-        }
-        else if ($method === 'GET')
-        {
-            $url .= '?' . http_build_query($params, '', '&');
-        }
-        else
-        {
-            throw new PutIOBadMethodException('Method not supported');
-        }
-        
-        if ($outFile !== '')
-        {
-            if (($fp = @fopen($outFile, 'w+')) === false)
-            {
-                throw new PutIOLocalStorageException('Unable to create local file');
-            }
 
-            curl_setopt_array($ch, array(
-                CURLOPT_FILE           => $fp,
-                CURLOPT_BINARYTRANSFER => true
-            ));
-        }
-        
-        curl_setopt_array($ch, array(
-            CURLOPT_USERAGENT      => 'nicoswd-putio/' . static::APP_VERSION,
-            CURLOPT_CONNECTTIMEOUT => 10,
-            CURLOPT_URL            => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_SSL_VERIFYHOST => false,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_FOLLOWLOCATION => true
-        ));
-        
-        $response = curl_exec($ch);
-                
-        if (($response = json_decode($response, true)) === null)
+        $url = static::API_URL . $path;
+        return static::getHTTPEngine($this->putio->httpEngine)->request($method, $url, $params, $outFile, $returnBool);
+    }
+    
+    
+    /**
+     * Creates and returns a unique instance of the requested HTTP engine class.
+     *
+     * @param string $name   Name of the HTTP engine.
+     * @return object        Instance of the HTTP engine.
+     * @throws UnsupportedHTTPEngineException
+     *
+    **/
+    protected static function getHTTPEngine($name)
+    {
+        if (!isset(static::$httpEngine))
         {
-            return false;
-        }
-        
-        if ($returnBool)
-        {
-            if (isset($response['status']) AND $response['status'] === 'OK')
+            $className = __NAMESPACE__ . '\HTTP\\' . $name;
+            
+            if (!class_exists($className))
             {
-                return true;
+                throw UnsupportedHTTPEngineException('Unsupported engine: ' . $className);
             }
             
-            return false;
+            static::$httpEngine = new $className();
         }
         
-        return $response;
+        return static::$httpEngine;
     }
 }
-
-
-class PutIOBadMethodException extends \Exception {}
-class PutIOLocalStorageException extends \Exception {}
 
 ?>

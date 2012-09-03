@@ -13,7 +13,7 @@
  *
 **/
 
-namespace PutIO\Engines;
+namespace PutIO\Engines\PutIO;
 use PutIO\Engines\ClassEngine;
 
 

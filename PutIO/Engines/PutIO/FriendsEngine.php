@@ -13,6 +13,10 @@
  *
 **/
 
+namespace PutIO\Engines\PutIO;
+use PutIO\Engines\ClassEngine;
+
+
 class FriendsEngine extends ClassEngine
 {
     
