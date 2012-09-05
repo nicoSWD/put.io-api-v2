@@ -32,7 +32,7 @@ Take a look at the [Wiki](https://github.com/nicoSWD/put.io-api-v2/wiki/) and [p
 You can also find me on Twitter: @[nicoSWD](https://twitter.com/nicoSWD)
 
 
-EXAMPLES
+Examples
 ========
 
 ```php
@@ -67,7 +67,7 @@ $info = $putio->transfers->info($transferID);
 ```
 
 
-LICENSE
+License
 =======
 Copyright (C) 2012  Nicolas Oelgart
 
