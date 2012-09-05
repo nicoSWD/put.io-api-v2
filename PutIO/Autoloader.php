@@ -1,13 +1,11 @@
 <?php
 
 /**
- * Copyright (C) 2012  Nicolas Oelgart
- *
- * @author Nicolas Oelgart
- * @license GPL 3 http://www.gnu.org/copyleft/gpl.html
- *
  * PSR-0 compilant auto loader.
  * @see https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md
+ *
+ * If you're already using a PSR-0 compilant auto loader, then there's probably no
+ * need to load this one.
  *
 **/
 
