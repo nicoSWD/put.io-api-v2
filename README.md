@@ -37,7 +37,7 @@ EXAMPLES
 
 ```php
 require 'PutIO/Autoloader.php';
-$putio = new PutIO\API($access_token);
+$putio = new PutIO\API($accessToken);
 
 // Retrieve a an array of files on your account.
 $files = $putio->files->listall();
