@@ -5,10 +5,10 @@ Put.io OAuth API Wrapper written in PHP
 A powerful PHP class for [put.io](https://put.io/)'s [OAuth API](https://api.put.io/v2/docs/) (version 2).
 Supports all features that put.io's API provides, including file uploads, downloads, transfers, friends, etc...
 
-Only requires PHP >=5.3! All other functions are supported natively!
+Only requires PHP >=5.3! HTTP requests and JSON are supported natively if necessary!
 
 If you have both, [cURL](http://php.net/book.curl) and the [JSON](http://php.net/book.json) PHP extension installed,
-no configuration is required. However, if you're missing the cURL extension, you need to add one line of code:
+no configuration is required! **However**, if you're missing the cURL extension, you need to add one line of code:
 
 <pre>
 $putio->setHTTPEngine('Native');
@@ -21,8 +21,9 @@ You can do that here:
 
 http://pear.php.net/package/Services_JSON/download
 
-Once downloaded, extract <code>JSON.php</code> from said package and place it into <code>/PutIO/Engines/JSON/</code>, and you're good to go.
-That's all!
+Once downloaded, extract <code>JSON.php</code> from said package and place it into <code>PutIO/Engines/JSON/</code>, and you're good to go!
+
+__That's all!__
 
 Take a look at the [Wiki](https://github.com/nicoSWD/put.io-api-v2/wiki/) and [put.io's API documentation](https://api.put.io/v2/docs/) to get started.
 
