@@ -10,9 +10,9 @@ Only requires PHP >=5.3! All other functions are supported natively!
 If you have both, [cURL](http://php.net/book.curl) and the [JSON](http://php.net/book.json) PHP extension installed,
 no configuration is required. However, if you're missing the cURL extension, you need to add one line of code:
 
-<code>
+<pre>
 $putio->setHTTPEngine('Native');
-</code>
+</pre>
 
 **NOTE:** Only add this line if you really don't have cURL!
 
@@ -21,7 +21,7 @@ You can do that here:
 
 http://pear.php.net/package/Services_JSON/download
 
-Once downloaded, extract JSON.php from said package and place it into /PutIO/Engines/JSON/, and you're good to go.
+Once downloaded, extract <code>JSON.php</code> from said package and place it into <code>/PutIO/Engines/JSON/</code>, and you're good to go.
 That's all!
 
 Take a look at the [Wiki](https://github.com/nicoSWD/put.io-api-v2/wiki/) and [put.io's API documentation](https://api.put.io/v2/docs/) to get started.
