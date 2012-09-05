@@ -59,6 +59,7 @@ class API
      *
      * @param string $oauthToken   User's OAuth token.
      * @return void
+     *
     **/
     public function __construct($oauthToken = '')
     {
