@@ -12,9 +12,20 @@
 
 namespace PutIO\Engines\HTTP\Helpers;
 
+use PutIO\Exceptions\MissingJSONException;
+use \Services_JSON;
+
 
 class HTTPHelper
 {
+    
+    /**
+     * Holds whether the JSON PHP extension is available or not.
+     * Sets automatically.
+     *
+    **/
+    protected static $jsonExt = null;
+    
     
     /**
      * Returns true if the server responded with status === OK
@@ -89,7 +100,7 @@ class HTTPHelper
     **/
     public static function getResponse($response, $returnBool)
     {
-        if (($response = json_decode($response, true)) === null)
+        if (($response = static::jsonDecode($response)) === null)
         {
             return false;
         }
@@ -101,7 +112,51 @@ class HTTPHelper
         
         return $response;
     }
+    
+    
+    /**
+     * Decodes a JSON encoded string.
+     *
+     * Requires either the JSON PHP extension, or the Services_JSON Pear
+     * package. The Pear package is not shipped with this one, but if you
+     * rely on it, download it from here:
+     *
+     * http://pear.php.net/package/Services_JSON/download
+     * (Tested with version 1.0.3)
+     *
+     * Extract JSON.php from the package and place it into:
+     *
+     * PutIO/Engines/JSON/
+     *
+     * The rest is handled by the script.
+     *
+     * @param string $string   JSON encoded string
+     * @return mixed
+     * @throws MissingJSONException
+     *
+    **/
+    public static function jsonDecode($string)
+    {
+        if (!isset(static::$jsonExt))
+        {
+            static::$jsonExt = function_exists('json_decode');
+        }
+        
+        if (static::$jsonExt)
+        {
+            return json_decode($string, true);
+        }
 
+        $included = @include_once __PUTIO_PATH__ . '/Engines/JSON/JSON.php';
+        
+        if ($included === false)
+        {
+            throw new MissingJSONException('JSON.php is missing from the /Engines/JSON/ folder.');
+        }
+        
+        $json = new Services_JSON(SERVICES_JSON_LOOSE_TYPE);
+        return $json->decode($string);
+    }
 }
 
 ?>

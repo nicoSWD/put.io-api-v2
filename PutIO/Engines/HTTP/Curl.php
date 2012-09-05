@@ -13,7 +13,7 @@
 namespace PutIO\Engines\HTTP;
 
 use PutIO\ClassEngine;
-use PutIO\Interfaces\HTTPEngine;
+use PutIO\Interfaces\HTTP\HTTPEngine;
 use PutIO\Engines\HTTP\Helpers\HTTPHelper;
 
 

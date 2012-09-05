@@ -10,7 +10,7 @@
  *
 **/
 
-namespace PutIO\Interfaces;
+namespace PutIO\Interfaces\HTTP;
 
 
 interface HTTPEngine
