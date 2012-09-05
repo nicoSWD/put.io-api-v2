@@ -10,9 +10,9 @@ Only requires PHP >=5.3! HTTP requests and JSON are supported natively if necess
 If you have both, [cURL](http://php.net/book.curl) and the [JSON](http://php.net/book.json) PHP extension installed,
 no configuration is required! **However**, if you're missing the cURL extension, you need to add one line of code:
 
-<pre>
+```php
 $putio->setHTTPEngine('Native');
-</pre>
+´´´
 
 **NOTE:** Only add this line if you really don't have cURL!
 
