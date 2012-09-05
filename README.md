@@ -12,7 +12,7 @@ no configuration is required! **However**, if you're missing the cURL extension,
 
 ```php
 $putio->setHTTPEngine('Native');
-´´´
+```
 
 **NOTE:** Only add this line if you really don't have cURL!
 
@@ -35,7 +35,7 @@ You can also find me on Twitter: @[nicoSWD](https://twitter.com/nicoSWD)
 EXAMPLES
 ========
 
-<pre>
+```php
 require 'PutIO/Autoloader.php';
 $putio = new PutIO\API($access_token);
 
@@ -64,7 +64,7 @@ $transferID = 1234;
 $info = $putio->transfers->info($transferID);
 
 // And a lot more...
-</pre>
+```
 
 
 LICENSE
