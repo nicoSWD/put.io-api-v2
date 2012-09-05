@@ -2,16 +2,27 @@ Put.io OAuth API Wrapper written in PHP
 =======================================
 **(OAuth/API Version 2)**
 
-A simple, yet powerful PHP class for [put.io](https://put.io/)'s [OAuth API](https://api.put.io/v2/docs/) (version 2).
+A powerful PHP class for [put.io](https://put.io/)'s [OAuth API](https://api.put.io/v2/docs/) (version 2).
 Supports all features that put.io's API provides, including file uploads, downloads, transfers, friends, etc...
 
-Requires PHP >=5.3, and the [JSON](http://php.net/book.json) extension.
+Only requires PHP >=5.3! All other functions are supported natively!
 
-**UPDATE:** This script does no longer require the cURL extension! It's strongly recommended, but if there's just no way,
-you now have access to all features using native PHP functions.
+If you have both, [cURL](http://php.net/book.curl) and the [JSON](http://php.net/book.json) PHP extension installed,
+no configuration is required. However, if you're missing the cURL extension, you need to add one line of code:
 
-If you don't have the JSON extension, you can use [this Services_JSON PEAR class](http://pear.php.net/package/Services_JSON) instead.
-Little code [tweaking](http://es.php.net/manual/en/function.json-decode.php#80606) required.
+<code>
+$putio->setHTTPEngine('Native');
+</code>
+
+**NOTE:** Only add this line if you really don't have cURL!
+
+Secondly, if you're missing the JSON extension, you have to download the [Services_JSON](http://pear.php.net/package/Services_JSON/download) package from the Pear repo.
+You can do that here:
+
+http://pear.php.net/package/Services_JSON/download
+
+Once downloaded, extract JSON.php from said package and place it into /PutIO/Engines/JSON/, and you're good to go.
+That's all!
 
 Take a look at the [Wiki](https://github.com/nicoSWD/put.io-api-v2/wiki/) and [put.io's API documentation](https://api.put.io/v2/docs/) to get started.
 
@@ -26,10 +37,6 @@ EXAMPLES
 <pre>
 require 'PutIO/Autoloader.php';
 $putio = new PutIO\API($access_token);
-
-// If you don't have cURL installed, you can use all functions natively as well:
-// Only recommended if you don't have cURL!!
-$putio->setHTTPEngine('Native');
 
 // Retrieve a an array of files on your account.
 $files = $putio->files->listall();
