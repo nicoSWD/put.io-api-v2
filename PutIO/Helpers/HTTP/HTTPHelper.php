@@ -95,6 +95,7 @@ abstract class HTTPHelper
      *
      * @param string $response      Response data from server. Must be JSON encoded.
      * @param string $returnBool    Whether or not to return boolean
+     * @param array   $arrayKey     OPTIONAL - Will return all data on a specific array key of the response.
      * @return mixed
      *
     **/

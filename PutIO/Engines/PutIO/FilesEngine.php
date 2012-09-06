@@ -170,8 +170,8 @@ class FilesEngine extends PutIOHelper
      * file name by sending an additional HTTP request.
      *
      * @param integer  $fileID   ID of the file you want to download.
-     * @param string   $saveAS   Local path you want to save the file to.
-     * @param boolean  $isMP4    Tells whether or not to download the MP4 version of a file.
+     * @param string   $saveAS   OPTIONAL - Local path you want to save the file to.
+     * @param boolean  $isMP4    OPTIONAL - Tells whether or not to download the MP4 version of a file.
      * @return boolean
      *
     **/
