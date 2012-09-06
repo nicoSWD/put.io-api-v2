@@ -66,7 +66,8 @@ abstract class HTTPHelper
     
     
     /**
-     * Attemps to get the MIME type of a given file.
+     * Attemps to get the MIME type of a given file. Required for native file
+     * uploads.
      * 
      * Relies on the file info extension, which is shipped with PHP 5.3
      * and enabled by default. So,... nothing should go wrong, RIGHT?
@@ -135,7 +136,7 @@ abstract class HTTPHelper
      * http://pear.php.net/package/Services_JSON/download
      * (Tested with version 1.0.3)
      *
-     * Extract JSON.php from the package and place it into:
+     * Extract 'JSON.php' from the package and place it into:
      *
      * PutIO/Engines/JSON/
      *

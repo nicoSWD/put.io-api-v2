@@ -22,10 +22,11 @@ interface HTTPEngine
      * @param string $url       Remote path to API module.
      * @param array  $params    OPTIONAL - Variables to be sent.
      * @param string $outFile   OPTIONAL - If $outFile is set, the response will be written to this file instead of StdOut.
+     * @param array  $arrayKey  OPTIONAL - Will return all data on a specific array key of the response.
      * @return mixed
      *
     **/
-    public function request($method, $url, array $params = array(), $outFile = '', $returnBool = false);
+    public function request($method, $url, array $params = array(), $outFile = '', $returnBool = false, $arrayKey = '');
 }
 
 ?>
