@@ -14,10 +14,10 @@
 **/
 
 namespace PutIO\Engines\PutIO;
-use PutIO\Engines\ClassEngine;
+use PutIO\Helpers\PutIO\PutIOHelper;
 
 
-class FriendsEngine extends ClassEngine
+class FriendsEngine extends PutIOHelper
 {
     
     /**
@@ -28,7 +28,7 @@ class FriendsEngine extends ClassEngine
     **/
     public function listall()
     {
-        return $this->get('friends/list');
+        return $this->get('friends/list', array(), false, 'friends');
     }
     
     
@@ -40,7 +40,7 @@ class FriendsEngine extends ClassEngine
     **/
     public function pendingRequests()
     {
-        return $this->get('friends/waiting-requests');
+        return $this->get('friends/waiting-requests', array(), false, 'friends');
     }
     
     

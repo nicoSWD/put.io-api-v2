@@ -14,33 +14,35 @@
 **/
 
 namespace PutIO\Engines\PutIO;
-use PutIO\Engines\ClassEngine;
+use PutIO\Helpers\PutIO\PutIOHelper;
 
 
-class AccountEngine extends ClassEngine
+class AccountEngine extends PutIOHelper
 {
     
     /**
      * Returns an array of information about your account.
+     * False on error.
      *
-     * @retun array
+     * @retun mixed
      *
     **/
     public function info()
     {
-        return $this->get('account/info');
+        return $this->get('account/info', array(), false, 'info');
     }
     
     
     /**
      * Returns an array containing your account settings.
+     * False on error.
      *
-     * @return array
+     * @return mixed
      *
     **/
     public function settings()
     {
-        return $this->get('account/settings');
+        return $this->get('account/settings', array(), false, 'settings');
     }
 }
 

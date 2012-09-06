@@ -10,31 +10,32 @@
  *
 **/
 
-namespace PutIO\Engines\HTTP\Helpers;
+namespace PutIO\Helpers\HTTP;
 
 use PutIO\Exceptions\MissingJSONException;
 use \Services_JSON;
 
 
-class HTTPHelper
+abstract class HTTPHelper
 {
     
     /**
-     * Holds whether the JSON PHP extension is available or not.
+     * Holds whether or not the JSON PHP extension is available.
      * Sets automatically.
      *
     **/
-    protected static $jsonExt = null;
+    protected $jsonExt = null;
     
     
     /**
      * Returns true if the server responded with status === OK
+     * False if anything else.
      *
      * @param array $response    Response from remote server.
      * @return boolean
      *
     **/
-    public static function getStatus(array $response)
+    protected function getStatus(array $response)
     {
         if (isset($response['status']) AND $response['status'] === 'OK')
         {
@@ -53,7 +54,7 @@ class HTTPHelper
      * @return integer
      *
     **/
-    public static function getResponseCode(array $headers)
+    protected function getResponseCode(array $headers)
     {
         if (preg_match('~HTTP/1.1\s+(\d+)~', $headers[0], $match))
         {
@@ -74,7 +75,7 @@ class HTTPHelper
      * @return string
      *
     **/
-    public static function getMIMEType($file)
+    protected function getMIMEType($file)
     {
         if (function_exists('finfo_open') AND $info = @finfo_open(FILEINFO_MIME))
         {
@@ -83,7 +84,6 @@ class HTTPHelper
                 $mime = explode(';', $mime);
                 return trim($mime[0]);
             }
-            
         }
 
         return 'application/octet-stream';
@@ -98,16 +98,26 @@ class HTTPHelper
      * @return mixed
      *
     **/
-    public static function getResponse($response, $returnBool)
+    protected function getResponse($response, $returnBool, $arrayKey = '')
     {
-        if (($response = static::jsonDecode($response)) === null)
+        if (($response = $this->jsonDecode($response)) === null)
         {
             return false;
         }
         
         if ($returnBool)
         {
-            return static::getStatus($response);
+            return $this->getStatus($response);
+        }
+        
+        if ($arrayKey)
+        {
+            if (isset($response[$arrayKey]))
+            {
+                return $response[$arrayKey];
+            }
+            
+            return false;
         }
         
         return $response;
@@ -135,19 +145,19 @@ class HTTPHelper
      * @throws MissingJSONException
      *
     **/
-    public static function jsonDecode($string)
+    protected function jsonDecode($string)
     {
-        if (!isset(static::$jsonExt))
+        if (!isset($this->jsonExt))
         {
-            static::$jsonExt = function_exists('json_decode');
+            $this->jsonExt = function_exists('json_decode');
         }
         
-        if (static::$jsonExt)
+        if ($this->jsonExt)
         {
             return json_decode($string, true);
         }
 
-        $included = @include_once __PUTIO_PATH__ . '/Engines/JSON/JSON.php';
+        $included = @include_once __PUTIO_ROOT__ . '/Engines/JSON/JSON.php';
         
         if ($included === false)
         {

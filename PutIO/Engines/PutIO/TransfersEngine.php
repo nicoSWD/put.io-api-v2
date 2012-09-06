@@ -14,10 +14,10 @@
 **/
 
 namespace PutIO\Engines\PutIO;
-use PutIO\Engines\ClassEngine;
+use PutIO\Helpers\PutIO\PutIOHelper;
 
 
-class TransfersEngine extends ClassEngine
+class TransfersEngine extends PutIOHelper
 {
     
     /**
@@ -28,7 +28,7 @@ class TransfersEngine extends ClassEngine
     **/
     public function listall()
     {
-        return $this->get('transfers/list');
+        return $this->get('transfers/list', array(), false, 'transfers');
     }
     
     
@@ -44,7 +44,7 @@ class TransfersEngine extends ClassEngine
     **/
     public function add($url, $parentID = 0, $extract = false, $callbackUrl = '')
     {
-        return $this->post('transfers/add', array('url' => $url, 'save_parent_id' => $parentID, 'extract' => ($extract ? 'True' : 'False'), 'callback_url' => $callbackUrl));
+        return $this->post('transfers/add', array('url' => $url, 'save_parent_id' => $parentID, 'extract' => ($extract ? 'True' : 'False'), 'callback_url' => $callbackUrl), false, 'transfer');
     }
     
     
@@ -57,7 +57,7 @@ class TransfersEngine extends ClassEngine
     **/
     public function info($transferID)
     {
-        return $this->get('transfers/' . $transferID);
+        return $this->get('transfers/' . $transferID, array(), false, 'transfer');
     }
     
     

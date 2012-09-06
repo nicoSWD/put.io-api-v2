@@ -6,11 +6,11 @@
  * @author Nicolas Oelgart
  * @license GPL 3 http://www.gnu.org/copyleft/gpl.html
  *
- * This class handles all HTTP requests.
+ * This class helps PutIO engines to do common tasks.
  *
 **/
 
-namespace PutIO\Engines;
+namespace PutIO\Helpers\PutIO;
 
 use PutIO\API;
 use PutIO\Engines\HTTP\Curl;
@@ -18,7 +18,7 @@ use PutIO\Exceptions\LocalStorageException;
 use PutIO\Exceptions\UnsupportedHTTPEngineException;
 
 
-abstract class ClassEngine
+abstract class PutIOHelper
 {
     
     /**
@@ -32,7 +32,7 @@ abstract class ClassEngine
      * Holds the instance of the HTTP Engine class
      *
     **/
-    protected static $httpEngine = null;
+    protected $httpEngine = null;
     
     
     /**
@@ -58,15 +58,16 @@ abstract class ClassEngine
     /**
      * Sends a GET HTTP request.
      *
-     * @param string  $path         Path of the API class.
-     * @param array   $params       OPTIONAL - GET variables to be sent.
-     * @param boolean $returnBool   OPTIONAL - Will return boolean if true. True if $response['status'] === 'OK'.
+     * @param string   $path         Path of the API class.
+     * @param array    $params       OPTIONAL - GET variables to be sent.
+     * @param boolean  $returnBool   OPTIONAL - Will return boolean if true. True if $response['status'] === 'OK'.
+     * @param array    $arrayKey     OPTIONAL - Will return all data on a specific array key of the response.
      * @return mixed
      *
     **/
-    protected function get($path, array $params = array(), $returnBool = false)
+    protected function get($path, array $params = array(), $returnBool = false, $arrayKey = '')
     {
-        return $this->request('GET', $path, $params, '', $returnBool);
+        return $this->request('GET', $path, $params, '', $returnBool, $arrayKey);
     }
     
 
@@ -76,12 +77,13 @@ abstract class ClassEngine
      * @param string  $path         Path of the API class.
      * @param array   $params       OPTIONAL - POST variables to be sent.
      * @param boolean $returnBool   OPTIONAL - Will return boolean if true. True if $response['status'] === 'OK'.
+     * @param array   $arrayKey     OPTIONAL - Will return all data on a specific array key of the response.
      * @return mixed
      *
     **/   
-    protected function post($path, array $params = array(), $returnBool = false)
+    protected function post($path, array $params = array(), $returnBool = false, $arrayKey = '')
     {
-        return $this->request('POST', $path, $params, '', $returnBool);
+        return $this->request('POST', $path, $params, '', $returnBool, $arrayKey);
     }
     
     
@@ -132,7 +134,7 @@ abstract class ClassEngine
      * @throws PutIOLocalStorageException
      *
     **/
-    protected function request($method, $path, array $params = array(), $outFile = '', $returnBool = false)
+    protected function request($method, $path, array $params = array(), $outFile = '', $returnBool = false, $arrayKey = '')
     {
         if ($this->putio->oauthToken)
         {
@@ -140,7 +142,7 @@ abstract class ClassEngine
         }
 
         $url = static::API_URL . $path;
-        return static::getHTTPEngine($this->putio->httpEngine)->request($method, $url, $params, $outFile, $returnBool);
+        return $this->getHTTPEngine($this->putio->httpEngine)->request($method, $url, $params, $outFile, $returnBool, $arrayKey);
     }
     
         
@@ -152,21 +154,21 @@ abstract class ClassEngine
      * @throws UnsupportedHTTPEngineException
      *
     **/
-    protected static function getHTTPEngine($name)
+    protected function getHTTPEngine($name)
     {
-        if (!isset(static::$httpEngine))
+        if (!isset($this->httpEngine))
         {
-            $className = __NAMESPACE__ . '\HTTP\\' . $name;
+            $className = 'PutIO\Engines\HTTP\\' . $name . 'Engine';
             
             if (!class_exists($className))
             {
                 throw UnsupportedHTTPEngineException('Unsupported engine: ' . $className);
             }
             
-            static::$httpEngine = new $className();
+            $this->httpEngine = new $className();
         }
         
-        return static::$httpEngine;
+        return $this->httpEngine;
     }
 }
 

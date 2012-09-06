@@ -6,7 +6,10 @@
  * @author Nicolas Oelgart
  * @license GPL 3 http://www.gnu.org/copyleft/gpl.html
  *
- * Handles HTTP requests using native functions.
+ * Handles HTTP requests using native PHP functions. Only requirement: allow_url_fopen
+ * @see http://www.php.net/filesystem.configuration#ini.allow-url-fopen
+ *
+ * If your host doesn't have cURL nor allow_url_fopen, then it's time to change.
  *
 **/
 
@@ -14,13 +17,13 @@ namespace PutIO\Engines\HTTP;
 
 use PutIO\ClassEngine;
 use PutIO\Interfaces\HTTP\HTTPEngine;
-use PutIO\Engines\HTTP\Helpers\HTTPHelper;
+use PutIO\Helpers\HTTP\HTTPHelper;
 use PutIO\Exceptions\RemoteConnectionException;
 use PutIO\Exceptions\LocalStorageException;
 use PutIO\Exceptions\FileNotFoundException;
 
 
-class Native implements HTTPEngine
+class NativeEngine extends HTTPHelper implements HTTPEngine
 {
     
     /**
@@ -40,12 +43,13 @@ class Native implements HTTPEngine
      * @param string $url       Remote path to API module.
      * @param array  $params    OPTIONAL - Variables to be sent.
      * @param string $outFile   OPTIONAL - If $outFile is set, the response will be written to this file instead of StdOut.
+     * @param array  $arrayKey  OPTIONAL - Will return all data on a specific array key of the response.
      * @return mixed
      * @throws PutIOLocalStorageException
      * @throws RemoteConnectionException
      *
     **/
-    public function request($method, $url, array $params = array(), $outFile = '', $returnBool = false)
+    public function request($method, $url, array $params = array(), $outFile = '', $returnBool = false, $arrayKey = '')
     {
         if (isset($params['file']) AND $params['file'][0] === '@')
         {
@@ -68,12 +72,13 @@ class Native implements HTTPEngine
             
             $data .= "--{$boundary}\n";
             $data .= "Content-Disposition: form-data; name=\"file\"; filename=\"" . basename($file) . '"' . "\n";
-            $data .= "Content-Type: " . HTTPHelper::getMIMEType($file) . "\n";
+            $data .= "Content-Type: " . $this->getMIMEType($file) . "\n";
             $data .= "Content-Transfer-Encoding: binary\n\n";
             $data .= $fileData ."\n";
             $data .= "--{$boundary}--\n";
             
             $contentType = 'multipart/form-data; boundary=' . $boundary;
+            $method = 'POST'; // Just in case
             unset($fileData);
         }
         else
@@ -105,7 +110,7 @@ class Native implements HTTPEngine
         
         if (($fp = @fopen($url, 'r', false, $context)) === false)
         {
-            if (HTTPHelper::getResponseCode($http_response_header) === 404)
+            if ($this->getResponseCode($http_response_header) === 404)
             {
                 return false;
             }
@@ -140,7 +145,7 @@ class Native implements HTTPEngine
         }
         
         fclose($fp);
-        return HTTPHelper::getResponse($response, $returnBool);
+        return $this->getResponse($response, $returnBool, $arrayKey);
     }
 }
 

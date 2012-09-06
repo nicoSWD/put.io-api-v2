@@ -14,10 +14,10 @@
 **/
 
 namespace PutIO\Engines\PutIO;
-use PutIO\Engines\ClassEngine;
+use PutIO\Helpers\PutIO\PutIOHelper;
 
 
-class OauthEngine extends ClassEngine
+class OauthEngine extends PutIOHelper
 {
     
     /**
@@ -47,6 +47,9 @@ class OauthEngine extends ClassEngine
     
     /**
      * Redirects the user to put.io where they have to give your app access permission.
+     * Once permission is granted, the user will be redirected back to the URL you
+     * specified in your app settings. On said page you have to call self::verifyCode()
+     * to validate the user and get their access token. 
      *
      * @param integer $clientID      Your app's client ID. You can find it here: https://put.io/v2/oauth2/applications
      * @param string  $redirectURI   The URI where the user will be redirected to once permission is granted.

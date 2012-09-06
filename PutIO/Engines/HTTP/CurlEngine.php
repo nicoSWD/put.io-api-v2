@@ -14,10 +14,10 @@ namespace PutIO\Engines\HTTP;
 
 use PutIO\ClassEngine;
 use PutIO\Interfaces\HTTP\HTTPEngine;
-use PutIO\Engines\HTTP\Helpers\HTTPHelper;
+use PutIO\Helpers\HTTP\HTTPHelper;
 
 
-class Curl implements HTTPEngine
+class CurlEngine extends HTTPHelper implements HTTPEngine
 {
     
     /**
@@ -27,11 +27,12 @@ class Curl implements HTTPEngine
      * @param string $url       Remote path to API module.
      * @param array  $params    OPTIONAL - Variables to be sent.
      * @param string $outFile   OPTIONAL - If $outFile is set, the response will be written to this file instead of StdOut.
+     * @param array  $arrayKey  OPTIONAL - Will return all data on a specific array key of the response.
      * @return mixed
      * @throws PutIOLocalStorageException
      *
     **/
-    public function request($method, $url, array $params = array(), $outFile = '', $returnBool = false)
+    public function request($method, $url, array $params = array(), $outFile = '', $returnBool = false, $arrayKey = '')
     {
         $options = array();
         
@@ -74,7 +75,7 @@ class Curl implements HTTPEngine
             return false;
         }
         
-        return HTTPHelper::getResponse($response, $returnBool);
+        return $this->getResponse($response, $returnBool, $arrayKey);
     }
 }
 

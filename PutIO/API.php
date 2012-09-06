@@ -104,6 +104,6 @@ class API
     }
 }
 
-define('__PUTIO_PATH__', __DIR__);
+define('__PUTIO_ROOT__', __DIR__);
 
 ?>
