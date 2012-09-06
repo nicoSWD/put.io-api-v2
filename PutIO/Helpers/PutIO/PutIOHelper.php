@@ -159,12 +159,6 @@ abstract class PutIOHelper
         if (!isset($this->httpEngine))
         {
             $className = 'PutIO\Engines\HTTP\\' . $name . 'Engine';
-            
-            if (!class_exists($className))
-            {
-                throw UnsupportedHTTPEngineException('Unsupported engine: ' . $className);
-            }
-            
             $this->httpEngine = new $className();
         }
         
