@@ -49,10 +49,13 @@ class FilesEngine extends PutIOHelper
     
     /**
      * Uploads a local file to your account. Returns false if the file does not exist.
-     * NOTE: The response differs based on the uploaded file. For regular files, the
-     * array key containing the info is 'file', but for torrents it's 'transfer'.
      *
+     * NOTE 1: The response differs based on the uploaded file. For regular files, the
+     * array key containing the info is 'file', but for torrents it's 'transfer'.
      * @see https://api.put.io/v2/docs/#files-upload
+     *
+     * NOTE 2: Files need to be read into the memory when using native functions. Keep
+     * that in mind when uploading large files or running multiple instances.
      *
      * @param string  $file        Path to local file.
      * @param integer $parentID    OPTIONAL - ID of upload folder.
