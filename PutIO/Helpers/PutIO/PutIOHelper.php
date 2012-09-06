@@ -13,7 +13,6 @@
 namespace PutIO\Helpers\PutIO;
 
 use PutIO\API;
-use PutIO\Engines\HTTP\Curl;
 use PutIO\Exceptions\LocalStorageException;
 use PutIO\Exceptions\UnsupportedHTTPEngineException;
 
