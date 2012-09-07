@@ -15,7 +15,6 @@
 
 namespace PutIO\Engines\HTTP;
 
-use PutIO\ClassEngine;
 use PutIO\Interfaces\HTTP\HTTPEngine;
 use PutIO\Helpers\HTTP\HTTPHelper;
 use PutIO\Exceptions\RemoteConnectionException;
