@@ -38,11 +38,12 @@ class NativeEngine extends HTTPHelper implements HTTPEngine
      *
      * Returns false if a file was not found.
      *
-     * @param string $method    HTTP request method. Only POST and GET are supported.
-     * @param string $url       Remote path to API module.
-     * @param array  $params    OPTIONAL - Variables to be sent.
-     * @param string $outFile   OPTIONAL - If $outFile is set, the response will be written to this file instead of StdOut.
-     * @param array  $arrayKey  OPTIONAL - Will return all data on a specific array key of the response.
+     * @param string $method       HTTP request method. Only POST and GET are supported.
+     * @param string $url          Remote path to API module.
+     * @param array  $params       OPTIONAL - Variables to be sent.
+     * @param string $outFile      OPTIONAL - If $outFile is set, the response will be written to this file instead of StdOut.
+     * @param array  $arrayKey     OPTIONAL - Will return all data on a specific array key of the response.
+     * @param bool   $verifyPeer   OPTIONAL - If true, will use proper SSL peer/host verification.
      * @return mixed
      * @throws PutIOLocalStorageException
      * @throws RemoteConnectionException
@@ -86,12 +87,17 @@ class NativeEngine extends HTTPHelper implements HTTPEngine
             $contentType = 'application/x-www-form-urlencoded';
         }
         
-        $contextOptions['ssl'] = array(
-            'verify_peer'   => true,
-            'cafile'        => __PUTIO_ROOT__ . '/Certificates/StarfieldSecureCertificationAuthority.crt',
-            'verify_depth'  => 5,
-            'CN_match'      => 'api.put.io'
-        );
+        $contextOptions = array();
+        
+        if ($verifyPeer)
+        {
+            $contextOptions['ssl'] = array(
+                'verify_peer'   => true,
+                'cafile'        => __PUTIO_ROOT__ . '/Certificates/StarfieldSecureCertificationAuthority.crt',
+                'verify_depth'  => 5,
+                'CN_match'      => 'api.put.io'
+            );
+        }
         
         if ($method === 'POST')
         {

@@ -54,7 +54,12 @@ class API
     public $httpEngine = 'Curl';
     
     
-    public $SSLVerifyPeer = false;
+    /**
+     * If true (highly recommended), proper SSL peer/host verification
+     * will be used.
+     *
+    **/
+    public $SSLVerifyPeer = true;
  
     
     /**
