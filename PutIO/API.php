@@ -28,22 +28,14 @@
 
 namespace PutIO;
 
-
 class API
 {
     
     /**
-     * Holds the instances of requested objects.
-     *
-    **/
-    protected static $instances = array();
-    
-  
-    /**
      * Holds the user's OAuth token.
      *
     **/
-    public $oauthToken = '';
+    public $OAuthToken = '';
     
     
     /**
@@ -51,7 +43,7 @@ class API
      * Defaults to cRUL and for a reason. Use cURL whenever possible.
      *
     **/
-    public $httpEngine = 'Curl';
+    public $HTTPEngine = 'Curl';
     
     
     /**
@@ -63,30 +55,46 @@ class API
  
     
     /**
+     * Holds the instances of requested objects.
+     *
+    **/
+    protected static $instances = array();
+
+    
+    /**
      * Class constructor, sets the oauth token for later requests.
      *
-     * @param string $oauthToken   User's OAuth token.
+     * @param string $OAuthToken   User's OAuth token.
      * @return void
      *
     **/
-    public function __construct($oauthToken = '')
+    public function __construct($OAuthToken = '')
     {
-        $this->oauthToken = $oauthToken;
+        $this->OAuthToken = $OAuthToken;
     }
     
     
     /**
-     * Changes the HTTP engine. As of now, only 'Curl' and 'Native' are
-     * valid options. If you have cURL installed, I encourage you to use
-     * it rather than the native option.
+     * Automatic setter. Suggested uses:
      *
-     * @param string $name    Name of the HTTP engine.
+     * $putio->setOAuthToken('XYZ123456');
+     * $putio->setHTTPEngine('Native');
+     * $putio->setSSLVerifyPeer(true);
+     *
+     * @param string $params    Parameters
+     * @throws PutIO\Exceptions\UndefinedMethodException
      * @return void
      *
     **/
-    public function setHTTPEngine($name)
+    public function __call($key, array $params)
     {
-        $this->httpEngine = $name;
+        if (strpos($key, 'set') !== 0)
+        {
+            throw new PutIO\Exceptions\UndefinedMethodException('Undefined method ' . __CLASS__ .  '::' . $key . '()');           
+        }
+        
+        $key = substr($key, 3);
+        $this->{$key} = $params[0];
     }
     
     
@@ -94,7 +102,7 @@ class API
      * Magic method, returns an instance of the requested class.
      *
      * @param string $name   Class name
-     * @return object
+     * @return PutIOHelper object
      *
     **/
     public function __get($name)

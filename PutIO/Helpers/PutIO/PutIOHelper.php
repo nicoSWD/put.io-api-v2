@@ -131,18 +131,18 @@ abstract class PutIOHelper
      * @param string $outFile   OPTIONAL - If $outFile is set, the response will be written to this file instead of StdOut.
      * @param array  $arrayKey  OPTIONAL - Will return all data on a specific array key of the response.
      * @return mixed
-     * @throws PutIOLocalStorageException
+     * @throws PutIO\Exceptions\PutIOLocalStorageException
      *
     **/
     protected function request($method, $path, array $params = array(), $outFile = '', $returnBool = false, $arrayKey = '')
     {
-        if ($this->putio->oauthToken)
+        if ($this->putio->OAuthToken)
         {
-            $params['oauth_token'] = $this->putio->oauthToken;
+            $params['oauth_token'] = $this->putio->OAuthToken;
         }
 
         $url = static::API_URL . $path;
-        return $this->getHTTPEngine($this->putio->httpEngine)->request($method, $url, $params, $outFile, $returnBool, $arrayKey, $this->putio->SSLVerifyPeer);
+        return $this->getHTTPEngine($this->putio->HTTPEngine)->request($method, $url, $params, $outFile, $returnBool, $arrayKey, $this->putio->SSLVerifyPeer);
     }
     
     
@@ -151,18 +151,18 @@ abstract class PutIOHelper
      *
      * @param string $name   Name of the HTTP engine.
      * @return object        Instance of the HTTP engine.
-     * @throws UnsupportedHTTPEngineException
+     * @throws PutIO\Exceptions\UnsupportedHTTPEngineException
      *
     **/
     protected function getHTTPEngine($name)
     {
-        if (!isset($this->httpEngine))
+        if (!isset($this->HTTPEngine))
         {
             $className = 'PutIO\Engines\HTTP\\' . $name . 'Engine';
-            $this->httpEngine = new $className();
+            $this->HTTPEngine = new $className();
         }
         
-        return $this->httpEngine;
+        return $this->HTTPEngine;
     }
 }
 

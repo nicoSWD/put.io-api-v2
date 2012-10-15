@@ -29,7 +29,7 @@ class CurlEngine extends HTTPHelper implements HTTPEngine
      * @param array  $arrayKey     OPTIONAL - Will return all data on a specific array key of the response.
      * @param bool   $verifyPeer   OPTIONAL - If true, will use proper SSL peer/host verification.
      * @return mixed
-     * @throws PutIOLocalStorageException
+     * @throws PutIO\Exceptions\PutIOLocalStorageException
      *
     **/
     public function request($method, $url, array $params = array(), $outFile = '', $returnBool = false, $arrayKey = '', $verifyPeer = true)

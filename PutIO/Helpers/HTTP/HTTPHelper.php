@@ -96,7 +96,7 @@ abstract class HTTPHelper
      *
      * @param string $response      Response data from server. Must be JSON encoded.
      * @param string $returnBool    Whether or not to return boolean
-     * @param array   $arrayKey     OPTIONAL - Will return all data on a specific array key of the response.
+     * @param array  $arrayKey      OPTIONAL - Will return all data on a specific array key of the response.
      * @return mixed
      *
     **/
@@ -144,7 +144,7 @@ abstract class HTTPHelper
      *
      * @param string $string   JSON encoded string
      * @return mixed
-     * @throws MissingJSONException
+     * @throws PutIO\Exceptions\MissingJSONException
      *
     **/
     protected function jsonDecode($string)
@@ -163,7 +163,7 @@ abstract class HTTPHelper
         
         if ($included === false)
         {
-            throw new MissingJSONException('JSON.php is missing from the /Engines/JSON/ folder.');
+            throw new MissingJSONException('JSON.php is missing from the /Engines/JSON/ directory.');
         }
         
         $json = new Services_JSON(SERVICES_JSON_LOOSE_TYPE);
