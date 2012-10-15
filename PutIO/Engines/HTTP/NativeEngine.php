@@ -86,22 +86,26 @@ class NativeEngine extends HTTPHelper implements HTTPEngine
             $contentType = 'application/x-www-form-urlencoded';
         }
         
+        $contextOptions['ssl'] = array(
+            'verify_peer'   => true,
+            'cafile'        => __PUTIO_ROOT__ . '/Certificates/StarfieldSecureCertificationAuthority.crt',
+            'verify_depth'  => 5,
+            'CN_match'      => 'api.put.io'
+        );
+        
         if ($method === 'POST')
         {
-            $contextOptions = array(
-                'http' => array(
-                    'method' => 'POST',
-                    'header' =>
-                        "Content-type: " . $contentType . "\r\n" .
-                        "Content-Length: " . strlen($data) . "\r\n" .
-                        "User-Agent: nicoswd-putio/2.0\r\n",
-                    'content' => $data
-                )
+            $contextOptions['http'] = array(
+                'method' => 'POST',
+                'header' =>
+                    "Content-type: " . $contentType . "\r\n" .
+                    "Content-Length: " . strlen($data) . "\r\n" .
+                    "User-Agent: nicoswd-putio/2.0\r\n",
+                'content' => $data
             );
         }
         else
         {
-            $contextOptions = array();
             $url .= '?' . $data;
         }
 
@@ -109,7 +113,7 @@ class NativeEngine extends HTTPHelper implements HTTPEngine
         
         if (($fp = @fopen($url, 'r', false, $context)) === false)
         {
-            if ($this->getResponseCode($http_response_header) === 404)
+            if (isset($http_response_header) AND $this->getResponseCode($http_response_header) === 404)
             {
                 return false;
             }
