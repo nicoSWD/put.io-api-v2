@@ -142,7 +142,7 @@ abstract class PutIOHelper
         }
 
         $url = static::API_URL . $path;
-        return $this->getHTTPEngine($this->putio->httpEngine)->request($method, $url, $params, $outFile, $returnBool, $arrayKey);
+        return $this->getHTTPEngine($this->putio->httpEngine)->request($method, $url, $params, $outFile, $returnBool, $arrayKey, $this->putio->SSLVerifyPeer);
     }
     
     

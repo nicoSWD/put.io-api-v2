@@ -52,6 +52,9 @@ class API
      *
     **/
     public $httpEngine = 'Curl';
+    
+    
+    public $SSLVerifyPeer = false;
  
     
     /**

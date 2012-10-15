@@ -48,7 +48,7 @@ class NativeEngine extends HTTPHelper implements HTTPEngine
      * @throws RemoteConnectionException
      *
     **/
-    public function request($method, $url, array $params = array(), $outFile = '', $returnBool = false, $arrayKey = '')
+    public function request($method, $url, array $params = array(), $outFile = '', $returnBool = false, $arrayKey = '', $verifyPeer = true)
     {
         if (isset($params['file']) AND $params['file'][0] === '@')
         {

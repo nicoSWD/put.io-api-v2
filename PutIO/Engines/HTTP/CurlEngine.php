@@ -31,7 +31,7 @@ class CurlEngine extends HTTPHelper implements HTTPEngine
      * @throws PutIOLocalStorageException
      *
     **/
-    public function request($method, $url, array $params = array(), $outFile = '', $returnBool = false, $arrayKey = '')
+    public function request($method, $url, array $params = array(), $outFile = '', $returnBool = false, $arrayKey = '', $verifyPeer = true)
     {
         $options = array();
         
@@ -62,9 +62,19 @@ class CurlEngine extends HTTPHelper implements HTTPEngine
         $options[CURLOPT_USERAGENT]      = 'nicoswd-putio/2.0';
         $options[CURLOPT_CONNECTTIMEOUT] = 10;
         $options[CURLOPT_FOLLOWLOCATION] = true;
-        $options[CURLOPT_SSL_VERIFYPEER] = true;
-        $options[CURLOPT_SSL_VERIFYHOST] = 2;
-        $options[CURLOPT_CAINFO]         = __PUTIO_ROOT__ . '/Certificates/StarfieldSecureCertificationAuthority.crt';
+        
+        if ($verifyPeer)
+        {
+           
+            $options[CURLOPT_SSL_VERIFYPEER] = true;
+            $options[CURLOPT_SSL_VERIFYHOST] = 2;
+            $options[CURLOPT_CAINFO]         = __PUTIO_ROOT__ . '/Certificates/StarfieldSecureCertificationAuthority.crt';
+        }
+        else
+        {
+            $options[CURLOPT_SSL_VERIFYPEER] = false;
+            $options[CURLOPT_SSL_VERIFYHOST] = false;
+        }
         
         $ch = curl_init();
         curl_setopt_array($ch, $options);
