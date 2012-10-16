@@ -66,7 +66,6 @@ class CurlEngine extends HTTPHelper implements HTTPEngine
         
         if ($verifyPeer)
         {
-           
             $options[CURLOPT_SSL_VERIFYPEER] = true;
             $options[CURLOPT_SSL_VERIFYHOST] = 2;
             $options[CURLOPT_CAINFO]         = __PUTIO_ROOT__ . '/Certificates/StarfieldSecureCertificationAuthority.crt';
