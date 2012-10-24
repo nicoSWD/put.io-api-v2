@@ -31,7 +31,7 @@ abstract class PutIOHelper
      * Holds the instance of the HTTP Engine class
      *
     **/
-    protected $httpEngine = null;
+    protected $HTTPEngine = null;
     
     
     /**

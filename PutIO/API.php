@@ -75,7 +75,7 @@ class API
     
     
     /**
-     * Automatic setter. Suggested uses:
+     * Magic setter. Suggested uses:
      *
      * $putio->setOAuthToken('XYZ123456');
      * $putio->setHTTPEngine('Native');
