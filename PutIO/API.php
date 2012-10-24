@@ -28,6 +28,9 @@
 
 namespace PutIO;
 
+use PutIO\Exceptions\UndefinedMethodException;
+use PutIO\Exceptions\MissingParamException;
+
 class API
 {
     
@@ -83,18 +86,25 @@ class API
      *
      * @param string $params    Parameters
      * @throws PutIO\Exceptions\UndefinedMethodException
+     * @throws PutIO\Exceptions\MissingParamException
      * @return void
      *
     **/
     public function __call($key, array $params)
     {
-        if (strpos($key, 'set') !== 0)
+        $var = substr($key, 3);
+        
+        if (strpos($key, 'set') !== 0 OR !isset($this->{$var}))
         {
-            throw new PutIO\Exceptions\UndefinedMethodException('Undefined method ' . __CLASS__ .  '::' . $key . '()');           
+            throw new UndefinedMethodException('Undefined method ' . __CLASS__ . '::' . $key . '() called');
         }
         
-        $key = substr($key, 3);
-        $this->{$key} = $params[0];
+        if (!array_key_exists(0, $params))
+        {
+            throw new MissingParamException('No parameters supplied');
+        }
+        
+        $this->{$var} = $params[0];
     }
     
     
