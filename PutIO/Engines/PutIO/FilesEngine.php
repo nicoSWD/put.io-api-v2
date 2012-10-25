@@ -202,7 +202,7 @@ class FilesEngine extends PutIOHelper
     **/
     public function downloadMP4($fileID, $saveAS)
     {
-        return $this->download('files/' . $fileID . '/mp4/download', $saveAs, true);
+        return $this->download($fileID, $saveAs, true);
     }
 }
 

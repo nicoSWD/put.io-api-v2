@@ -79,7 +79,7 @@ class API
     
     
     /**
-     * Magic setter. Suggested uses:
+     * Magic setter. Capitalization is important. Suggested uses:
      *
      * $putio->setOAuthToken('XYZ123456');
      * $putio->setHTTPEngine('Native');
