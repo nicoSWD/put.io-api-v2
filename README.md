@@ -1,8 +1,5 @@
-Put.io OAuth API Wrapper written in PHP
-=======================================
+## Put.io OAuth API Wrapper written in PHP
 **(OAuth/API Version 2)**
-
-[![endorse](http://api.coderwall.com/nicoswd/endorsecount.png)](http://coderwall.com/nicoswd)
 
 This is a powerful PHP class for [put.io](https://put.io/)'s [OAuth2 API](https://api.put.io/v2/docs/) (version 2).
 It supports all features that put.io's API provides, including file uploads, downloads, transfers, friends, etc...
