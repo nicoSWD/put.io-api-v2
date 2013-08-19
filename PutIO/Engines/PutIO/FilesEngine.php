@@ -185,7 +185,7 @@ class FilesEngine extends PutIOHelper
             $saveAs = $info['name'];
         }
         
-        return $this->downloadFile('files/' . $fileID . '/' . ($isMP4 ? 'MP4/' : '') . 'download', $saveAs);
+        return $this->downloadFile('files/' . $fileID . '/' . ($isMP4 ? 'mp4/' : '') . 'download', $saveAs);
     }
     
     
