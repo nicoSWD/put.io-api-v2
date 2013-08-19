@@ -104,6 +104,7 @@ class NativeEngine extends HTTPHelper implements HTTPEngine
             $contextOptions['http'] = array(
                 'method' => 'POST',
                 'header' =>
+                    "Accept: application/json" . "\r\n" .
                     "Content-type: " . $contentType . "\r\n" .
                     "Content-Length: " . strlen($data) . "\r\n" .
                     "User-Agent: nicoswd-putio/2.0\r\n",

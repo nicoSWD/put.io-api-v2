@@ -196,11 +196,11 @@ class FilesEngine extends PutIOHelper
      * @see self::download()
      *
      * @param integer $fileID   ID of the file you want to download.
-     * @param string  $saveAS   Local path you want to save the file to.
+     * @param string  $saveAS   OPTIONAL - Local path you want to save the file to.
      * @return boolean
      *
     **/
-    public function downloadMP4($fileID, $saveAs)
+    public function downloadMP4($fileID, $saveAs = '')
     {
         return $this->download($fileID, $saveAs, true);
     }
