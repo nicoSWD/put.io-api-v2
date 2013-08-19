@@ -200,7 +200,7 @@ class FilesEngine extends PutIOHelper
      * @return boolean
      *
     **/
-    public function downloadMP4($fileID, $saveAS)
+    public function downloadMP4($fileID, $saveAs)
     {
         return $this->download($fileID, $saveAs, true);
     }
