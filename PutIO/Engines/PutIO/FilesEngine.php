@@ -185,7 +185,7 @@ class FilesEngine extends PutIOHelper
             $saveAs = $info['name'];
         }
 
-        return $this->downloadFile($this->getDownloadURL($fileID, $isMP4), $saveAs);
+        return $this->downloadFile('files/' . $fileID . '/' . ($isMP4 ? 'mp4/' : '') . 'download', $saveAs);
     }
 
 
@@ -209,7 +209,7 @@ class FilesEngine extends PutIOHelper
      * Returns the download URL of a given file ID.
      *
      * @param integer $fileID   ID of the file you want to download.
-     * @param boolean  $isMP4    OPTIONAL - Tells whether or not to download the MP4 version of a file.
+     * @param boolean  $isMP4   OPTIONAL - Tells whether or not to download the MP4 version of a file.
      * @return string
      *
     **/
