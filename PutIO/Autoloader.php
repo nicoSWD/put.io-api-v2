@@ -31,10 +31,3 @@ spl_autoload_register(function($className)
         require $fileName;
     }
 });
-
-$putio = new PutIO\API('A7C9IJXW');
-
-// Retrieve a an array of files on your account.
-$files = $putio->files->listall();
-
-print_r($putio->files->getDownloadURL(165222261));
