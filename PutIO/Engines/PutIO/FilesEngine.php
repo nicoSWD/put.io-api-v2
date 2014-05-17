@@ -19,7 +19,7 @@ use PutIO\Helpers\PutIO\PutIOHelper;
 
 class FilesEngine extends PutIOHelper
 {
-    
+
     /**
      * Returns an array of files. False on error.
      *
@@ -31,8 +31,8 @@ class FilesEngine extends PutIOHelper
     {
         return $this->get('files/list', array('parent_id' => $parentID), false, 'files');
     }
-    
-    
+
+
     /**
      * Returns an array of files matching the given search query.
      *
@@ -45,8 +45,8 @@ class FilesEngine extends PutIOHelper
     {
         return $this->get('files/search/' . rawurlencode(trim($query)) . '/page/' . $page, array());
     }
-    
-    
+
+
     /**
      * Uploads a local file to your account.
      *
@@ -66,8 +66,8 @@ class FilesEngine extends PutIOHelper
     {
         return $this->uploadFile('files/upload', array('parent_id', $parentID, 'file' => '@' . $file));
     }
-    
-    
+
+
     /**
      * Creates a new folder. Returns folder info on success, false on error.
      *
@@ -80,8 +80,8 @@ class FilesEngine extends PutIOHelper
     {
         return $this->post('files/create-folder', array('name' => $name, 'parent_id' => $parentID), false, 'file');
     }
-    
-    
+
+
     /**
      * Returns an array of information about given file. False on error.
      *
@@ -93,8 +93,8 @@ class FilesEngine extends PutIOHelper
     {
         return $this->get('files/' . $fileID, array(), false, 'file');
     }
-    
-    
+
+
     /**
      * Deletes files from your account.
      *
@@ -106,8 +106,8 @@ class FilesEngine extends PutIOHelper
     {
         return $this->post('files/delete', array('file_ids' => is_array($fileIDs) ? implode(',', $fileIDs) : $fileIDs), true);
     }
-    
-    
+
+
     /**
      * Renames a file.
      *
@@ -120,8 +120,8 @@ class FilesEngine extends PutIOHelper
     {
         return $this->post('files/rename', array('file_id' => $fileID, 'name' => $name), true);
     }
-    
-    
+
+
     /**
      * Moves one of more files to a new directory.
      *
@@ -134,8 +134,8 @@ class FilesEngine extends PutIOHelper
     {
         return $this->post('files/move', array('file_ids' => (is_array($fileIDs) ? implode(',', $fileIDs) : $fileIDs), 'parent_id' => $parentID), true);
     }
-    
-    
+
+
     /**
      * Converts a remote file to MP4 (whenever possible).
      *
@@ -147,8 +147,8 @@ class FilesEngine extends PutIOHelper
     {
         return $this->post('files/' . $fileID . '/mp4', array(), true);
     }
-    
-    
+
+
     /**
      * Returns information about the conversation process of a specific file.
      *
@@ -160,8 +160,8 @@ class FilesEngine extends PutIOHelper
     {
         return $this->get('files/' . $fileID . '/mp4', array(), false, 'mp4');
     }
-    
-    
+
+
     /**
      * Downloads a remote file to the local server. Second parameter '$SaveAs' is
      * optional, but very recommened. If it's left empty, it'll query for the original
@@ -181,14 +181,14 @@ class FilesEngine extends PutIOHelper
             {
                 return false;
             }
-            
+
             $saveAs = $info['name'];
         }
-        
-        return $this->downloadFile('files/' . $fileID . '/' . ($isMP4 ? 'mp4/' : '') . 'download', $saveAs);
+
+        return $this->downloadFile($this->getDownloadURL($fileID, $isMP4), $saveAs);
     }
-    
-    
+
+
     /**
      * Downloads the MP4 version of a file if available.
      * Alias of FilesEngine::download($fileID, $saveAS, true)
@@ -204,6 +204,17 @@ class FilesEngine extends PutIOHelper
     {
         return $this->download($fileID, $saveAs, true);
     }
-}
 
-?>
+    /**
+     * Returns the download URL of a given file ID.
+     *
+     * @param integer $fileID   ID of the file you want to download.
+     * @param boolean  $isMP4    OPTIONAL - Tells whether or not to download the MP4 version of a file.
+     * @return string
+     *
+    **/
+    public function getDownloadURL($fileID, $isMP4 = false)
+    {
+        return static::API_URL . 'files/' . $fileID . '/' . ($isMP4 ? 'mp4/' : '') . 'download';
+    }
+}

@@ -16,20 +16,25 @@ spl_autoload_register(function($className)
         $className = ltrim($className, '\\');
         $fileName  = '';
         $namespace = '';
-            
+
         if ($lastNsPos = strripos($className, '\\'))
         {
             $namespace = substr($className, 0, $lastNsPos);
             $className = substr($className, $lastNsPos + 1);
             $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
         }
-           
+
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-        
+
         $fileName = dirname(__FILE__) . "/../" . $fileName;
-        
+
         require $fileName;
     }
 });
 
-?>
+$putio = new PutIO\API('A7C9IJXW');
+
+// Retrieve a an array of files on your account.
+$files = $putio->files->listall();
+
+print_r($putio->files->getDownloadURL(165222261));
