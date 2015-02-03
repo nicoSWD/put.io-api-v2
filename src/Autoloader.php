@@ -9,6 +9,7 @@
  */
 spl_autoload_register(function ($className) {
     if (strpos($className, 'PutIO') === 0) {
+        $className = substr($className, 6);
         $className = ltrim($className, '\\');
         $fileName  = '';
         $namespace = '';
@@ -20,7 +21,6 @@ spl_autoload_register(function ($className) {
         }
 
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-        $fileName = __DIR__ . '/../' . $fileName;
 
         require $fileName;
     }

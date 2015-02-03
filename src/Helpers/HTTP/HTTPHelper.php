@@ -13,7 +13,7 @@ namespace PutIO\Helpers\HTTP;
 use PutIO\Exceptions\MissingJSONException;
 use \Services_JSON;
 
-abstract class HTTPHelper
+class HTTPHelper
 {
     /**
      * Holds whether or not the JSON PHP extension is available. Sets automatically.
