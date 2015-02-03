@@ -98,7 +98,7 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
                 'method' => 'POST',
                 'header' =>
                     "Accept: application/json" . "\r\n" .
-                    "Content-type: " . $contentType . "\r\n" .
+                    "Content-Type: " . $contentType . "\r\n" .
                     "Content-Length: " . strlen($data) . "\r\n" .
                     "User-Agent: nicoswd-putio/2.0\r\n",
                 'content' => $data
