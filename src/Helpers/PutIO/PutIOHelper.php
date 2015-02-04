@@ -26,7 +26,7 @@ class PutIOHelper
     /**
      * Holds the instance of the HTTP Engine class
      *
-     * @var string|null
+     * @var \PutIO\Interfaces\HTTP\HTTPEngine|null
      */
     protected $HTTPEngine = \null;
     
@@ -51,10 +51,10 @@ class PutIOHelper
     /**
      * Sends a GET HTTP request.
      *
-     * @param string   $path         Path of the API class.
-     * @param array    $params       OPTIONAL - GET variables to be sent.
-     * @param boolean  $returnBool   OPTIONAL - Will return boolean if true. True if $response['status'] === 'OK'.
-     * @param array    $arrayKey     OPTIONAL - Will return all data on a specific array key of the response.
+     * @param string $path         Path of the API class.
+     * @param array  $params       GET variables to be sent.
+     * @param bool   $returnBool   Will return boolean if true.
+     * @param string $arrayKey     Will return all data on a specific array key of the response.
      * @return mixed
      */
     protected function get($path, array $params = [], $returnBool = \false, $arrayKey = '')
@@ -65,10 +65,10 @@ class PutIOHelper
     /**
      * Sends a POST HTTP request.
      *
-     * @param string  $path         Path of the API class.
-     * @param array   $params       OPTIONAL - POST variables to be sent.
-     * @param boolean $returnBool   OPTIONAL - Will return boolean if true. True if $response['status'] === 'OK'.
-     * @param array   $arrayKey     OPTIONAL - Will return all data on a specific array key of the response.
+     * @param string $path         Path of the API class.
+     * @param array  $params       POST variables to be sent.
+     * @param bool   $returnBool   Will return boolean if true. 
+     * @param string $arrayKey     Will return all data on a specific array key of the response.
      * @return mixed
      */
     protected function post($path, array $params = [], $returnBool = \false, $arrayKey = '')
@@ -85,7 +85,7 @@ class PutIOHelper
      *
      * @param string $path    Path to remote file.
      * @param string $saveAS  Path to local file.
-     * @return boolean
+     * @return bool
      */
     protected function downloadFile($path, $saveAS)
     {
@@ -100,8 +100,8 @@ class PutIOHelper
      * before attempting to upload the file.
      *
      * @param string $path     Path to file you want to upload.
-     * @param array  $params   OPTIONAL - Addition variables to be sent.
-     * @return boolean
+     * @param array  $params   Addition variables to be sent.
+     * @return bool
      */
     protected function uploadFile($path, array $params = [])
     {
@@ -113,11 +113,11 @@ class PutIOHelper
      *
      * @param string $method    HTTP request method. Only POST and GET are supported.
      * @param string $path      Remote path to API module.
-     * @param array  $params    OPTIONAL - Variables to be sent.
-     * @param string $outFile   OPTIONAL - If $outFile is set, the response will be written to this file instead of StdOut.
-     * @param array  $arrayKey  OPTIONAL - Will return all data on a specific array key of the response.
+     * @param array  $params    Variables to be sent.
+     * @param string $outFile   If $outFile is set, the response will be written to this file instead of StdOut.
+     * @param string $arrayKey  Will return all data on a specific array key of the response.
      * @return mixed
-     * @throws PutIO\Exceptions\PutIOLocalStorageException
+     * @throws \PutIO\Exceptions\PutIOLocalStorageException
      */
     protected function request($method, $path, array $params = [], $outFile = '', $returnBool = \false, $arrayKey = '')
     {
@@ -139,8 +139,8 @@ class PutIOHelper
     /**
      * Creates and returns a unique instance of the requested HTTP engine class.
      *
-     * @return object        Instance of the HTTP engine.
-     * @throws PutIO\Exceptions\UnsupportedHTTPEngineException
+     * @return \PutIO\Interfaces\HTTP\HTTPEngine
+     * @throws \PutIO\Exceptions\UnsupportedHTTPEngineException
      */
     protected function getHTTPEngine()
     {

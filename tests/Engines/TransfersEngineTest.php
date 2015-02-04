@@ -12,6 +12,9 @@ class TransfersEngineTest extends \PHPUnit_Framework_TestCase
         $this->api->setHTTPEngine('Test');
     }
 
+    /**
+     * @covers \PutIO\Engines\PutIO\TransfersEngine::listall()
+     */
     public function testListAllReturnsExpectedData()
     {
         $response = $this->api->transfers->listall();
@@ -20,6 +23,9 @@ class TransfersEngineTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('IN_QUEUE', $response[1]['status']);
     }
 
+    /**
+     * @covers \PutIO\Engines\PutIO\TransfersEngine::add()
+     */
     public function testAddTransferReturnsExpectedData()
     {
         $response = $this->api->transfers->add('http://url.com/');
@@ -28,6 +34,9 @@ class TransfersEngineTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(36, $response['peers_connected']);
     }
 
+    /**
+     * @covers \PutIO\Engines\PutIO\TransfersEngine::info()
+     */
     public function testGetInfoReturnsExpectedData()
     {
         $response = $this->api->transfers->info(41);
@@ -36,13 +45,27 @@ class TransfersEngineTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(36, $response['peers_connected']);
     }
 
-    public function testCancelTransferReturnsExpectedData()
+    /**
+     * @covers \PutIO\Engines\PutIO\TransfersEngine::retry()
+     */
+    public function testRetryTransferReturnsExpectedData()
     {
         $this->assertTrue($this->api->transfers->retry(41));
     }
 
+    /**
+     * @covers \PutIO\Engines\PutIO\TransfersEngine::clean()
+     */
     public function testCleanTransferReturnsExpectedData()
     {
         $this->assertTrue($this->api->transfers->clean());
+    }
+
+    /**
+     * @covers \PutIO\Engines\PutIO\TransfersEngine::cancel()
+     */
+    public function testCancelTransferReturnsExpectedData()
+    {
+        $this->assertTrue($this->api->transfers->cancel(41));
     }
 }

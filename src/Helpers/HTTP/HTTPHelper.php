@@ -26,7 +26,7 @@ class HTTPHelper
      * Returns true if the server responded with status === OK. False if anything else.
      *
      * @param array $response    Response from remote server.
-     * @return boolean
+     * @return bool
      */
     protected function getStatus(array $response)
     {
@@ -42,7 +42,7 @@ class HTTPHelper
      * and returns it.
      *
      * @param array $headers    Array containing response headers
-     * @return integer
+     * @return int
      */
     protected function getResponseCode(array $headers)
     {
@@ -80,7 +80,7 @@ class HTTPHelper
      *
      * @param string $response      Response data from server. Must be JSON encoded.
      * @param string $returnBool    Whether or not to return boolean
-     * @param array  $arrayKey      OPTIONAL - Will return all data on a specific array key of the response.
+     * @param array  $arrayKey      Will return all data on a specific array key of the response.
      * @return mixed
      */
     protected function getResponse($response, $returnBool, $arrayKey = '')
@@ -121,8 +121,8 @@ class HTTPHelper
      * The rest is handled by the script.
      *
      * @param string $string   JSON encoded string
-     * @return mixed
-     * @throws PutIO\Exceptions\MissingJSONException
+     * @return array|bool
+     * @throws \PutIO\Exceptions\MissingJSONException
      */
     protected function jsonDecode($string)
     {

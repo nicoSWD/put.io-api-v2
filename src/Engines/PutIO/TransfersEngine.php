@@ -30,10 +30,10 @@ final class TransfersEngine extends PutIOHelper
     /**
      * Adds a new transfer to the queue.
      *
-     * @param string  $url          URL of the file/torrent
-     * @param integer $parentID     OPTIONAL - ID of the target folder. 0 = root
-     * @param boolean $extract      OPTIONAL - Extract file when download complete
-     * @param string  $callbackUrl  OPTIONAL - put.io will POST the metadata of
+     * @param string $url          URL of the file/torrent
+     * @param int    $parentID     ID of the target folder. 0 = root
+     * @param bool   $extract      Extract file when download complete
+     * @param string $callbackUrl  put.io will POST the metadata of
      *                                  the file to the given URL when file is ready.
      * @return array
      */
@@ -63,7 +63,7 @@ final class TransfersEngine extends PutIOHelper
     /**
      * Retries a given transfer.
      *
-     * @param integer $transferIDs   Transfer IDs you want to cancel.
+     * @param int $transferIDs   Transfer IDs you want to cancel.
      * @return boolean
      */
     public function retry($transferID)
@@ -78,7 +78,7 @@ final class TransfersEngine extends PutIOHelper
     /**
      * Cancels given transfers.
      *
-     * @param mixed $transferIDs   Transfer IDs you want to cancel. Array or integer.
+     * @param int|array $transferIDs   Transfer IDs you want to cancel.
      * @return boolean
      */
     public function cancel($transferIDs)
