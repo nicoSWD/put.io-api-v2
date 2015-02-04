@@ -43,12 +43,12 @@ final class FilesEngine extends PutIOHelper
     /**
      * Uploads a local file to your account.
      *
-     * NOTE 1: The response differs based on the uploaded file. For regular files, the
-     * array key containing the info is 'file', but for torrents it's 'transfer'.
+     * NOTE 1: The response differs based on the uploaded file. For regular files,
+     * the array key containing the info is 'file', but for torrents it's 'transfer'.
      * @see https://api.put.io/v2/docs/#files-upload
      *
-     * NOTE 2: Files need to be read into the memory when using NATIVE functions. Keep
-     * that in mind when uploading large files or running multiple instances.
+     * NOTE 2: Files need to be read into the memory when using NATIVE functions.
+     * Keep that in mind when uploading large files or running multiple instances.
      *
      * @param string  $file        Path to local file.
      * @param integer $parentID    OPTIONAL - ID of upload folder.
@@ -163,12 +163,13 @@ final class FilesEngine extends PutIOHelper
 
     /**
      * Downloads a remote file to the local server. Second parameter '$SaveAs' is
-     * optional, but very recommened. If it's left empty, it'll query for the original
-     * file name by sending an additional HTTP request.
+     * optional, but very recommened. If it's left empty, it'll query for the
+     * original file name by sending an additional HTTP request.
      *
      * @param integer  $fileID   ID of the file you want to download.
      * @param string   $saveAS   OPTIONAL - Local path you want to save the file to.
-     * @param boolean  $isMP4    OPTIONAL - Tells whether or not to download the MP4 version of a file.
+     * @param boolean  $isMP4    OPTIONAL - Tells whether or not to download the
+     *                              MP4 version of a file.
      * @return boolean
      */
     public function download($fileID, $saveAs = '', $isMP4 = \false)
@@ -181,7 +182,8 @@ final class FilesEngine extends PutIOHelper
             $saveAs = $info['name'];
         }
 
-        return $this->downloadFile('files/' . $fileID . '/' . ($isMP4 ? 'mp4/' : '') . 'download', $saveAs);
+        $mp4 = $isMP4 ? 'mp4/' : '';
+        return $this->downloadFile("files/{$fileID}/{$mp4}download", $saveAs);
     }
 
     /**
@@ -203,12 +205,13 @@ final class FilesEngine extends PutIOHelper
      * Returns the download URL of a given file ID.
      *
      * @param integer $fileID   ID of the file you want to download.
-     * @param boolean  $isMP4   OPTIONAL - Tells whether or not to download the MP4 version of a file.
+     * @param boolean  $isMP4   OPTIONAL - Tells whether or not to download
+     *                              the MP4 version of a file.
      * @return string
-     *
      */
     public function getDownloadURL($fileID, $isMP4 = \false)
     {
-        return static::API_URL . 'files/' . $fileID . '/' . ($isMP4 ? 'mp4/' : '') . 'download';
+        $mp4 = $isMP4 ? 'mp4/' : '';
+        return static::API_URL . "files/{$fileID}/{$mp4}download";
     }
 }

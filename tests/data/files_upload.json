@@ -1,0 +1,19 @@
+{
+    "file":
+        {
+            "content_type": "text/plain",
+            "crc32": "66a1512f",
+            "created_at": "2013-09-07T21:32:03",
+            "first_accessed_at": null,
+            "icon": "https://put.io/images/file_types/text.png",
+            "id": 6546533,
+            "is_mp4_available": false,
+            "is_shared": false,
+            "name": "MyFile.txt",
+            "opensubtitles_hash": null,
+            "parent_id": 123,
+            "screenshot": null,
+            "size": 92
+        },
+    "status": "OK"
+}

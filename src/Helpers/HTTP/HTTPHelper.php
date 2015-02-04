@@ -18,7 +18,7 @@ class HTTPHelper
     /**
      * Holds whether or not the JSON PHP extension is available. Sets automatically.
      *
-     * @var bool
+     * @var bool|null
      */
     protected $jsonExt = \null;
     
@@ -131,13 +131,21 @@ class HTTPHelper
         }
         
         if ($this->jsonExt) {
-            return json_decode($string, \true);
+            $result = @json_decode($string, \true);
+            
+            if (!$result || json_last_error()) {
+                return false;
+            }
+
+            return $result;
         }
 
         $included = @include_once __DIR__ . '/../../Engines/JSON/JSON.php';
         
         if ($included === \false) {
-            throw new MissingJSONException('JSON.php is missing from the /Engines/JSON/ directory.');
+            throw new MissingJSONException(
+                'JSON.php is missing from the /Engines/JSON/ directory.'
+            );
         }
         
         $json = new Services_JSON(SERVICES_JSON_LOOSE_TYPE);

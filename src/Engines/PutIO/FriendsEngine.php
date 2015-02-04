@@ -45,18 +45,39 @@ final class FriendsEngine extends PutIOHelper
      */
     public function sendRequest($username)
     {
-        return $this->post('friends/' . $username . '/request', [], \true);
+        return $this->post("friends/{$username}/request", [], \true);
     }
     
+    /**
+     * Approves a specific friend request.
+     *
+     * @param string $username User to have their request denied
+     * @return boolean
+     */
+    public function approveRequest($username)
+    {
+        return $this->post("friends/{$username}/approve", [], \true);
+    }
+
     /**
      * Denies a specific friend request.
      *
      * @param string $username User to have their request denied
      * @return boolean
-     *
      */
     public function denyRequest($username)
     {
-        return $this->post('friends/' . $username . '/deny', [], \true);
+        return $this->post("friends/{$username}/deny", [], \true);
+    }
+
+    /**
+     * Unfriend someone.
+     *
+     * @param string $username User to have their request denied
+     * @return boolean
+     */
+    public function unfriend($username)
+    {
+        return $this->post("friends/{$username}/unfriend", [], \true);
     }
 }

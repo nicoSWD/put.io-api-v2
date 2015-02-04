@@ -46,7 +46,7 @@ final class TransfersEngine extends PutIOHelper
             'callback_url'   => $callbackUrl
         ];
 
-        return $this->post('transfers/add', $data, \false, 'transfer');
+        return $this->post('transfers/add', $data, \false);
     }
     
     /**
@@ -57,9 +57,24 @@ final class TransfersEngine extends PutIOHelper
      */
     public function info($transferID)
     {
-        return $this->get('transfers/' . $transferID, [], \false, 'transfer');
+        return $this->get("transfers/{$transferID}", [], \false);
     }
     
+    /**
+     * Retries a given transfer.
+     *
+     * @param integer $transferIDs   Transfer IDs you want to cancel.
+     * @return boolean
+     */
+    public function retry($transferID)
+    {
+        $data = [
+            'id' => $transferID
+        ];
+
+        return $this->post('transfers/retry', $data, \true);
+    }
+
     /**
      * Cancels given transfers.
      *
@@ -69,9 +84,21 @@ final class TransfersEngine extends PutIOHelper
     public function cancel($transferIDs)
     {
         $data = [
-            'transfer_ids' => is_array($transferIDs) ? implode(',', $transferIDs) : $transferIDs
+            'transfer_ids' => is_array($transferIDs)
+                ? implode(',', $transferIDs)
+                : $transferIDs
         ];
 
         return $this->post('transfers/cancel', $data, \true);
+    }
+
+    /**
+     * Cleans completed transfers from the list.
+     *
+     * @return boolean
+     */
+    public function clean()
+    {
+        return $this->post('transfers/clean', [], \true);
     }
 }

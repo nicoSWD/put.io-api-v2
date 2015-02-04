@@ -1,0 +1,15 @@
+{
+    "info": {
+        "username": "cenk",
+        "mail": "cenk@gmail.com",
+        "plan_expiration_date": "2014-03-04T06:33:30",
+        "subtitle_languages": ["tr", "eng"],
+        "default_subtitle_language": "tr",
+        "disk": {
+            "avail": 20849243836,
+            "used": 32837847364,
+            "size": 53687091200
+        }
+    },
+    "status": "OK"
+}

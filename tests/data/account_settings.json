@@ -1,0 +1,10 @@
+{
+    "status": "OK",
+    "settings": {
+        "default_download_folder": 0,
+        "is_invisible": false,
+        "extraction_default": false,
+        "subtitle_languages": ["tr", "eng"],
+        "default_subtitle_language": "tr"
+    }
+}

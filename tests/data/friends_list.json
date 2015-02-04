@@ -1,0 +1,11 @@
+{
+    "status": "OK",
+    "friends": [
+        {
+        "name": "foo"
+        },
+        {
+         "name": "bar"
+        }
+    ]
+}

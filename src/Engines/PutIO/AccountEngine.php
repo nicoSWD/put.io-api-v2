@@ -21,7 +21,7 @@ final class AccountEngine extends PutIOHelper
      * Returns an array of information about your account.
      * False on error.
      *
-     * @retun mixed
+     * @return mixed
      */
     public function info()
     {

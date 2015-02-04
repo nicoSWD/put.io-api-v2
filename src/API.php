@@ -33,23 +33,31 @@ class API
 {
     /**
      * Holds the user's OAuth token.
+     *
+     * @var string
      */
     public $OAuthToken = '';
     
     /**
      * Name of the HTTP engine. Possible options: Curl, Native
      * Defaults to cRUL and for a reason. Use cURL whenever possible.
+     *
+     * @var string
      */
     public $HTTPEngine = 'Curl';
     
     /**
      * If true (highly recommended), proper SSL peer/host verification
      * will be used.
+     *
+     * @var bool
      */
     public $SSLVerifyPeer = \true;
  
     /**
      * Holds the instances of requested objects.
+     *
+     * @var array
      */
     protected static $instances = [];
 
@@ -81,7 +89,9 @@ class API
         $var = substr($key, 3);
         
         if (strpos($key, 'set') !== 0 || !isset($this->{$var})) {
-            throw new UndefinedMethodException('Undefined method ' . __CLASS__ . '::' . $key . '() called');
+            throw new UndefinedMethodException(
+                'Undefined method ' . __CLASS__ . '::' . $key . '() called'
+            );
         }
         
         if (!array_key_exists(0, $params)) {

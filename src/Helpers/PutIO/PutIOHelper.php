@@ -14,7 +14,7 @@ use PutIO\API;
 use PutIO\Exceptions\LocalStorageException;
 use PutIO\Exceptions\UnsupportedHTTPEngineException;
 
-abstract class PutIOHelper
+class PutIOHelper
 {
     /**
      * Holds the main PutIO class instance.
@@ -105,7 +105,7 @@ abstract class PutIOHelper
      */
     protected function uploadFile($path, array $params = [])
     {
-        return $this->request('POST', $path, $params);
+        return $this->request('POST', $path, $params, '', \false, 'file');
     }
     
     /**
@@ -127,7 +127,7 @@ abstract class PutIOHelper
         
         return $this->getHTTPEngine()->request(
             $method,
-            $static::API_URL . $path,
+            static::API_URL . $path,
             $params,
             $outFile,
             $returnBool,

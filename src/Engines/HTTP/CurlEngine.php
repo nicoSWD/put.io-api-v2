@@ -51,7 +51,7 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
         $options[CURLOPT_USERAGENT]      = 'nicoswd-putio/2.0';
         $options[CURLOPT_CONNECTTIMEOUT] = 10;
         $options[CURLOPT_FOLLOWLOCATION] = \true;
-        $options[CURLOPT_HTTPHEADER]     = array('Accept: application/json');
+        $options[CURLOPT_HTTPHEADER]     = ['Accept: application/json'];
         
         if ($verifyPeer) {
             $cert = realpath(__DIR__ . '/../../Certificates/StarfieldSecureCertificationAuthority.crt');
