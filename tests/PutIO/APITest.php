@@ -49,8 +49,8 @@ class APITest extends \PHPUnit_Framework_TestCase
         $this->api->setOAuthToken('xxxxx');
         $this->assertSame('xxxxx', $this->api->getOAuthToken());
 
-        $this->api->setSSLVerifyPeer(false);
-        $this->assertSame(false, $this->api->SSLVerifyPeer);
+        $this->api->setSSLVerifyPeer(\false);
+        $this->assertSame(\false, $this->api->SSLVerifyPeer);
     }
 
     /**
