@@ -6,15 +6,6 @@ It supports all features that put.io's API provides, including file uploads, dow
 
 It only requires PHP >=5.4! HTTP requests and JSON are supported natively if necessary!
 
-If you have both, [cURL](http://php.net/book.curl) and the [JSON](http://php.net/book.json) PHP extension installed,
-no configuration is required! **However**, if you're missing the cURL extension, you need to add one line of code:
-
-```php
-$putio->setHTTPEngine('Native');
-```
-
-**NOTE:** Only add this line if you really don't have cURL!
-
 Take a look at the [Wiki](https://github.com/nicoSWD/put.io-api-v2/wiki/) and [put.io's API documentation](https://api.put.io/v2/docs/) to get started.
 
 **Pull requests are welcome! Fix, improve, suggest!**
