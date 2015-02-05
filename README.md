@@ -18,7 +18,7 @@ Examples
 ========
 
 ```php
-require __DIR__ . '/PutIO/Autoloader.php';
+require __DIR__ . '/src/Autoloader.php';
 $putio = new PutIO\API($accessToken);
 
 // Retrieve a an array of files on your account.
