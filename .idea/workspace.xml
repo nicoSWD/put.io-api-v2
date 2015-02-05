@@ -2,37 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e250291f-aecc-4d3b-a009-46b01f786216" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Certificates/StarfieldSecureCertificationAuthority.crt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Engines/JSON/README.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Exceptions/FileNotFoundException.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Exceptions/MissingParamException.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Exceptions/UndefinedMethodException.php" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/API.php" afterPath="$PROJECT_DIR$/src/API.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/PutIO/APITest.php" afterPath="$PROJECT_DIR$/tests/PutIO/APITest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engines/PutIO/AccountEngine.php" afterPath="$PROJECT_DIR$/src/Engines/PutIO/AccountEngine.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/Engines/AccountEngineTest.php" afterPath="$PROJECT_DIR$/tests/Engines/AccountEngineTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Autoloader.php" afterPath="$PROJECT_DIR$/src/Autoloader.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engines/HTTP/CurlEngine.php" afterPath="$PROJECT_DIR$/src/Engines/HTTP/CurlEngine.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/Engines/EnginesTest.php" afterPath="$PROJECT_DIR$/tests/Engines/EnginesTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engines/PutIO/FilesEngine.php" afterPath="$PROJECT_DIR$/src/Engines/PutIO/FilesEngine.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/Engines/FilesEngineTest.php" afterPath="$PROJECT_DIR$/tests/Engines/FilesEngineTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engines/PutIO/FriendsEngine.php" afterPath="$PROJECT_DIR$/src/Engines/PutIO/FriendsEngine.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/Engines/FriendsEngineTest.php" afterPath="$PROJECT_DIR$/tests/Engines/FriendsEngineTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Interfaces/HTTP/HTTPEngine.php" afterPath="$PROJECT_DIR$/src/Interfaces/HTTP/HTTPEngine.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Helpers/HTTP/HTTPHelper.php" afterPath="$PROJECT_DIR$/src/Helpers/HTTP/HTTPHelper.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/Helpers/HTTPHelperTest.php" afterPath="$PROJECT_DIR$/tests/Helpers/HTTPHelperTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Exceptions/LocalStorageException.php" afterPath="$PROJECT_DIR$/src/Exceptions/LocalStorageException.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Exceptions/MissingJSONException.php" afterPath="$PROJECT_DIR$/src/Exceptions/MissingJSONException.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engines/HTTP/NativeEngine.php" afterPath="$PROJECT_DIR$/src/Engines/HTTP/NativeEngine.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engines/PutIO/OauthEngine.php" afterPath="$PROJECT_DIR$/src/Engines/PutIO/OauthEngine.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/Engines/PutIOEngine.php" afterPath="$PROJECT_DIR$/tests/Engines/PutIOEngine.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Helpers/PutIO/PutIOHelper.php" afterPath="$PROJECT_DIR$/src/Helpers/PutIO/PutIOHelper.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Exceptions/RemoteConnectionException.php" afterPath="$PROJECT_DIR$/src/Exceptions/RemoteConnectionException.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engines/HTTP/TestEngine.php" afterPath="$PROJECT_DIR$/src/Engines/HTTP/TestEngine.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engines/PutIO/TransfersEngine.php" afterPath="$PROJECT_DIR$/src/Engines/PutIO/TransfersEngine.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/Engines/TransfersEngineTest.php" afterPath="$PROJECT_DIR$/tests/Engines/TransfersEngineTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Exceptions/UnsupportedHTTPEngineException.php" afterPath="$PROJECT_DIR$/src/Exceptions/UnsupportedHTTPEngineException.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="put.io-api-v2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -57,14 +28,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="API.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="API.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/API.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3181818" vertical-offset="1180" max-vertical-offset="2310">
+            <state vertical-scroll-proportion="-10.208333" vertical-offset="1180" max-vertical-offset="2310">
               <caret line="95" column="16" selection-start-line="95" selection-start-column="16" selection-end-line="95" selection-end-column="16" />
               <folding>
                 <element signature="e#7#971#0#PHP" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.058517557" vertical-offset="0" max-vertical-offset="769">
+              <caret line="3" column="8" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -124,18 +105,6 @@
               <folding>
                 <element signature="e#7#389#0#PHP" expanded="true" />
                 <element signature="e#421#458#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FilesEngine.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Engines/PutIO/FilesEngine.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="44.166668" vertical-offset="2755" max-vertical-offset="3525">
-              <caret line="113" column="5" selection-start-line="113" selection-start-column="5" selection-end-line="113" selection-end-column="5" />
-              <folding>
-                <element signature="e#7#298#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -218,6 +187,7 @@
         <option value="$PROJECT_DIR$/Test.php" />
         <option value="$PROJECT_DIR$/src/Engines/HTTP/NativeEngine.php" />
         <option value="$PROJECT_DIR$/src/API.php" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -693,14 +663,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="794">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/PutIO/APITest.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.3333333" vertical-offset="325" max-vertical-offset="1095">
@@ -801,11 +763,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/API.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3181818" vertical-offset="1180" max-vertical-offset="2310">
+        <state vertical-scroll-proportion="-10.208333" vertical-offset="1180" max-vertical-offset="2310">
           <caret line="95" column="16" selection-start-line="95" selection-start-column="16" selection-end-line="95" selection-end-column="16" />
           <folding>
             <element signature="e#7#971#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.058517557" vertical-offset="0" max-vertical-offset="769">
+          <caret line="3" column="8" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>
