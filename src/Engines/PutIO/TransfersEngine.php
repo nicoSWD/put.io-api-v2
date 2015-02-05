@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (C) 2012  Nicolas Oelgart
+ * Copyright (C) 2012-2015 Nicolas Oelgart
  *
  * @author Nicolas Oelgart
  * @license GPL 3 http://www.gnu.org/copyleft/gpl.html
@@ -63,7 +63,7 @@ final class TransfersEngine extends PutIOHelper
     /**
      * Retries a given transfer.
      *
-     * @param int $transferIDs   Transfer IDs you want to cancel.
+     * @param int $transferID   Transfer IDs you want to retry.
      * @return boolean
      */
     public function retry($transferID)
@@ -83,10 +83,12 @@ final class TransfersEngine extends PutIOHelper
      */
     public function cancel($transferIDs)
     {
+        if (is_array($transferIDs)) {
+            $transferIDs = implode(',', $transferIDs);
+        }
+
         $data = [
-            'transfer_ids' => is_array($transferIDs)
-                ? implode(',', $transferIDs)
-                : $transferIDs
+            'transfer_ids' => $transferIDs
         ];
 
         return $this->post('transfers/cancel', $data, \true);

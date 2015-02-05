@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (C) 2012  Nicolas Oelgart
+ * Copyright (C) 2012-2015 Nicolas Oelgart
  *
  * @author Nicolas Oelgart
  * @license GPL 3 http://www.gnu.org/copyleft/gpl.html
@@ -15,12 +15,16 @@ namespace PutIO\Engines\PutIO;
 
 use PutIO\Helpers\PutIO\PutIOHelper;
 
+/**
+ * Class FilesEngine
+ * @package PutIO\Engines\PutIO
+ */
 final class FilesEngine extends PutIOHelper
 {
     /**
      * Returns an array of files. False on error.
      *
-     * @param integer $parentID  OPTIONAL - Only returns files of $parentID if supplied
+     * @param integer $parentID  Only returns files of $parentID if supplied
      * @return mixed
      */
     public function listall($parentID = 0)
@@ -32,12 +36,12 @@ final class FilesEngine extends PutIOHelper
      * Returns an array of files matching the given search query.
      *
      * @param string  $query   Search query
-     * @param integer $page    OPTIONAL - Page number
+     * @param integer $page    Page number
      * @return array
      */
     public function search($query, $page = 1)
     {
-        return $this->get('files/search/' . rawurlencode(trim($query)) . '/page/' . $page, []);
+        return $this->get('files/search/' . (trim($query)) . "/page/{$page}", []);
     }
 
     /**
@@ -51,14 +55,14 @@ final class FilesEngine extends PutIOHelper
      * Keep that in mind when uploading large files or running multiple instances.
      *
      * @param string  $file        Path to local file.
-     * @param integer $parentID    OPTIONAL - ID of upload folder.
+     * @param integer $parentID    ID of upload folder.
      * @return mixed
      */
     public function upload($file, $parentID = 0)
     {
         return $this->uploadFile('files/upload', [
             'parent_id' => $parentID,
-            'file'      => '@' . $file
+            'file'      => "@{$file}"
         ]);
     }
 
@@ -66,7 +70,7 @@ final class FilesEngine extends PutIOHelper
      * Creates a new folder. Returns folder info on success, false on error.
      *
      * @param string  $name        Name of the new folder.
-     * @param integer $parentID    OPTIONAL - ID of the parent folder.
+     * @param integer $parentID    ID of the parent folder.
      * @return mixed
      */
     public function makeDir($name, $parentID = 0)
@@ -87,7 +91,7 @@ final class FilesEngine extends PutIOHelper
      */
     public function info($fileID)
     {
-        return $this->get('files/' . $fileID, [], \false, 'file');
+        return $this->get("files/{$fileID}", [], \false, 'file');
     }
 
     /**
@@ -98,8 +102,12 @@ final class FilesEngine extends PutIOHelper
      */
     public function delete($fileIDs)
     {
+        if (is_array($fileIDs)) {
+            $fileIDs = implode(',', $fileIDs);
+        }
+
         $data = [
-            'file_ids' => is_array($fileIDs) ? implode(',', $fileIDs) : $fileIDs
+            'file_ids' => $fileIDs
         ];
 
         return $this->post('files/delete', $data, \true);
@@ -131,8 +139,12 @@ final class FilesEngine extends PutIOHelper
      */
     public function move($fileIDs, $parentID)
     {
+        if (is_array($fileIDs)) {
+            $fileIDs = implode(',', $fileIDs);
+        }
+
         $data = [
-            'file_ids'  => (is_array($fileIDs) ? implode(',', $fileIDs) : $fileIDs),
+            'file_ids'  => $fileIDs,
             'parent_id' => $parentID
         ];
 
@@ -147,7 +159,7 @@ final class FilesEngine extends PutIOHelper
      */
     public function convertToMP4($fileID)
     {
-        return $this->post('files/' . $fileID . '/mp4', [], \true);
+        return $this->post("files/{$fileID}/mp4", [], \true);
     }
 
     /**
@@ -158,17 +170,17 @@ final class FilesEngine extends PutIOHelper
      */
     public function getMP4Status($fileID)
     {
-        return $this->get('files/' . $fileID . '/mp4', [], \false, 'mp4');
+        return $this->get("files/{$fileID}/mp4", [], \false, 'mp4');
     }
 
     /**
      * Downloads a remote file to the local server. Second parameter '$SaveAs' is
-     * optional, but very recommened. If it's left empty, it'll query for the
+     * optional, but very recommended. If it's left empty, it'll query for the
      * original file name by sending an additional HTTP request.
      *
      * @param integer  $fileID   ID of the file you want to download.
-     * @param string   $saveAS   OPTIONAL - Local path you want to save the file to.
-     * @param boolean  $isMP4    OPTIONAL - Tells whether or not to download the
+     * @param string   $saveAs   Local path you want to save the file to.
+     * @param boolean  $isMP4    Tells whether or not to download the
      *                              MP4 version of a file.
      * @return boolean
      */
@@ -193,7 +205,7 @@ final class FilesEngine extends PutIOHelper
      * @see self::download()
      *
      * @param integer $fileID   ID of the file you want to download.
-     * @param string  $saveAS   OPTIONAL - Local path you want to save the file to.
+     * @param string  $saveAs   OPTIONAL - Local path you want to save the file to.
      * @return boolean
      */
     public function downloadMP4($fileID, $saveAs = '')

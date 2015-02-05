@@ -1,11 +1,29 @@
 <?php
 
+/**
+ * Copyright (C) 2012-2015 Nicolas Oelgart
+ *
+ * @author Nicolas Oelgart
+ * @license GPL 3 http://www.gnu.org/copyleft/gpl.html
+ *
+ * All HTTP engines must implement this interface.
+ */
 namespace tests\Engines;
 
+/**
+ * Class TransfersEngineTest
+ * @package tests\Engines
+ */
 class TransfersEngineTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var
+     */
     private $api;
 
+    /**
+     *
+     */
     public function setUp()
     {
         $this->api = new \PutIO\API();

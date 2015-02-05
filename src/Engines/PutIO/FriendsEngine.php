@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (C) 2012  Nicolas Oelgart
+ * Copyright (C) 2012-2015 Nicolas Oelgart
  *
  * @author Nicolas Oelgart
  * @license GPL 3 http://www.gnu.org/copyleft/gpl.html
@@ -15,6 +15,10 @@ namespace PutIO\Engines\PutIO;
 
 use PutIO\Helpers\PutIO\PutIOHelper;
 
+/**
+ * Class FriendsEngine
+ * @package PutIO\Engines\PutIO
+ */
 final class FriendsEngine extends PutIOHelper
 {
     /**

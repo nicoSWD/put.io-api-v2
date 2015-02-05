@@ -1,29 +1,33 @@
 <?php
 
 /**
- * Copyright (C) 2012  Nicolas Oelgart
+ * Copyright (C) 2012-2015 Nicolas Oelgart
  * 
  * @author Nicolas Oelgart
  * @license GPL 3 http://www.gnu.org/copyleft/gpl.html
  *
- * Handles HTTP requests using cURL.
+ * Helps handing HTTP requests.
  */
 namespace PutIO\Helpers\HTTP;
 
 use PutIO\Exceptions\MissingJSONException;
 use \Services_JSON;
 
+/**
+ * Class HTTPHelper
+ * @package PutIO\Helpers\HTTP
+ */
 class HTTPHelper
 {
     /**
-     * Holds whether or not the JSON PHP extension is available. Sets automatically.
+     * Holds whether or not the JSON PHP extension is available.
      *
      * @var bool|null
      */
     protected $jsonExt = \null;
     
     /**
-     * Returns true if the server responded with status === OK. False if anything else.
+     * Returns true if the server responded with status === OK.
      *
      * @param array $response    Response from remote server.
      * @return bool
@@ -46,7 +50,8 @@ class HTTPHelper
      */
     protected function getResponseCode(array $headers)
     {
-        if (isset($headers[0]) && preg_match('~HTTP/1\.[01]\s+(\d+)~', $headers[0], $match)) {
+        if (isset($headers[0]) &&
+            preg_match('~HTTP/1\.[01]\s+(\d+)~', $headers[0], $match)) {
             return (int) $match[1];
         }
         
@@ -54,7 +59,7 @@ class HTTPHelper
     }
     
     /**
-     * Attemps to get the MIME type of a given file. Required for native file
+     * Attempts to get the MIME type of a given file. Required for native file
      * uploads.
      * 
      * Relies on the file info extension, which is shipped with PHP 5.3
@@ -78,10 +83,11 @@ class HTTPHelper
     /**
      * Decodes the response and returns the appropriate value
      *
-     * @param string $response      Response data from server. Must be JSON encoded.
+     * @param string $response      Response data from server.
      * @param string $returnBool    Whether or not to return boolean
-     * @param array  $arrayKey      Will return all data on a specific array key of the response.
-     * @return mixed
+     * @param string $arrayKey      Will return all data on a specific array key
+     *                                  of the response.
+     * @return array|bool
      */
     protected function getResponse($response, $returnBool, $arrayKey = '')
     {
@@ -97,7 +103,6 @@ class HTTPHelper
             if (isset($response[$arrayKey])) {
                 return $response[$arrayKey];
             }
-            
             return \false;
         }
         
@@ -105,20 +110,7 @@ class HTTPHelper
     }
     
     /**
-     * Decodes a JSON encoded string.
-     *
-     * Requires either the JSON PHP extension, or the Services_JSON Pear
-     * package. The Pear package is not shipped with this one, but if you
-     * rely on it, download it from here:
-     *
-     * http://pear.php.net/package/Services_JSON/download
-     * (Tested with version 1.0.3)
-     *
-     * Extract 'JSON.php' from the package and place it into:
-     *
-     * PutIO/Engines/JSON/
-     *
-     * The rest is handled by the script.
+     * Decodes a JSON encoded string. Natively, or using the PEAR package.
      *
      * @param string $string   JSON encoded string
      * @return array|bool
@@ -133,8 +125,8 @@ class HTTPHelper
         if ($this->jsonExt) {
             $result = @json_decode($string, \true);
             
-            if (!$result || json_last_error()) {
-                return false;
+            if (!$result || JSON_ERROR_NONE !== json_last_error()) {
+                return \false;
             }
 
             return $result;

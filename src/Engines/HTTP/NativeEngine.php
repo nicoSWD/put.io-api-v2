@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (C) 2012  Nicolas Oelgart
+ * Copyright (C) 2012-2015 Nicolas Oelgart
  * 
  * @author Nicolas Oelgart
  * @license GPL 3 http://www.gnu.org/copyleft/gpl.html
@@ -17,8 +17,11 @@ use PutIO\Interfaces\HTTP\HTTPEngine;
 use PutIO\Helpers\HTTP\HTTPHelper;
 use PutIO\Exceptions\RemoteConnectionException;
 use PutIO\Exceptions\LocalStorageException;
-use PutIO\Exceptions\FileNotFoundException;
 
+/**
+ * Class NativeEngine
+ * @package PutIO\Engines\HTTP
+ */
 final class NativeEngine extends HTTPHelper implements HTTPEngine
 {
     /**
@@ -36,13 +39,14 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
      *
      * @param string $method       HTTP request method. Only POST and GET are supported.
      * @param string $url          Remote path to API module.
-     * @param array  $params       OPTIONAL - Variables to be sent.
-     * @param string $outFile      OPTIONAL - If $outFile is set, the response will be written to this file instead of StdOut.
-     * @param array  $arrayKey     OPTIONAL - Will return all data on a specific array key of the response.
-     * @param bool   $verifyPeer   OPTIONAL - If true, will use proper SSL peer/host verification.
+     * @param array  $params       Variables to be sent.
+     * @param string $outFile      If $outFile is set, the response will be written to this file instead of StdOut.
+     * @param bool   $returnBool
+     * @param string $arrayKey     Will return all data on a specific array key of the response.
+     * @param bool   $verifyPeer   If true, will use proper SSL peer/host verification.
      * @return mixed
-     * @throws PutIO\Exceptions\PutIOLocalStorageException
-     * @throws PutIO\Exceptions\RemoteConnectionException
+     * @throws \PutIO\Exceptions\LocalStorageException
+     * @throws \PutIO\Exceptions\RemoteConnectionException
      */
     public function request($method, $url, array $params = [], $outFile = '', $returnBool = \false, $arrayKey = '', $verifyPeer = \true)
     {
@@ -83,7 +87,7 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
         $contextOptions = [];
         
         if ($verifyPeer) {
-            $cert = realpath(__DIR__ . '/../../Certificates/StarfieldSecureCertificationAuthority.crt');
+            $cert = realpath(__DIR__ . '/../../Certificates/StarfieldClass2CA.pem');
 
             $contextOptions['ssl'] = [
                 'verify_peer'   => \true,
@@ -100,7 +104,7 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
                     "Accept: application/json" . "\r\n" .
                     "Content-Type: " . $contentType . "\r\n" .
                     "Content-Length: " . strlen($data) . "\r\n" .
-                    "User-Agent: nicoswd-putio/2.0\r\n",
+                    "User-Agent: nicoswd-putio/2.1\r\n",
                 'content' => $data
             ];
         } else {
@@ -121,15 +125,15 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
         }
         
         if ($outFile !== '') {
-            if (($localfp = @fopen($outFile, 'w+')) === \false) {
+            if (($localFp = @fopen($outFile, 'w+')) === \false) {
                 throw new LocalStorageException('Unable to create local file.');
             }
         
             while (!feof($fp)) {
-                fputs($localfp, fread($fp, 8192));
+                fputs($localFp, fread($fp, 8192));
             }
             
-            fclose($localfp);
+            fclose($localFp);
             return \true;
         } else {
             $response = '';

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (C) 2012  Nicolas Oelgart
+ * Copyright (C) 2012-2015 Nicolas Oelgart
  * 
  * @author Nicolas Oelgart
  * @license GPL 3 http://www.gnu.org/copyleft/gpl.html
@@ -12,20 +12,26 @@ namespace PutIO\Engines\HTTP;
 
 use PutIO\Interfaces\HTTP\HTTPEngine;
 use PutIO\Helpers\HTTP\HTTPHelper;
+use PutIO\Exceptions\LocalStorageException;
 
+/**
+ * Class CurlEngine
+ * @package PutIO\Engines\HTTP
+ */
 final class CurlEngine extends HTTPHelper implements HTTPEngine
 {
     /**
      * Makes an HTTP request to put.io's API and returns the response.
      *
-     * @param string $method       HTTP request method. Only POST and GET are supported.
-     * @param string $url          Remote path to API module.
-     * @param array  $params       OPTIONAL - Variables to be sent.
-     * @param string $outFile      OPTIONAL - If $outFile is set, the response will be written to this file instead of StdOut.
-     * @param array  $arrayKey     OPTIONAL - Will return all data on a specific array key of the response.
-     * @param bool   $verifyPeer   OPTIONAL - If true, will use proper SSL peer/host verification.
-     * @return mixed
-     * @throws PutIO\Exceptions\PutIOLocalStorageException
+     * @param string $method
+     * @param string $url
+     * @param array $params
+     * @param string $outFile
+     * @param bool $returnBool
+     * @param string $arrayKey
+     * @param bool $verifyPeer
+     * @return array|bool
+     * @throws LocalStorageException
      */
     public function request($method, $url, array $params = [], $outFile = '', $returnBool = \false, $arrayKey = '', $verifyPeer = \true)
     {
@@ -48,13 +54,13 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
         }
         
         $options[CURLOPT_URL]            = $url;
-        $options[CURLOPT_USERAGENT]      = 'nicoswd-putio/2.0';
+        $options[CURLOPT_USERAGENT]      = 'nicoswd-putio/2.1';
         $options[CURLOPT_CONNECTTIMEOUT] = 10;
         $options[CURLOPT_FOLLOWLOCATION] = \true;
         $options[CURLOPT_HTTPHEADER]     = ['Accept: application/json'];
         
         if ($verifyPeer) {
-            $cert = realpath(__DIR__ . '/../../Certificates/StarfieldSecureCertificationAuthority.crt');
+            $cert = realpath(__DIR__ . '/../../Certificates/StarfieldClass2CA.pem');
 
             $options[CURLOPT_SSL_VERIFYPEER] = \true;
             $options[CURLOPT_SSL_VERIFYHOST] = 2;
@@ -67,7 +73,7 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
         $ch = curl_init();
         curl_setopt_array($ch, $options);
         $response = curl_exec($ch);
-        
+
         if ((int) curl_getinfo($ch, CURLINFO_HTTP_CODE) === 404) {
             return \false;
         }

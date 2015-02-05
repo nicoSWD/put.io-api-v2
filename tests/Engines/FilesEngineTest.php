@@ -1,17 +1,38 @@
 <?php
 
+/**
+ * Copyright (C) 2012-2015 Nicolas Oelgart
+ *
+ * @author Nicolas Oelgart
+ * @license GPL 3 http://www.gnu.org/copyleft/gpl.html
+ *
+ * All HTTP engines must implement this interface.
+ */
 namespace tests\Engines;
 
+/**
+ * Class FilesEngineTest
+ * @package tests\Engines
+ */
 class FilesEngineTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var
+     */
     private $api;
 
+    /**
+     *
+     */
     public function setUp()
     {
         $this->api = new \PutIO\API();
         $this->api->setHTTPEngine('Test');
     }
 
+    /**
+     *
+     */
     public function testListAllReturnsExpectedData()
     {
         $response = $this->api->files->listall();
@@ -22,6 +43,9 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(null, $response[0]['opensubtitles_hash']);
     }
 
+    /**
+     *
+     */
     public function testSearchReturnsExpectedData()
     {
         $response = $this->api->files->search('test');
@@ -31,47 +55,68 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('http://api.put.io/v2/files/search/YOUR_QUERY/page/2', $response['next']);
     }
 
+    /**
+     *
+     */
     public function testUploadReturnsExpectedData()
     {
         $response = $this->api->files->upload('test.txt');
 
         $this->assertSame('text/plain', $response['content_type']);
         $this->assertSame('https://put.io/images/file_types/text.png', $response['icon']);
-        $this->assertSame(null, $response['screenshot']);
+        $this->assertSame(\null, $response['screenshot']);
     }
 
+    /**
+     *
+     */
     public function testFileInfoReturnsExpectedData()
     {
         $response = $this->api->files->info(41);
 
         $this->assertSame('text/plain', $response['content_type']);
         $this->assertSame('https://put.io/images/file_types/text.png', $response['icon']);
-        $this->assertSame(null, $response['screenshot']);
+        $this->assertSame(\null, $response['screenshot']);
     }
 
+    /**
+     *
+     */
     public function testDeleteFileReturnsExpectedData()
     {
         $this->assertTrue($this->api->files->delete(41));
     }
 
+    /**
+     *
+     */
     public function testRenameFileReturnsExpectedData()
     {
         $this->assertTrue($this->api->files->rename(41, 'new.txt'));
     }
 
+    /**
+     *
+     */
     public function testMoveFileReturnsExpectedData()
     {
         $this->assertTrue($this->api->files->move(41, 0));
     }
 
+    /**
+     *
+     */
     public function testConvertToMP4ReturnsExpectedData()
     {
         $this->assertTrue($this->api->files->convertToMP4(41));
     }
 
+    /**
+     *
+     */
     public function testGetDownloadURLReturnsCorrectURL()
     {
         $this->assertSame('https://api.put.io/v2/files/41/download', $this->api->files->getDownloadURL(41));
-        $this->assertSame('https://api.put.io/v2/files/41/mp4/download', $this->api->files->getDownloadURL(41, true));
+        $this->assertSame('https://api.put.io/v2/files/41/mp4/download', $this->api->files->getDownloadURL(41, \true));
     }
 }

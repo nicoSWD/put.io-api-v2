@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (C) 2012  Nicolas Oelgart
+ * Copyright (C) 2012-2015 Nicolas Oelgart
  *
  * @author Nicolas Oelgart
  * @license GPL 3 http://www.gnu.org/copyleft/gpl.html
@@ -15,13 +15,17 @@ namespace PutIO\Engines\PutIO;
 
 use PutIO\Helpers\PutIO\PutIOHelper;
 
+/**
+ * Class AccountEngine
+ * @package PutIO\Engines\PutIO
+ */
 final class AccountEngine extends PutIOHelper
 {
     /**
      * Returns an array of information about your account.
      * False on error.
      *
-     * @return mixed
+     * @return array|bool
      */
     public function info()
     {
@@ -32,7 +36,7 @@ final class AccountEngine extends PutIOHelper
      * Returns an array containing your account settings.
      * False on error.
      *
-     * @return mixed
+     * @return array|bool
      */
     public function settings()
     {

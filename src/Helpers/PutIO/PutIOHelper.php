@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (C) 2012  Nicolas Oelgart
+ * Copyright (C) 2012-2015 Nicolas Oelgart
  * 
  * @author Nicolas Oelgart
  * @license GPL 3 http://www.gnu.org/copyleft/gpl.html
@@ -11,9 +11,11 @@
 namespace PutIO\Helpers\PutIO;
 
 use PutIO\API;
-use PutIO\Exceptions\LocalStorageException;
-use PutIO\Exceptions\UnsupportedHTTPEngineException;
 
+/**
+ * Class PutIOHelper
+ * @package PutIO\Helpers\PutIO
+ */
 class PutIOHelper
 {
     /**
@@ -40,8 +42,7 @@ class PutIOHelper
     /**
      * Class constructor. Stores an instance of PutIO.
      *
-     * @param PutIO $putio    Instance of PutIO
-     * @return void
+     * @param API $putio    Instance of PutIO\API
      */
     public function __construct(API $putio)
     {
@@ -54,7 +55,8 @@ class PutIOHelper
      * @param string $path         Path of the API class.
      * @param array  $params       GET variables to be sent.
      * @param bool   $returnBool   Will return boolean if true.
-     * @param string $arrayKey     Will return all data on a specific array key of the response.
+     * @param string $arrayKey     Will return all data on a specific array key
+     *                                  of the response.
      * @return mixed
      */
     protected function get($path, array $params = [], $returnBool = \false, $arrayKey = '')
@@ -68,7 +70,8 @@ class PutIOHelper
      * @param string $path         Path of the API class.
      * @param array  $params       POST variables to be sent.
      * @param bool   $returnBool   Will return boolean if true. 
-     * @param string $arrayKey     Will return all data on a specific array key of the response.
+     * @param string $arrayKey     Will return all data on a specific array key
+     *                                  of the response.
      * @return mixed
      */
     protected function post($path, array $params = [], $returnBool = \false, $arrayKey = '')
@@ -111,21 +114,24 @@ class PutIOHelper
     /**
      * Makes an HTTP request to put.io's API and returns the response.
      *
-     * @param string $method    HTTP request method. Only POST and GET are supported.
+     * @param string $method    HTTP request method. Only POST and GET.
      * @param string $path      Remote path to API module.
      * @param array  $params    Variables to be sent.
-     * @param string $outFile   If $outFile is set, the response will be written to this file instead of StdOut.
-     * @param string $arrayKey  Will return all data on a specific array key of the response.
+     * @param string $outFile   If $outFile is set, the response will be written
+     *                              to this file instead of StdOut.
+     * @param bool   $returnBool
+     * @param string $arrayKey  Will return all data on a specific array key of
+     *                              the response.
      * @return mixed
-     * @throws \PutIO\Exceptions\PutIOLocalStorageException
+     * @throws \PutIO\Exceptions\LocalStorageException
      */
     protected function request($method, $path, array $params = [], $outFile = '', $returnBool = \false, $arrayKey = '')
     {
-        if ($this->putio->OAuthToken) {
-            $params['oauth_token'] = $this->putio->OAuthToken;
+        if ($token = $this->putio->getOAuthToken()) {
+            $params['oauth_token'] = $token;
         }
         
-        return $this->getHTTPEngine()->request(
+        return $this->putio->getHTTPEngine()->request(
             $method,
             static::API_URL . $path,
             $params,
@@ -134,21 +140,5 @@ class PutIOHelper
             $arrayKey,
             $this->putio->SSLVerifyPeer
         );
-    }
-    
-    /**
-     * Creates and returns a unique instance of the requested HTTP engine class.
-     *
-     * @return \PutIO\Interfaces\HTTP\HTTPEngine
-     * @throws \PutIO\Exceptions\UnsupportedHTTPEngineException
-     */
-    protected function getHTTPEngine()
-    {
-        if (!isset($this->HTTPEngine)) {
-            $className = 'PutIO\Engines\HTTP\\' . $this->putio->HTTPEngine . 'Engine';
-            $this->HTTPEngine = new $className();
-        }
-        
-        return $this->HTTPEngine;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (C) 2012  Nicolas Oelgart
+ * Copyright (C) 2012-2015 Nicolas Oelgart
  *
  * @author Nicolas Oelgart
  * @license GPL 3 http://www.gnu.org/copyleft/gpl.html
@@ -26,9 +26,12 @@
  */
 namespace PutIO;
 
-use PutIO\Exceptions\UndefinedMethodException;
-use PutIO\Exceptions\MissingParamException;
+use PutIO\Interfaces\HTTP\HTTPEngine;
 
+/**
+ * Class API
+ * @package PutIO
+ */
 class API
 {
     /**
@@ -36,15 +39,15 @@ class API
      *
      * @var string
      */
-    public $OAuthToken = '';
+    protected $OAuthToken = '';
     
     /**
      * Name of the HTTP engine. Possible options: Curl, Native
      * Defaults to cRUL and for a reason. Use cURL whenever possible.
      *
-     * @var string
+     * @var null|HTTPEngine
      */
-    public $HTTPEngine = 'Curl';
+    protected $HTTPEngine = \null;
     
     /**
      * If true (highly recommended), proper SSL peer/host verification
@@ -65,48 +68,70 @@ class API
      * Class constructor, sets the oauth token for later requests.
      *
      * @param string $OAuthToken   User's OAuth token.
-     * @return void
      */
     public function __construct($OAuthToken = '')
     {
         $this->OAuthToken = $OAuthToken;
     }
-    
+
     /**
-     * Magic setter. Capitalization is important. Suggested uses:
-     *
-     * $putio->setOAuthToken('XYZ123456');
-     * $putio->setHTTPEngine('Native');
-     * $putio->setSSLVerifyPeer(true);
-     *
-     * @param string $params    Parameters
-     * @throws PutIO\Exceptions\UndefinedMethodException
-     * @throws PutIO\Exceptions\MissingParamException
-     * @return void
+     * @param string|HTTPEngine $engine
      */
-    public function __call($key, array $params)
+    public function setHTTPEngine($engine)
     {
-        $var = substr($key, 3);
-        
-        if (strpos($key, 'set') !== 0 || !isset($this->{$var})) {
-            throw new UndefinedMethodException(
-                'Undefined method ' . __CLASS__ . '::' . $key . '() called'
-            );
+        if (!($engine instanceof HTTPEngine)) {
+            $class = '\PutIO\Engines\HTTP\\' . $engine . 'Engine';
+            $engine = new $class();
         }
-        
-        if (!array_key_exists(0, $params)) {
-            throw new MissingParamException('No parameters supplied');
-        }
-        
-        $this->{$var} = $params[0];
+
+        $this->HTTPEngine = $engine;
     }
-    
+
+    /**
+     * @return HTTPEngine
+     */
+    public function getHTTPEngine()
+    {
+        if (!$this->HTTPEngine) {
+            if (function_exists('curl_init')) {
+                $this->HTTPEngine = new Engines\HTTP\CurlEngine();
+            } else {
+                $this->HTTPEngine = new Engines\HTTP\NativeEngine();
+            }
+        }
+
+        return $this->HTTPEngine;
+    }
+
+    /**
+     * @param bool $bool
+     */
+    public function setSSLVerifyPeer($bool = \true)
+    {
+        $this->SSLVerifyPeer = (bool) $bool;
+    }
+
+    /**
+     * @param string $token
+     */
+    public function setOAuthToken($token)
+    {
+        $this->OAuthToken = (string) $token;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOAuthToken()
+    {
+        return $this->OAuthToken;
+    }
     
     /**
      * Magic method, returns an instance of the requested class.
      *
      * @param string $name   Class name
-     * @return PutIOHelper object
+     * @return Helpers\PutIO\PutIOHelper object
      */
     public function __get($name)
     {
