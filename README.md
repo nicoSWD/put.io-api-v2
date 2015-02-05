@@ -13,9 +13,15 @@ Take a look at the [Wiki](https://github.com/nicoSWD/put.io-api-v2/wiki/) and [p
 
 You can also find me on Twitter: @[nicoSWD](https://twitter.com/nicoSWD)
 
+## Install
 
-Examples
-========
+Via Composer
+
+``` bash
+$ composer require league/:package_name
+```
+
+## Examples
 
 ```php
 $putio = new PutIO\API($accessToken);
@@ -47,9 +53,13 @@ $info = $putio->transfers->info($transferID);
 // And a lot more...
 ```
 
+## Testing
 
-License
-=======
+``` bash
+$ phpunit
+```
+
+## License
 Copyright (C) 2012-2015 Nicolas Oelgart
 
 This program is free software: you can redistribute it and/or modify
