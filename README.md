@@ -18,7 +18,7 @@ You can also find me on Twitter: @[nicoSWD](https://twitter.com/nicoSWD)
 Via Composer
 
 ``` bash
-$ composer require league/:package_name
+$ composer require nicoswd/putio
 ```
 
 ## Examples
