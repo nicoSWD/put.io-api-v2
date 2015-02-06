@@ -131,7 +131,7 @@ class API
      * Magic method, returns an instance of the requested class.
      *
      * @param string $name   Class name
-     * @return Helpers\PutIO\PutIOHelper object
+     * @return Helpers\PutIO\PutIOHelper
      */
     public function __get($name)
     {

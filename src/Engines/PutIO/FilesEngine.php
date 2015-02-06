@@ -41,7 +41,7 @@ final class FilesEngine extends PutIOHelper
      */
     public function search($query, $page = 1)
     {
-        return $this->get('files/search/' . (trim($query)) . "/page/{$page}", []);
+        return $this->get('files/search/' . rawurlencode(trim($query)) . "/page/{$page}", []);
     }
 
     /**
