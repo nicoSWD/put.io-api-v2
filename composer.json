@@ -1,7 +1,7 @@
 {
     "name": "nicoswd/putio",
     "type": "library",
-    "description": "PHP 5.3 wrapper for PutIO's OAuth API (v2)",
+    "description": "PHP 5.4 wrapper for PutIO's OAuth API (v2)",
     "keywords": ["putio", "put.io", "api", "storage", "cloud", "torrent"],
     "homepage": "https://github.com/nicoSWD/put.io-api-v2",
     "license": "GPL3",
