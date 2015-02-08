@@ -86,7 +86,7 @@ class HTTPHelper
      * Decodes the response and returns the appropriate value
      *
      * @param string $response      Response data from server.
-     * @param string $returnBool    Whether or not to return boolean
+     * @param bool   $returnBool    Whether or not to return boolean
      * @param string $arrayKey      Will return all data on a specific array key
      *                                  of the response.
      * @return array|bool

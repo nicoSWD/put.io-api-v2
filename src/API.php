@@ -81,10 +81,10 @@ class API
     {
         if (!($engine instanceof HTTPEngine)) {
             $class = '\PutIO\Engines\HTTP\\' . $engine . 'Engine';
-            $engine = new $class();
+            $this->HTTPEngine = new $class();
+        } else {
+            $this->HTTPEngine = $engine;
         }
-
-        $this->HTTPEngine = $engine;
     }
 
     /**
