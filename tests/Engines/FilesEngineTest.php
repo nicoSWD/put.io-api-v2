@@ -83,6 +83,7 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
     public function testDeleteFileReturnsExpectedData()
     {
         $this->assertTrue($this->api->files->delete(41));
+        $this->assertTrue($this->api->files->delete([41, 43, 24]));
     }
 
     /**
@@ -99,6 +100,7 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
     public function testMoveFileReturnsExpectedData()
     {
         $this->assertTrue($this->api->files->move(41, 0));
+        $this->assertTrue($this->api->files->move([41, 34, 31], 0));
     }
 
     /**
@@ -107,6 +109,25 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
     public function testConvertToMP4ReturnsExpectedData()
     {
         $this->assertTrue($this->api->files->convertToMP4(41));
+    }
+
+    /**
+     *
+     */
+    public function testMakeDirReturnsExpectedData()
+    {
+        $info = $this->api->files->makeDir('test', 0);
+
+        $this->assertSame('text/plain', $info['content_type']);
+        $this->assertSame(null, $info['screenshot']);
+    }
+
+    /**
+     *
+     */
+    public function testGetMP4StatusReturnsExpectedData()
+    {
+        $this->assertFalse($this->api->files->getMP4Status(41));
     }
 
     /**
