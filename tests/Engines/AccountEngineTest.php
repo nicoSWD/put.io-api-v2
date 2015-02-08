@@ -5,8 +5,6 @@
  *
  * @author Nicolas Oelgart
  * @license GPL 3 http://www.gnu.org/copyleft/gpl.html
- *
- * All HTTP engines must implement this interface.
  */
 namespace tests\Engines;
 
@@ -17,7 +15,7 @@ namespace tests\Engines;
 class AccountEngineTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var
+     * @var \PutIO\API
      */
     private $api;
 
@@ -31,7 +29,10 @@ class AccountEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * @covers \PutIO\Engines\PutIO\AccountEngine::info()
+     * @covers \PutIO\Engines\HTTP\TestEngine::request()
+     * @covers \PutIO\Helpers\HTTP\HTTPHelper::jsonDecode()
+     * @covers \PutIO\Helpers\HTTP\HTTPHelper::getResponse()
      */
     public function testAccountEngineReturnsCorrectInfoData()
     {
@@ -50,7 +51,7 @@ class AccountEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * @covers \PutIO\Engines\PutIO\AccountEngine::settings()
      */
     public function testAccountEngineReturnsCorrectSettingsData()
     {

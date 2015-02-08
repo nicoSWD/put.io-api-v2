@@ -70,14 +70,16 @@ class HTTPHelper
      */
     protected function getMIMEType($file)
     {
+        $mime = 'application/octet-stream';
+
         if (function_exists('finfo_open') && $info = @finfo_open(FILEINFO_MIME)) {
             if (($mime = @finfo_file($info, $file)) !== \false) {
                 $mime = explode(';', $mime);
-                return trim($mime[0]);
+                $mime = trim($mime[0]);
             }
         }
 
-        return 'application/octet-stream';
+        return $mime;
     }
     
     /**
@@ -91,7 +93,9 @@ class HTTPHelper
      */
     protected function getResponse($response, $returnBool, $arrayKey = '')
     {
-        if (($response = $this->jsonDecode($response)) === \null) {
+        $response = $this->jsonDecode($response);
+
+        if ($response === \null) {
             return \false;
         }
         
@@ -113,7 +117,7 @@ class HTTPHelper
      * Decodes a JSON encoded string. Natively, or using the PEAR package.
      *
      * @param string $string   JSON encoded string
-     * @return array|bool
+     * @return array|null
      * @throws \PutIO\Exceptions\MissingJSONException
      */
     protected function jsonDecode($string)
@@ -121,25 +125,35 @@ class HTTPHelper
         if (!isset($this->jsonExt)) {
             $this->jsonExt = function_exists('json_decode');
         }
-        
+
         if ($this->jsonExt) {
             $result = @json_decode($string, \true);
-            
-            if (!$result || JSON_ERROR_NONE !== json_last_error()) {
-                return \false;
-            }
 
-            return $result;
+            if (!$result || JSON_ERROR_NONE !== json_last_error()) {
+                $result = \null;
+            }
+        } else {
+            $result = $this->jsonDecodePear($string);
         }
 
+        return $result;
+    }
+
+    /**
+     * @param $string
+     * @return array|null
+     * @throws MissingJSONException
+     */
+    protected function jsonDecodePEAR($string)
+    {
         $included = @include_once __DIR__ . '/../../Engines/JSON/JSON.php';
-        
+
         if ($included === \false) {
             throw new MissingJSONException(
                 'JSON.php is missing from the /Engines/JSON/ directory.'
             );
         }
-        
+
         $json = new Services_JSON(SERVICES_JSON_LOOSE_TYPE);
         return $json->decode($string);
     }

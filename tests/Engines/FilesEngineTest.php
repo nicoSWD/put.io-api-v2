@@ -5,8 +5,6 @@
  *
  * @author Nicolas Oelgart
  * @license GPL 3 http://www.gnu.org/copyleft/gpl.html
- *
- * All HTTP engines must implement this interface.
  */
 namespace tests\Engines;
 
@@ -17,21 +15,22 @@ namespace tests\Engines;
 class FilesEngineTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var
+     * @var \PutIO\API
      */
     private $api;
 
     /**
-     *
+     * @covers \PutIO\Helpers\PutIO\PutIOHelper::__construct()
      */
     public function setUp()
     {
-        $this->api = new \PutIO\API();
+        $this->api = new \PutIO\API('test token');
         $this->api->setHTTPEngine('Test');
     }
 
     /**
-     *
+     * @covers \PutIO\Engines\PutIO\FilesEngine::listall()
+     * @covers \PutIO\Helpers\PutIO\PutIOHelper::get()
      */
     public function testListAllReturnsExpectedData()
     {
@@ -44,7 +43,8 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * @covers \PutIO\Engines\PutIO\FilesEngine::search()
+     * @covers \PutIO\Helpers\PutIO\PutIOHelper::request()
      */
     public function testSearchReturnsExpectedData()
     {
@@ -56,7 +56,8 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * @covers \PutIO\Engines\PutIO\FilesEngine::upload()
+     * @covers \PutIO\Helpers\HTTP\HTTPHelper::getMIMEType()
      */
     public function testUploadReturnsExpectedData()
     {
@@ -68,7 +69,8 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * @covers \PutIO\Engines\PutIO\FilesEngine::info()
+     * @covers \PutIO\Helpers\PutIO\PutIOHelper::get()
      */
     public function testFileInfoReturnsExpectedData()
     {
@@ -80,7 +82,8 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * @covers \PutIO\Engines\PutIO\FilesEngine::delete()
+     * @covers \PutIO\Helpers\PutIO\PutIOHelper::post()
      */
     public function testDeleteFileReturnsExpectedData()
     {
@@ -88,7 +91,8 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * @covers \PutIO\Engines\PutIO\FilesEngine::rename()
+     * @covers \PutIO\Helpers\PutIO\PutIOHelper::post()
      */
     public function testRenameFileReturnsExpectedData()
     {
@@ -96,7 +100,8 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * @covers \PutIO\Engines\PutIO\FilesEngine::move()
+     * @covers \PutIO\Helpers\PutIO\PutIOHelper::post()
      */
     public function testMoveFileReturnsExpectedData()
     {
@@ -104,7 +109,8 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * @covers \PutIO\Engines\PutIO\FilesEngine::convertToMP4()
+     * @covers \PutIO\Helpers\PutIO\PutIOHelper::post()
      */
     public function testConvertToMP4ReturnsExpectedData()
     {
@@ -112,7 +118,7 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * @covers \PutIO\Engines\PutIO\FilesEngine::getDownloadURL()
      */
     public function testGetDownloadURLReturnsCorrectURL()
     {

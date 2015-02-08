@@ -71,7 +71,7 @@ class API
      */
     public function __construct($OAuthToken = '')
     {
-        $this->OAuthToken = $OAuthToken;
+        $this->setOAuthToken($OAuthToken);
     }
 
     /**
@@ -109,6 +109,14 @@ class API
     public function setSSLVerifyPeer($bool = \true)
     {
         $this->SSLVerifyPeer = (bool) $bool;
+    }
+
+    /**
+     * @return bool $bool
+     */
+    public function getSSLVerifyPeer()
+    {
+        return $this->SSLVerifyPeer;
     }
 
     /**

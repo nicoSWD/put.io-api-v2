@@ -5,8 +5,6 @@
  *
  * @author Nicolas Oelgart
  * @license GPL 3 http://www.gnu.org/copyleft/gpl.html
- *
- * All HTTP engines must implement this interface.
  */
 namespace tests\Engines;
 
@@ -17,7 +15,7 @@ namespace tests\Engines;
 class FriendsEngineTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var
+     * @var \PutIO\API
      */
     private $api;
 
@@ -31,7 +29,7 @@ class FriendsEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * @covers \PutIO\Engines\PutIO\FriendsEngine::listall()
      */
     public function testListAllReturnsExpectedData()
     {
@@ -42,7 +40,7 @@ class FriendsEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * @covers \PutIO\Engines\PutIO\FriendsEngine::pendingRequests()
      */
     public function testPendingRequestsReturnsExpectedData()
     {
@@ -53,7 +51,7 @@ class FriendsEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * @covers \PutIO\Engines\PutIO\FriendsEngine::sendRequest()
      */
     public function testSendRequestReturnsExpectedData()
     {
@@ -61,7 +59,7 @@ class FriendsEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * @covers \PutIO\Engines\PutIO\FriendsEngine::approveRequest()
      */
     public function testApproveRequestReturnsExpectedData()
     {
@@ -69,7 +67,7 @@ class FriendsEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * @covers \PutIO\Engines\PutIO\FriendsEngine::denyRequest()
      */
     public function testDenyRequestReturnsExpectedData()
     {
@@ -77,7 +75,7 @@ class FriendsEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * @covers \PutIO\Engines\PutIO\FriendsEngine::unfriend()
      */
     public function testUnfriendRequestReturnsExpectedData()
     {

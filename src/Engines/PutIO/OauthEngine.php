@@ -25,7 +25,7 @@ final class OauthEngine extends PutIOHelper
      */
     public function setOAuthToken($OAuthToken)
     {
-        $this->putio->OAuthToken = $OAuthToken;
+        $this->putio->setOAuthToken($OAuthToken);
     }
     
     /**
@@ -35,7 +35,7 @@ final class OauthEngine extends PutIOHelper
      */
     public function getOAuthToken()
     {
-        return $this->putio->OAuthToken;
+        return $this->putio->getOAuthToken();
     }
     
     /**
