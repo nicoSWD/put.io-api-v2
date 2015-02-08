@@ -2,3 +2,4 @@
 .DS_Store
 Test.php
 tests/log
+coverage.clover
