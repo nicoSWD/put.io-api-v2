@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/nicoSWD/put.io-api-v2.svg?branch=master)](https://travis-ci.org/nicoSWD/put.io-api-v2)
 [![Code Coverage](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/?branch=master)
 
 **(OAuth / API Version 2)**
 
