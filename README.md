@@ -1,7 +1,6 @@
 ## Put.io OAuth API Wrapper for PHP 5.4
 
-[![Build Status](https://travis-ci.org/nicoSWD/put.io-api-v2.svg?branch=master)](https://travis-ci.org/nicoSWD/put.io-api-v2)
-[![Coverage Status](https://coveralls.io/repos/nicoSWD/put.io-api-v2/badge.svg)](https://coveralls.io/r/nicoSWD/put.io-api-v2)
+[![Build Status](https://travis-ci.org/nicoSWD/put.io-api-v2.svg?branch=master)](https://travis-ci.org/nicoSWD/put.io-api-v2)  [![Coverage Status](https://coveralls.io/repos/nicoSWD/put.io-api-v2/badge.svg)](https://coveralls.io/r/nicoSWD/put.io-api-v2) 
 
 **(OAuth / API Version 2)**
 
