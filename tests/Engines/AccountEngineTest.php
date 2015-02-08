@@ -29,10 +29,7 @@ class AccountEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\Engines\PutIO\AccountEngine::info()
-     * @covers \PutIO\Engines\HTTP\TestEngine::request()
-     * @covers \PutIO\Helpers\HTTP\HTTPHelper::jsonDecode()
-     * @covers \PutIO\Helpers\HTTP\HTTPHelper::getResponse()
+     *
      */
     public function testAccountEngineReturnsCorrectInfoData()
     {

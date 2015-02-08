@@ -19,7 +19,7 @@ class HTTPHelperTest extends \PHPUnit_Framework_TestCase
     private $helper;
 
     /**
-     * @covers \PutIO\Helpers\HTTP\HTTPHelper::__construct()
+     *
      */
     public function setUp()
     {
@@ -27,7 +27,7 @@ class HTTPHelperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\Helpers\HTTP\HTTPHelper::getStatus()
+     *
      */
     public function testGetStatusReturnsCorrectValue()
     {
@@ -42,7 +42,7 @@ class HTTPHelperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\Helpers\HTTP\HTTPHelper::getResponseCode()
+     *
      */
     public function testGetReponseCodeParsesHeaderCorrectly()
     {
@@ -57,7 +57,7 @@ class HTTPHelperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\Helpers\HTTP\HTTPHelper::getResponse()
+     *
      */
     public function testGetResponseReturnsFalseForInvalidJSON()
     {
@@ -68,7 +68,7 @@ class HTTPHelperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\Helpers\HTTP\HTTPHelper::getResponse()
+     *
      */
     public function testGetResponseReturnsSpecificValueIfKeyIsSupplied()
     {
@@ -104,7 +104,7 @@ class HTTPHelperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\Helpers\HTTP\HTTPHelper::getMIMEType()
+     *
      */
     public function testGetMIMETypeReturnsCorrectTypeIfExtensionIsInstalled()
     {
@@ -121,7 +121,7 @@ class HTTPHelperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\Helpers\HTTP\HTTPHelper::jsonDecodePEAR()
+     *
      */
     public function getJSONDecodePEARReturnsExpectedData()
     {

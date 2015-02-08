@@ -29,7 +29,7 @@ class TransfersEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\Engines\PutIO\TransfersEngine::listall()
+     *
      */
     public function testListAllReturnsExpectedData()
     {
@@ -40,7 +40,7 @@ class TransfersEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\Engines\PutIO\TransfersEngine::add()
+     *
      */
     public function testAddTransferReturnsExpectedData()
     {
@@ -51,7 +51,7 @@ class TransfersEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\Engines\PutIO\TransfersEngine::info()
+     *
      */
     public function testGetInfoReturnsExpectedData()
     {
@@ -62,7 +62,7 @@ class TransfersEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\Engines\PutIO\TransfersEngine::retry()
+     *
      */
     public function testRetryTransferReturnsExpectedData()
     {
@@ -70,7 +70,7 @@ class TransfersEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\Engines\PutIO\TransfersEngine::clean()
+     *
      */
     public function testCleanTransferReturnsExpectedData()
     {
@@ -78,7 +78,7 @@ class TransfersEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\Engines\PutIO\TransfersEngine::cancel()
+     *
      */
     public function testCancelTransferReturnsExpectedData()
     {
