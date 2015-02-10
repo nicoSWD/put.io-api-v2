@@ -100,6 +100,8 @@ define('SERVICES_JSON_USE_TO_JSON', 64);
  *
  * Brief example of use:
  *
+ * @codeCoverageIgnore
+ *
  * <code>
  * // create a new instance of Services_JSON
  * $json = new Services_JSON();

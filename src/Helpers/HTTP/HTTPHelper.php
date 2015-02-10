@@ -118,7 +118,6 @@ class HTTPHelper
      *
      * @param string $string   JSON encoded string
      * @return array|null
-     * @throws \PutIO\Exceptions\MissingJSONException
      */
     protected function jsonDecode($string)
     {
@@ -146,7 +145,7 @@ class HTTPHelper
     protected function jsonDecodePEAR($string)
     {
         if (!class_exists('Services_JSON')) {
-            @include __DIR__ . '/../../Engines/JSON/JSON.php';
+            require __DIR__ . '/../../Engines/JSON/JSON.php';
         }
 
         $json = new Services_JSON(SERVICES_JSON_LOOSE_TYPE);
