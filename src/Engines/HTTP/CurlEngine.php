@@ -10,6 +10,7 @@
  */
 namespace PutIO\Engines\HTTP;
 
+use PutIO\Exceptions\RemoteConnectionException;
 use PutIO\Interfaces\HTTP\HTTPEngine;
 use PutIO\Helpers\HTTP\HTTPHelper;
 use PutIO\Exceptions\LocalStorageException;
@@ -32,6 +33,7 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
      * @param bool $verifyPeer
      * @return array|bool
      * @throws LocalStorageException
+     * @throws RemoteConnectionException
      */
     public function request($method, $url, array $params = [], $outFile = '', $returnBool = \false, $arrayKey = '', $verifyPeer = \true)
     {
@@ -74,7 +76,14 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
         curl_setopt_array($ch, $options);
         $response = curl_exec($ch);
 
-        if ((int) curl_getinfo($ch, CURLINFO_HTTP_CODE) === 404) {
+        if ($errNum = curl_errno($ch)) {
+            throw new RemoteConnectionException(curl_error($ch), $errNum);
+        }
+
+        $responseCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($responseCode === 404) {
             return \false;
         }
         

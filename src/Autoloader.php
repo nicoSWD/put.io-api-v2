@@ -3,9 +3,6 @@
 /**
  * PSR-0 compliant auto loader.
  * @see https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md
- *
- * If you're already using a PSR-0 compliant auto loader, then there's probably no
- * need to load this one.
  */
 spl_autoload_register(function ($className) {
     if (strpos($className, 'PutIO') === 0) {
@@ -21,6 +18,6 @@ spl_autoload_register(function ($className) {
 
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 
-        require $fileName;
+        return @include $fileName;
     }
 });

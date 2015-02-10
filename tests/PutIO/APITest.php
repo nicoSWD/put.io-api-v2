@@ -75,4 +75,12 @@ class APITest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\PutIO\Engines\PutIO\OauthEngine', $this->api->oauth);
         $this->assertInstanceOf('\PutIO\Engines\PutIO\TransfersEngine', $this->api->transfers);
     }
+
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testMagicGetterThrowsExceptionForUnknownModules()
+    {
+        $this->assertInstanceOf('\PutIO\Engines\PutIO\AccountEngine', $this->api->unknown);
+    }
 }
