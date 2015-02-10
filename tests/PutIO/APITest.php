@@ -20,7 +20,7 @@ class APITest extends \PHPUnit_Framework_TestCase
     private $api;
 
     /**
-     * @covers \PutIO\API::__construct()
+     *
      */
     public function setUp()
     {
@@ -28,7 +28,7 @@ class APITest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\API::getHTTPEngine()
+     *
      */
     public function testGetHTTPEngineReturnsADefaultEngine()
     {
@@ -37,8 +37,7 @@ class APITest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\API::setHTTPEngine()
-     * @covers \PutIO\API::getHTTPEngine()
+     *
      */
     public function testSetHTTPEngineWorksWithStringsAndInstances()
     {
@@ -50,10 +49,7 @@ class APITest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\API::setOAuthToken()
-     * @covers \PutIO\API::getOAuthToken()
-     * @covers \PutIO\API::setSSLVerifyPeer()
-     * @covers \PutIO\API::getSSLVerifyPeer()
+     *
      */
     public function testSettersAndGettersSetAndReturnCorrectValues()
     {
@@ -65,7 +61,7 @@ class APITest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\API::__get()
+     *
      */
     public function testMagicGettersReturnCorrectInstances()
     {

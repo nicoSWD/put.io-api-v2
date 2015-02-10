@@ -18,27 +18,6 @@ use PutIO\Helpers\PutIO\PutIOHelper;
 final class OauthEngine extends PutIOHelper
 {
     /**
-     * Sets the OAuth token for later access.
-     *
-     * @param string $OAuthToken   User's OAuth token.
-     * @return void
-     */
-    public function setOAuthToken($OAuthToken)
-    {
-        $this->putio->setOAuthToken($OAuthToken);
-    }
-    
-    /**
-     * Returns a previously stored access token.
-     *
-     * @return string
-     */
-    public function getOAuthToken()
-    {
-        return $this->putio->getOAuthToken();
-    }
-    
-    /**
      * Redirects the user to put.io where they have to give your app access
      * permission. Once permission is granted, the user will be redirected back
      * to the URL you specified in your app settings. On said page you have to
