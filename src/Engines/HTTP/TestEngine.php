@@ -36,7 +36,10 @@ final class TestEngine extends HTTPHelper implements HTTPEngine
         $url = substr($url, strpos($url, '/v2/') + 4);
         $url = str_replace('/', '_', $url);
 
-        $response = file_get_contents('tests/data/' . $url . '.json');
+        if (!$response = @file_get_contents("tests/data/{$url}.json")) {
+            return \false;
+        }
+
         return $this->getResponse($response, $returnBool, $arrayKey);
     }
 }

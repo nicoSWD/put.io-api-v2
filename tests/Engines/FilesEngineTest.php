@@ -12,6 +12,10 @@ namespace tests\Engines;
  * Class FilesEngineTest
  * @package tests\Engines
  */
+/**
+ * Class FilesEngineTest
+ * @package tests\Engines
+ */
 class FilesEngineTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -20,7 +24,7 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
     private $api;
 
     /**
-     * @covers \PutIO\Helpers\PutIO\PutIOHelper::__construct()
+     *
      */
     public function setUp()
     {
@@ -29,8 +33,7 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\Engines\PutIO\FilesEngine::listall()
-     * @covers \PutIO\Helpers\PutIO\PutIOHelper::get()
+     *
      */
     public function testListAllReturnsExpectedData()
     {
@@ -43,8 +46,7 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\Engines\PutIO\FilesEngine::search()
-     * @covers \PutIO\Helpers\PutIO\PutIOHelper::request()
+     *
      */
     public function testSearchReturnsExpectedData()
     {
@@ -56,8 +58,7 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\Engines\PutIO\FilesEngine::upload()
-     * @covers \PutIO\Helpers\HTTP\HTTPHelper::getMIMEType()
+     *
      */
     public function testUploadReturnsExpectedData()
     {
@@ -69,8 +70,7 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\Engines\PutIO\FilesEngine::info()
-     * @covers \PutIO\Helpers\PutIO\PutIOHelper::get()
+     *
      */
     public function testFileInfoReturnsExpectedData()
     {
@@ -82,17 +82,16 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\Engines\PutIO\FilesEngine::delete()
-     * @covers \PutIO\Helpers\PutIO\PutIOHelper::post()
+     *
      */
     public function testDeleteFileReturnsExpectedData()
     {
         $this->assertTrue($this->api->files->delete(41));
+        $this->assertTrue($this->api->files->delete([41, 43, 24]));
     }
 
     /**
-     * @covers \PutIO\Engines\PutIO\FilesEngine::rename()
-     * @covers \PutIO\Helpers\PutIO\PutIOHelper::post()
+     *
      */
     public function testRenameFileReturnsExpectedData()
     {
@@ -100,17 +99,16 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\Engines\PutIO\FilesEngine::move()
-     * @covers \PutIO\Helpers\PutIO\PutIOHelper::post()
+     *
      */
     public function testMoveFileReturnsExpectedData()
     {
         $this->assertTrue($this->api->files->move(41, 0));
+        $this->assertTrue($this->api->files->move([41, 34, 31], 0));
     }
 
     /**
-     * @covers \PutIO\Engines\PutIO\FilesEngine::convertToMP4()
-     * @covers \PutIO\Helpers\PutIO\PutIOHelper::post()
+     *
      */
     public function testConvertToMP4ReturnsExpectedData()
     {
@@ -118,7 +116,44 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\Engines\PutIO\FilesEngine::getDownloadURL()
+     *
+     */
+    public function testMakeDirReturnsExpectedData()
+    {
+        $info = $this->api->files->makeDir('test', 0);
+
+        $this->assertSame('text/plain', $info['content_type']);
+        $this->assertSame(null, $info['screenshot']);
+    }
+
+    /**
+     *
+     */
+    public function testGetMP4StatusReturnsExpectedData()
+    {
+        $this->assertFalse($this->api->files->getMP4Status(41));
+    }
+
+    /**
+     *
+     */
+    public function testDownloadReturnsCorrectValue()
+    {
+        $this->assertSame(['status' => 'OK'], $this->api->files->download(41, 'test.txt'));
+        $this->assertSame(['status' => 'OK'], $this->api->files->download(41));
+        $this->assertSame(['status' => 'OK'], $this->api->files->downloadMP4(41));
+    }
+
+    /**
+     *
+     */
+    public function testDownloadReturnsFalseForNonExistingFiles()
+    {
+        $this->assertFalse($this->api->files->download(41311121));
+    }
+
+    /**
+     *
      */
     public function testGetDownloadURLReturnsCorrectURL()
     {

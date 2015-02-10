@@ -133,7 +133,7 @@ class HTTPHelper
                 $result = \null;
             }
         } else {
-            $result = $this->jsonDecodePear($string);
+            $result = $this->jsonDecodePEAR($string);
         }
 
         return $result;
@@ -142,16 +142,11 @@ class HTTPHelper
     /**
      * @param $string
      * @return array|null
-     * @throws MissingJSONException
      */
     protected function jsonDecodePEAR($string)
     {
-        $included = @include_once __DIR__ . '/../../Engines/JSON/JSON.php';
-
-        if ($included === \false) {
-            throw new MissingJSONException(
-                'JSON.php is missing from the /Engines/JSON/ directory.'
-            );
+        if (!class_exists('Services_JSON')) {
+            @include __DIR__ . '/../../Engines/JSON/JSON.php';
         }
 
         $json = new Services_JSON(SERVICES_JSON_LOOSE_TYPE);

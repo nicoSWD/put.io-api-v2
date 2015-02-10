@@ -75,36 +75,6 @@ class API
     }
 
     /**
-     * @param string|HTTPEngine $engine
-     */
-    public function setHTTPEngine($engine)
-    {
-        if (!($engine instanceof HTTPEngine)) {
-            $class = '\PutIO\Engines\HTTP\\' . $engine . 'Engine';
-            /* @var HTTPEngine $engine */
-            $engine = new $class();
-        }
-
-        $this->HTTPEngine = $engine;
-    }
-
-    /**
-     * @return HTTPEngine
-     */
-    public function getHTTPEngine()
-    {
-        if (!$this->HTTPEngine) {
-            if (function_exists('curl_init')) {
-                $this->HTTPEngine = new Engines\HTTP\CurlEngine();
-            } else {
-                $this->HTTPEngine = new Engines\HTTP\NativeEngine();
-            }
-        }
-
-        return $this->HTTPEngine;
-    }
-
-    /**
      * @param bool $bool
      */
     public function setSSLVerifyPeer($bool = \true)
@@ -135,12 +105,43 @@ class API
     {
         return $this->OAuthToken;
     }
+
+    /**
+     * @param string|HTTPEngine $engine
+     */
+    public function setHTTPEngine($engine)
+    {
+        if (!($engine instanceof HTTPEngine)) {
+            $class = '\PutIO\Engines\HTTP\\' . $engine . 'Engine';
+            /* @var HTTPEngine $engine */
+            $engine = new $class();
+        }
+
+        $this->HTTPEngine = $engine;
+    }
+
+    /**
+     * @return HTTPEngine
+     */
+    public function getHTTPEngine()
+    {
+        if (!$this->HTTPEngine) {
+            if (function_exists('curl_init')) {
+                $this->HTTPEngine = new Engines\HTTP\CurlEngine();
+            } else {
+                $this->HTTPEngine = new Engines\HTTP\NativeEngine();
+            }
+        }
+
+        return $this->HTTPEngine;
+    }
     
     /**
      * Magic method, returns an instance of the requested class.
      *
      * @param string $name   Class name
      * @return Helpers\PutIO\PutIOHelper
+     * @throws \RuntimeException
      */
     public function __get($name)
     {
@@ -149,6 +150,11 @@ class API
         
         if (!isset(static::$instances[$class])) {
             $className = __NAMESPACE__ . '\Engines\PutIO\\' . $class;
+
+            if (!class_exists($className)) {
+                throw new \RuntimeException("Unknown module '{$name}'");
+            }
+
             static::$instances[$class] = new $className($this);
         }
         
