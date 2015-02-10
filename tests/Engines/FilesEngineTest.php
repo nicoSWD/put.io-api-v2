@@ -12,6 +12,10 @@ namespace tests\Engines;
  * Class FilesEngineTest
  * @package tests\Engines
  */
+/**
+ * Class FilesEngineTest
+ * @package tests\Engines
+ */
 class FilesEngineTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -128,6 +132,24 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
     public function testGetMP4StatusReturnsExpectedData()
     {
         $this->assertFalse($this->api->files->getMP4Status(41));
+    }
+
+    /**
+     *
+     */
+    public function testDownloadReturnsCorrectValue()
+    {
+        $this->assertSame(['status' => 'OK'], $this->api->files->download(41, 'test.txt'));
+        $this->assertSame(['status' => 'OK'], $this->api->files->download(41));
+        $this->assertSame(['status' => 'OK'], $this->api->files->downloadMP4(41));
+    }
+
+    /**
+     *
+     */
+    public function testDownloadReturnsFalseForNonExistingFiles()
+    {
+        $this->assertFalse($this->api->files->download(41311121));
     }
 
     /**

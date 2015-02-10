@@ -60,11 +60,13 @@ final class OauthEngine extends PutIOHelper
             'redirect_uri'  => $redirectURI,
             'code'          => $code
         ]);
+
+        $result = \false;
         
         if (!empty($response['access_token'])) {
-            return $response['access_token'];
+            $result = $response['access_token'];
         }
         
-        return \false;
+        return $result;
     }
 }

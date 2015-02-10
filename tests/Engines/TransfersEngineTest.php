@@ -83,5 +83,6 @@ class TransfersEngineTest extends \PHPUnit_Framework_TestCase
     public function testCancelTransferReturnsExpectedData()
     {
         $this->assertTrue($this->api->transfers->cancel(41));
+        $this->assertTrue($this->api->transfers->cancel([41, 34]));
     }
 }
