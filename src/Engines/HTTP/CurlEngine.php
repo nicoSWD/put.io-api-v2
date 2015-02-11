@@ -68,7 +68,7 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
     public function request($method, $url, array $params = [], $outFile = '', $returnBool = \false, $arrayKey = '', $verifyPeer = \true)
     {
         $this->verifyPeer = $verifyPeer;
-        $options = $this->getDefaultOptions($url);
+        $options = $this->getDefaultOptions();
 
         if ($method === 'POST') {
             $options += $this->post($params);
