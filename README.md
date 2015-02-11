@@ -22,6 +22,12 @@ Via Composer
 $ composer require "nicoswd/putio": "0.3.*@dev"
 ```
 
+Via git
+``` bash
+$ git clone git@github.com:nicoSWD/put.io-api-v2.git
+```
+
+
 ## Examples
 
 ```php
