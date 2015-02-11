@@ -57,9 +57,14 @@ final class FilesEngine extends PutIOHelper
      * @param string  $file        Path to local file.
      * @param integer $parentID    ID of upload folder.
      * @return mixed
+     * @throws \Exception
      */
     public function upload($file, $parentID = 0)
     {
+        if (!$file = realpath($file)) {
+            throw new \Exception('File not found');
+        }
+
         return $this->uploadFile('files/upload', [
             'parent_id' => $parentID,
             'file'      => "@{$file}"
@@ -215,6 +220,8 @@ final class FilesEngine extends PutIOHelper
 
     /**
      * Returns the download URL of a given file ID.
+     * ATTENTION: The URL includes your OAuth Token!
+     * Don't share this URL with strangers.
      *
      * @param integer $fileID   ID of the file you want to download.
      * @param boolean  $isMP4   OPTIONAL - Tells whether or not to download
@@ -223,7 +230,11 @@ final class FilesEngine extends PutIOHelper
      */
     public function getDownloadURL($fileID, $isMP4 = \false)
     {
-        $mp4 = $isMP4 ? 'mp4/' : '';
-        return static::API_URL . "files/{$fileID}/{$mp4}download";
+        return sprintf(
+            'https://api.put.io/v2/files/%d/%sdownload?oauth_token=%s',
+            $fileID,
+            $isMP4 ? 'mp4/' : '',
+            $this->putio->getOAuthToken()
+        );
     }
 }

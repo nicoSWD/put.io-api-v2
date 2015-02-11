@@ -10,7 +10,6 @@
  */
 namespace PutIO\Helpers\HTTP;
 
-use PutIO\Exceptions\MissingJSONException;
 use \Services_JSON;
 
 /**
@@ -19,6 +18,23 @@ use \Services_JSON;
  */
 class HTTPHelper
 {
+    /**
+     * @var string
+     */
+    const HTTP_USER_AGENT = 'nicoswd-putio/0.3';
+
+    /**
+     * The main URL to the API (v2).
+     *
+     * @var string
+     */
+    const API_URL = 'https://api.put.io/v2/';
+
+    /**
+     * @var string
+     */
+    const API_UPLOAD_URL = 'https://upload.put.io/v2/';
+
     /**
      * Holds whether or not the JSON PHP extension is available.
      *
@@ -107,16 +123,25 @@ class HTTPHelper
             if (isset($response[$arrayKey])) {
                 return $response[$arrayKey];
             }
+
             return \false;
         }
         
         return $response;
     }
+
+    /**
+     * @return string
+     */
+    protected function getCertPath()
+    {
+        return realpath(__DIR__ . '/../../Certificates/StarfieldClass2CA.pem');
+    }
     
     /**
      * Decodes a JSON encoded string. Natively, or using the PEAR package.
      *
-     * @param string $string   JSON encoded string
+     * @param string $string
      * @return array|null
      */
     protected function jsonDecode($string)
@@ -139,7 +164,7 @@ class HTTPHelper
     }
 
     /**
-     * @param $string
+     * @param string $string
      * @return array|null
      */
     protected function jsonDecodePEAR($string)

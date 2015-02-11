@@ -12,10 +12,6 @@ namespace tests\Engines;
  * Class FilesEngineTest
  * @package tests\Engines
  */
-/**
- * Class FilesEngineTest
- * @package tests\Engines
- */
 class FilesEngineTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -42,7 +38,7 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('text/plain', $response[0]['content_type']);
         $this->assertSame('https://put.io/images/file_types/text.png', $response[0]['icon']);
         $this->assertSame(6546533, $response[0]['id']);
-        $this->assertSame(null, $response[0]['opensubtitles_hash']);
+        $this->assertSame(\null, $response[0]['opensubtitles_hash']);
     }
 
     /**
@@ -62,11 +58,19 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
      */
     public function testUploadReturnsExpectedData()
     {
-        $response = $this->api->files->upload('test.txt');
+        $response = $this->api->files->upload(__FILE__);
 
         $this->assertSame('text/plain', $response['content_type']);
         $this->assertSame('https://put.io/images/file_types/text.png', $response['icon']);
         $this->assertSame(\null, $response['screenshot']);
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testUploadThrowsExceptionIfFileNotFound()
+    {
+        $this->api->files->upload(md5(microtime(\true)));
     }
 
     /**
@@ -123,7 +127,7 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
         $info = $this->api->files->makeDir('test', 0);
 
         $this->assertSame('text/plain', $info['content_type']);
-        $this->assertSame(null, $info['screenshot']);
+        $this->assertSame(\null, $info['screenshot']);
     }
 
     /**
@@ -157,7 +161,16 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDownloadURLReturnsCorrectURL()
     {
-        $this->assertSame('https://api.put.io/v2/files/41/download', $this->api->files->getDownloadURL(41));
-        $this->assertSame('https://api.put.io/v2/files/41/mp4/download', $this->api->files->getDownloadURL(41, \true));
+        $token = $this->api->getOAuthToken();
+
+        $this->assertSame(
+            'https://api.put.io/v2/files/41/download?oauth_token=' . $token,
+            $this->api->files->getDownloadURL(41)
+        );
+
+        $this->assertSame(
+            'https://api.put.io/v2/files/41/mp4/download?oauth_token=' . $token,
+            $this->api->files->getDownloadURL(41, \true)
+        );
     }
 }

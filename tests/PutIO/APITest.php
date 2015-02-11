@@ -33,7 +33,7 @@ class APITest extends \PHPUnit_Framework_TestCase
     public function testGetHTTPEngineReturnsADefaultEngine()
     {
         // If no engine has been specified, this should return a default engine, based on what's installed.
-        $this->assertInstanceOf('\PutIO\Interfaces\HTTP\HTTPEngine', $this->api->getHTTPEngine());
+        $this->assertInstanceOf('\PutIO\Engines\HTTPEngine', $this->api->getHTTPEngine());
     }
 
     /**

@@ -23,20 +23,14 @@ final class OauthEngine extends PutIOHelper
      * to the URL you specified in your app settings. On said page you have to
      * call self::verifyCode() to validate the user and get their access token. 
      *
-     * @param int     $clientID      Your app's client ID. You can find it here:
+     * @param int    $clientID      Your app's client ID. You can find it here:
      *                                  https://put.io/v2/oauth2/applications
-     * @param string  $redirectURI   The URI where the user will be redirected
+     * @param string $redirectURI   The URI where the user will be redirected
      *                                  to once permission is granted.
      */
     public function requestPermission($clientID, $redirectURI)
     {
-        header(
-            'Location: ' . parent::API_URL . '/oauth2/authenticate?' .
-            'client_id=' . $clientID . '&' .
-            'response_type=code&' .
-            'redirect_uri=' . rawurlencode($redirectURI)
-        );
-        
+        header('Location: ' . $this->getRedirectURL($clientID, $redirectURI));
         exit;
     }
     
@@ -68,5 +62,22 @@ final class OauthEngine extends PutIOHelper
         }
         
         return $result;
+    }
+
+    /**
+     * @param int    $clientID
+     * @param string $redirectURI
+     * @return string
+     */
+    private function getRedirectURL($clientID, $redirectURI)
+    {
+        return sprintf(
+            'https://api.put.io/v2/oauth2/authenticate?' .
+            'client_id=%d&' .
+            'response_type=code&' .
+            'redirect_uri=%s',
+            $clientID,
+            rawurlencode($redirectURI)
+        );
     }
 }

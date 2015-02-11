@@ -8,7 +8,7 @@
  */
 namespace PutIO\Engines\HTTP;
 
-use PutIO\Interfaces\HTTP\HTTPEngine;
+use PutIO\Engines\HTTPEngine;
 use PutIO\Helpers\HTTP\HTTPHelper;
 
 /**
@@ -33,7 +33,6 @@ final class TestEngine extends HTTPHelper implements HTTPEngine
      */
     public function request($method, $url, array $params = [], $outFile = '', $returnBool = \false, $arrayKey = '', $verifyPeer = \true)
     {
-        $url = substr($url, strpos($url, '/v2/') + 4);
         $url = str_replace('/', '_', $url);
 
         if (!$response = @file_get_contents("tests/data/{$url}.json")) {

@@ -8,9 +8,8 @@
  *
  * This class enabled easy access to put.io's API (version 2)
  * Take a look at the Wiki for detailed instructions:
- * https://github.com/nicoSWD/put.io-api-v2/wiki
+ * @see https://github.com/nicoSWD/put.io-api-v2/wiki
  *
- * @license
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -26,14 +25,25 @@
  */
 namespace PutIO;
 
-use PutIO\Interfaces\HTTP\HTTPEngine;
+use PutIO\Engines;
 
 /**
  * Class API
  * @package PutIO
+ *
+ * @property-read Engines\PutIO\AccountEngine $account
+ * @property-read Engines\PutIO\FilesEngine $files
+ * @property-read Engines\PutIO\FriendsEngine $friends
+ * @property-read Engines\PutIO\OauthEngine $oauth
+ * @property-read Engines\PutIO\TransfersEngine $transfers
  */
 class API
 {
+    /**
+     * @var string
+     */
+    const CLASS_VERSION = 'v0.3';
+
     /**
      * Holds the user's OAuth token.
      *
@@ -45,7 +55,7 @@ class API
      * Name of the HTTP engine. Possible options: Curl, Native
      * Defaults to cRUL and for a reason. Use cURL whenever possible.
      *
-     * @var null|HTTPEngine
+     * @var null|Engines\HTTPEngine
      */
     protected $HTTPEngine = \null;
     
@@ -55,7 +65,7 @@ class API
      *
      * @var bool
      */
-    public $SSLVerifyPeer = \true;
+    protected $SSLVerifyPeer = \true;
  
     /**
      * Holds the instances of requested objects.
@@ -107,13 +117,13 @@ class API
     }
 
     /**
-     * @param string|HTTPEngine $engine
+     * @param string|Engines\HTTPEngine $engine
      */
     public function setHTTPEngine($engine)
     {
-        if (!($engine instanceof HTTPEngine)) {
+        if (!($engine instanceof Engines\HTTPEngine)) {
             $class = '\PutIO\Engines\HTTP\\' . $engine . 'Engine';
-            /* @var HTTPEngine $engine */
+            /* @var Engines\HTTPEngine $engine */
             $engine = new $class();
         }
 
@@ -121,7 +131,7 @@ class API
     }
 
     /**
-     * @return HTTPEngine
+     * @return Engines\HTTPEngine
      */
     public function getHTTPEngine()
     {

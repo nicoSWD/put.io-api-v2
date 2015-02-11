@@ -15,6 +15,10 @@ namespace PutIO\Engines\PutIO;
 
 use PutIO\Helpers\PutIO\PutIOHelper;
 
+/**
+ * Class TransfersEngine
+ * @package PutIO\Engines\PutIO
+ */
 final class TransfersEngine extends PutIOHelper
 {
     /**

@@ -28,17 +28,10 @@ class PutIOHelper
     /**
      * Holds the instance of the HTTP Engine class
      *
-     * @var \PutIO\Interfaces\HTTP\HTTPEngine|null
+     * @var \PutIO\Engines\HTTPEngine|null
      */
     protected $HTTPEngine = \null;
-    
-    /**
-     * The main URL to the API (v2).
-     *
-     * @var string
-     */
-    const API_URL = 'https://api.put.io/v2/';
-    
+
     /**
      * Class constructor. Stores an instance of PutIO.
      *
@@ -130,15 +123,18 @@ class PutIOHelper
         if ($token = $this->putio->getOAuthToken()) {
             $params['oauth_token'] = $token;
         }
+
+        $engine = $this->putio->getHTTPEngine();
+        $verifyPeer = $this->putio->getSSLVerifyPeer();
         
-        return $this->putio->getHTTPEngine()->request(
+        return $engine->request(
             $method,
-            static::API_URL . $path,
+            $path,
             $params,
             $outFile,
             $returnBool,
             $arrayKey,
-            $this->putio->SSLVerifyPeer
+            $verifyPeer
         );
     }
 }

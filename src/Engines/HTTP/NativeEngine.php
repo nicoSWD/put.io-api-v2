@@ -13,7 +13,7 @@
  */
 namespace PutIO\Engines\HTTP;
 
-use PutIO\Interfaces\HTTP\HTTPEngine;
+use PutIO\Engines\HTTPEngine;
 use PutIO\Helpers\HTTP\HTTPHelper;
 use PutIO\Exceptions\RemoteConnectionException;
 use PutIO\Exceptions\LocalStorageException;
@@ -51,52 +51,31 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
     public function request($method, $url, array $params = [], $outFile = '', $returnBool = \false, $arrayKey = '', $verifyPeer = \true)
     {
         if (isset($params['file']) && $params['file'][0] === '@') {
-            $file = substr($params['file'], 1);
-            unset($params['file']);
-            
-            if (!$fileData = @file_get_contents($file)) {
-                throw new LocalStorageException('Unable to open local file: ' . basename($file));
-            }
-            
-            $data = '';
-            $boundary = '---------------------' . substr(md5($file . uniqid('', \true)), 0, 10);
-            
-            foreach ($params as $key => $value) {
-                $data .= "--{$boundary}\n";
-                $data .= "Content-Disposition: form-data; name=\"" . $key . "\"\n\n" . $value . "\n";
-            }
-            
-            $data .= "--{$boundary}\n";
-            $data .= "Content-Disposition: form-data; name=\"file\"; filename=\"" . basename($file) . '"' . "\n";
-            $data .= "Content-Type: " . $this->getMIMEType($file) . "\n";
-            $data .= "Content-Transfer-Encoding: binary\n\n";
-            $data .= $fileData ."\n";
-            $data .= "--{$boundary}--\n";
-            
+            $boundary = '---------------------' . substr(md5(uniqid('', \true)), 0, 10);
+            $data = $this->getPostData($params, $boundary);
             $contentType = 'multipart/form-data; boundary=' . $boundary;
-            $method = 'POST'; // Just in case
-            unset($fileData);
-
             $cnMatch = 'upload.put.io';
+            $url = static::API_UPLOAD_URL . $url . '?oauth_token=' . $params['oauth_token'];
         } else {
             $data = http_build_query($params, '', '&');
             $contentType = 'application/x-www-form-urlencoded';
             $cnMatch = 'api.put.io';
+            $url = static::API_URL . $url;
         }
         
         $contextOptions = [];
-        
-        if ($verifyPeer) {
-            $cert = realpath(__DIR__ . '/../../Certificates/StarfieldClass2CA.pem');
 
+        if ($verifyPeer) {
             $contextOptions['ssl'] = [
-                'verify_peer'   => \true,
-                'cafile'        => $cert,
-                'verify_depth'  => 5,
-                'CN_match'      => $cnMatch
+                'verify_peer'       => \true,
+                'allow_self_signed' => \false,
+                'cafile'            => $this->getCertPath(),
+                'verify_depth'      => 5,
+                'CN_match'          => $cnMatch, // @php <  5.6.0
+                'peer_name'         => $cnMatch  // @php >= 5.6.0
             ];
         }
-        
+
         if ($method === 'POST') {
             $contextOptions['http'] = [
                 'method' => 'POST',
@@ -104,7 +83,7 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
                     "Accept: application/json" . "\r\n" .
                     "Content-Type: " . $contentType . "\r\n" .
                     "Content-Length: " . strlen($data) . "\r\n" .
-                    "User-Agent: nicoswd-putio/2.1\r\n",
+                    "User-Agent: " . static::HTTP_USER_AGENT . "\r\n",
                 'content' => $data
             ];
         } else {
@@ -112,37 +91,97 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
         }
 
         $context = stream_context_create($contextOptions);
-        
-        if (($fp = @fopen($url, 'r', \false, $context)) === \false) {
-            if (isset($http_response_header) &&
-                $this->getResponseCode($http_response_header) === 404) {
-                return \false;
-            } else {
+
+        if (($fp = @fopen($url, 'rb', \false, $context)) === \false) {
+            $responseCode = $this->getResponseCode($http_response_header);
+
+            if ($responseCode !== 200) {
                 throw new RemoteConnectionException(
-                    'Unable to connect to remote resource.'
+                    "Unexpected Response: {$responseCode}",
+                    $responseCode
                 );
             }
         }
         
         if ($outFile !== '') {
-            if (($localFp = @fopen($outFile, 'w+')) === \false) {
-                throw new LocalStorageException('Unable to create local file.');
-            }
-        
-            while (!feof($fp)) {
-                fputs($localFp, fread($fp, 8192));
-            }
-            
-            fclose($localFp);
-            return \true;
-        } else {
-            $response = '';
-            while (!feof($fp)) {
-                $response .= fread($fp, 8192);
-            }
+            return $this->writeToFile($fp, $outFile);
         }
-        
+
+        return $this->getResponse($this->readResponse($fp), $returnBool, $arrayKey);
+    }
+
+    /**
+     * @param resource $fp
+     * @param string   $outFile
+     * @return int|bool             Number of bytes written
+     * @throws LocalStorageException
+     */
+    private function writeToFile($fp, $outFile)
+    {
+        if (($localFp = @fopen($outFile, 'w+')) === \false) {
+            throw new LocalStorageException(
+                'Unable to create local file. Check permissions.'
+            );
+        }
+
+        $written = 0;
+
+        while (!feof($fp)) {
+            $written += fputs($localFp, fread($fp, 8192));
+        }
+
+        fclose($localFp);
         fclose($fp);
-        return $this->getResponse($response, $returnBool, $arrayKey);
+
+        return $written;
+    }
+
+    /**
+     * @param resource $fp
+     * @return string
+     */
+    private function readResponse($fp)
+    {
+        $response = '';
+
+        while (!feof($fp)) {
+            $response .= fread($fp, 8192);
+        }
+
+        fclose($fp);
+        return $response;
+    }
+
+    /**
+     * @param array  $params
+     * @param string $boundary
+     * @return string
+     * @throws LocalStorageException
+     */
+    private function getPostData(array $params, $boundary)
+    {
+        $data = '';
+        $filePath = substr($params['file'], 1);
+        unset($params['file']);
+
+        if (($fileData = @file_get_contents($filePath)) === \false) {
+            throw new LocalStorageException(
+                'Unable to open local file: ' . ($filePath)
+            );
+        }
+
+        foreach ($params as $key => $value) {
+            $data .= "--{$boundary}\n";
+            $data .= "Content-Disposition: form-data; name=\"" . $key . "\"\n\n" . $value . "\n";
+        }
+
+        $data .= "--{$boundary}\n";
+        $data .= "Content-Disposition: form-data; name=\"file\"; filename=\"" . basename($filePath) . '"' . "\n";
+        $data .= "Content-Type: " . $this->getMIMEType($filePath) . "\n";
+        $data .= "Content-Transfer-Encoding: binary\n\n";
+        $data .= $fileData ."\n";
+        $data .= "--{$boundary}--\n";
+
+        return $data;
     }
 }

@@ -42,4 +42,20 @@ class OAuthEngineTest extends \PHPUnit_Framework_TestCase
         
         $this->assertSame('abc123', $token);
     }
+
+    public function testRequestPermissionSendsCorrectHeader()
+    {
+        $clientID = 123;
+        $redirectURI = 'http://localhost';
+
+        $method = new \ReflectionMethod('\PutIO\Engines\PutIO\OauthEngine', 'getRedirectURL');
+        $method->setAccessible(\true);
+
+        $url = $method->invokeArgs($this->api->oauth, [$clientID, $redirectURI]);
+
+        $expected = 'https://api.put.io/v2/oauth2/authenticate?client_id=123&response_type=';
+        $expected .= 'code&redirect_uri=http%3A%2F%2Flocalhost';
+
+        $this->assertSame($expected, $url);
+    }
 }

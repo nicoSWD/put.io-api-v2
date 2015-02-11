@@ -8,7 +8,7 @@
  *
  * All HTTP engines must implement this interface.
  */
-namespace PutIO\Interfaces\HTTP;
+namespace PutIO\Engines;
 
 /**
  * Interface HTTPEngine
