@@ -6,7 +6,8 @@
  * @author Nicolas Oelgart
  * @license GPL 3 http://www.gnu.org/copyleft/gpl.html
  *
- * Handles HTTP requests using native PHP functions. Only requirement: allow_url_fopen
+ * Handles HTTP requests using native PHP functions.
+ * Only requirement: allow_url_fopen
  * @see http://www.php.net/filesystem.configuration#ini.allow-url-fopen
  *
  * If your host doesn't have cURL nor allow_url_fopen, then it's time to change.
@@ -25,37 +26,53 @@ use PutIO\Exceptions\LocalStorageException;
 final class NativeEngine extends HTTPHelper implements HTTPEngine
 {
     /**
-     * Makes an HTTP request to put.io's API and returns the response. Relies on native
-     * PHP functions.
+     * Makes an HTTP request to put.io's API and returns the response.
+     * Relies on native PHP functions.
      *
-     * NOTE!! Due to restrictions, files must be loaded into the memory when uploading.
-     * I don't recommend uploading large files using native functions. Only use this if
-     * you absolutely must! Otherwise, the cURL engine is much better!
+     * NOTE!! Due to restrictions, files must be loaded into the memory when
+     * uploading. I don't recommend uploading large files using native
+     * functions. Only use this if you absolutely must! Otherwise, the cURL
+     * engine is much better!
      *
-     * Downloading is no issue as long as you're saving the file somewhere on the file system
-     * rather than the memory. Set $outFile and you're all set!
+     * Downloading is no issue as long as you're saving the file somewhere on
+     * the file system rather than the memory. Set $outFile and you're all set!
      *
      * Returns false if a file was not found.
      *
-     * @param string $method       HTTP request method. Only POST and GET are supported.
-     * @param string $url          Remote path to API module.
-     * @param array  $params       Variables to be sent.
-     * @param string $outFile      If $outFile is set, the response will be written to this file instead of StdOut.
+     * @param string $method      HTTP request method. Only POST and GET are
+     *                                  supported.
+     * @param string $url         Remote path to API module.
+     * @param array  $params      Variables to be sent.
+     * @param string $outFile     If $outFile is set, the response will be
+     *                                  written to this file instead of StdOut.
      * @param bool   $returnBool
-     * @param string $arrayKey     Will return all data on a specific array key of the response.
-     * @param bool   $verifyPeer   If true, will use proper SSL peer/host verification.
+     * @param string $arrayKey    Will return all data on a specific array key
+     *                                  of the response.
+     * @param bool   $verifyPeer  If true, will use proper SSL peer/host
+     *                                  verification.
      * @return mixed
      * @throws \PutIO\Exceptions\LocalStorageException
      * @throws \PutIO\Exceptions\RemoteConnectionException
      */
-    public function request($method, $url, array $params = [], $outFile = '', $returnBool = \false, $arrayKey = '', $verifyPeer = \true)
-    {
+    public function request(
+        $method,
+        $url,
+        array $params = [],
+        $outFile = '',
+        $returnBool = \false,
+        $arrayKey = '',
+        $verifyPeer = \true
+    ) {
         if (isset($params['file']) && $params['file'][0] === '@') {
-            $boundary = '---------------------' . substr(md5(uniqid('', \true)), 0, 10);
+            $boundary  = '---------------------';
+            $boundary .= substr(md5(uniqid('', \true)), 0, 10);
+            
+            $url  = static::API_UPLOAD_URL . $url;
+            $url .= '?oauth_token=' . $params['oauth_token'];
+
             $data = $this->getPostData($params, $boundary);
             $contentType = 'multipart/form-data; boundary=' . $boundary;
             $cnMatch = 'upload.put.io';
-            $url = static::API_UPLOAD_URL . $url . '?oauth_token=' . $params['oauth_token'];
         } else {
             $data = http_build_query($params, '', '&');
             $contentType = 'application/x-www-form-urlencoded';
@@ -107,7 +124,11 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
             return $this->writeToFile($fp, $outFile);
         }
 
-        return $this->getResponse($this->readResponse($fp), $returnBool, $arrayKey);
+        return $this->getResponse(
+            $this->readResponse($fp),
+            $returnBool,
+            $arrayKey
+        );
     }
 
     /**
@@ -172,11 +193,13 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
 
         foreach ($params as $key => $value) {
             $data .= "--{$boundary}\n";
-            $data .= "Content-Disposition: form-data; name=\"" . $key . "\"\n\n" . $value . "\n";
+            $data .= "Content-Disposition: form-data; ";
+            $data .= "name=\"" . $key . "\"\n\n" . $value . "\n";
         }
 
         $data .= "--{$boundary}\n";
-        $data .= "Content-Disposition: form-data; name=\"file\"; filename=\"" . basename($filePath) . '"' . "\n";
+        $data .= "Content-Disposition: form-data; name=\"file\"; filename=\"";
+        $data .= basename($filePath) . '"' . "\n";
         $data .= "Content-Type: " . $this->getMIMEType($filePath) . "\n";
         $data .= "Content-Transfer-Encoding: binary\n\n";
         $data .= $fileData ."\n";

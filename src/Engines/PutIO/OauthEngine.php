@@ -15,6 +15,10 @@ namespace PutIO\Engines\PutIO;
 
 use PutIO\Helpers\PutIO\PutIOHelper;
 
+/**
+ * Class OauthEngine
+ * @package PutIO\Engines\PutIO
+ */
 final class OauthEngine extends PutIOHelper
 {
     /**

@@ -37,8 +37,8 @@ final class TransfersEngine extends PutIOHelper
      * @param string $url          URL of the file/torrent
      * @param int    $parentID     ID of the target folder. 0 = root
      * @param bool   $extract      Extract file when download complete
-     * @param string $callbackUrl  put.io will POST the metadata of
-     *                                  the file to the given URL when file is ready.
+     * @param string $callbackUrl  put.io will POST the metadata of the file to
+     *                                  the given URL when file is ready.
      * @return array
      */
     public function add($url, $parentID = 0, $extract = \false, $callbackUrl = '')

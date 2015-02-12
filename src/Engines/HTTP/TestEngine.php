@@ -31,8 +31,15 @@ final class TestEngine extends HTTPHelper implements HTTPEngine
      * @return mixed
      * @throws \PutIO\Exceptions\LocalStorageException
      */
-    public function request($method, $url, array $params = [], $outFile = '', $returnBool = \false, $arrayKey = '', $verifyPeer = \true)
-    {
+    public function request(
+        $method,
+        $url,
+        array $params = [],
+        $outFile = '',
+        $returnBool = \false,
+        $arrayKey = '',
+        $verifyPeer = \true
+    ) {
         $url = str_replace('/', '_', $url);
 
         if (!$response = @file_get_contents("tests/data/{$url}.json")) {

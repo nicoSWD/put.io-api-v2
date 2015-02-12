@@ -52,8 +52,12 @@ class PutIOHelper
      *                                  of the response.
      * @return mixed
      */
-    protected function get($path, array $params = [], $returnBool = \false, $arrayKey = '')
-    {
+    protected function get(
+        $path,
+        array $params = [],
+        $returnBool = \false,
+        $arrayKey = ''
+    ) {
         return $this->request('GET', $path, $params, '', $returnBool, $arrayKey);
     }
 
@@ -67,8 +71,12 @@ class PutIOHelper
      *                                  of the response.
      * @return mixed
      */
-    protected function post($path, array $params = [], $returnBool = \false, $arrayKey = '')
-    {
+    protected function post(
+        $path,
+        array $params = [],
+        $returnBool = \false,
+        $arrayKey = ''
+    ) {
         return $this->request('POST', $path, $params, '', $returnBool, $arrayKey);
     }
     
@@ -118,8 +126,14 @@ class PutIOHelper
      * @return mixed
      * @throws \PutIO\Exceptions\LocalStorageException
      */
-    protected function request($method, $path, array $params = [], $outFile = '', $returnBool = \false, $arrayKey = '')
-    {
+    protected function request(
+        $method,
+        $path,
+        array $params = [],
+        $outFile = '',
+        $returnBool = \false,
+        $arrayKey = ''
+    ) {
         if ($token = $this->putio->getOAuthToken()) {
             $params['oauth_token'] = $token;
         }

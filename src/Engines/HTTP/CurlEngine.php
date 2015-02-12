@@ -65,8 +65,15 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
      * @throws LocalStorageException
      * @throws RemoteConnectionException
      */
-    public function request($method, $url, array $params = [], $outFile = '', $returnBool = \false, $arrayKey = '', $verifyPeer = \true)
-    {
+    public function request(
+        $method,
+        $url,
+        array $params = [],
+        $outFile = '',
+        $returnBool = \false,
+        $arrayKey = '',
+        $verifyPeer = \true
+    ) {
         $this->verifyPeer = $verifyPeer;
         $options = $this->getDefaultOptions();
 
@@ -75,12 +82,14 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
 
             if (isset($params['file']) && $params['file'][0] === '@') {
                 $options += $this->upload($params);
-                $url = static::API_UPLOAD_URL . $url . '?oauth_token=' . $params['oauth_token'];
+                $url  = static::API_UPLOAD_URL . $url;
+                $url .= '?oauth_token=' . $params['oauth_token'];
             } else {
                 $url = static::API_URL . $url;
             }
         } else {
-            $url = static::API_URL . $url . '?' . http_build_query($params, '', '&');
+            $url  = static::API_URL . $url . '?';
+            $url .= http_build_query($params, '', '&');
         }
         
         if ($outFile === '') {
