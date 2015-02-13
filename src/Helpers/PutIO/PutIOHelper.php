@@ -93,7 +93,7 @@ class PutIOHelper
      */
     protected function downloadFile($path, $saveAS)
     {
-        return $this->request('GET', $path, [], $saveAS);
+        return $this->request('GET', $path, [], $saveAS, \true);
     }
     
     /**

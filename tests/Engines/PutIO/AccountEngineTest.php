@@ -55,8 +55,8 @@ class AccountEngineTest extends \PHPUnit_Framework_TestCase
         $response = $this->api->account->settings();
 
         $this->assertSame(0, $response['default_download_folder']);
-        $this->assertSame(\false, $response['is_invisible']);
-        $this->assertSame(\false, $response['extraction_default']);
+        $this->assertFalse($response['is_invisible']);
+        $this->assertFalse($response['extraction_default']);
         $this->assertSame(['tr', 'eng'], $response['subtitle_languages']);
         $this->assertSame('tr', $response['default_subtitle_language']);
     }

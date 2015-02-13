@@ -38,7 +38,7 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('text/plain', $response[0]['content_type']);
         $this->assertSame('https://put.io/images/file_types/text.png', $response[0]['icon']);
         $this->assertSame(6546533, $response[0]['id']);
-        $this->assertSame(\null, $response[0]['opensubtitles_hash']);
+        $this->assertNull($response[0]['opensubtitles_hash']);
     }
 
     /**
@@ -62,7 +62,7 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame('text/plain', $response['content_type']);
         $this->assertSame('https://put.io/images/file_types/text.png', $response['icon']);
-        $this->assertSame(\null, $response['screenshot']);
+        $this->assertNull($response['screenshot']);
     }
 
     /**
@@ -82,7 +82,7 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame('text/plain', $response['content_type']);
         $this->assertSame('https://put.io/images/file_types/text.png', $response['icon']);
-        $this->assertSame(\null, $response['screenshot']);
+        $this->assertNull($response['screenshot']);
     }
 
     /**
@@ -127,7 +127,7 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
         $info = $this->api->files->makeDir('test', 0);
 
         $this->assertSame('text/plain', $info['content_type']);
-        $this->assertSame(\null, $info['screenshot']);
+        $this->assertNull($info['screenshot']);
     }
 
     /**
@@ -143,9 +143,9 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
      */
     public function testDownloadReturnsCorrectValue()
     {
-        $this->assertSame(['status' => 'OK'], $this->api->files->download(41, 'test.txt'));
-        $this->assertSame(['status' => 'OK'], $this->api->files->download(41));
-        $this->assertSame(['status' => 'OK'], $this->api->files->downloadMP4(41));
+        $this->assertTrue($this->api->files->download(41, 'test.txt'));
+        $this->assertTrue($this->api->files->download(41));
+        $this->assertTrue($this->api->files->downloadMP4(41));
     }
 
     /**
