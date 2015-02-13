@@ -115,6 +115,10 @@ class HTTPHelperTest extends \PHPUnit_Framework_TestCase
             $expected = 'text/plain';
         } else {
             $expected = 'application/octet-stream';
+
+            $this->markTestIncomplete(
+                'PHP file info extension is missing.'
+            );
         }
 
         $this->assertSame($expected, $method->invoke($this->helper, 'tests/data/account_info.json'));
