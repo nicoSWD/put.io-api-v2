@@ -10,6 +10,7 @@ namespace tests\Helpers;
 
 /**
  * Class HTTPHelperTest
+ * @package tests\Helpers
  */
 class HTTPHelperTest extends \PHPUnit_Framework_TestCase
 {
