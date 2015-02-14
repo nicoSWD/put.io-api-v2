@@ -10,4 +10,4 @@ if (!ini_get('date.timezone')) {
     date_default_timezone_set('Europe/Madrid');
 }
 
-require __DIR__ . '/../src/Autoloader.php';
+require __DIR__ . '/../src/PutIO/Autoloader.php';
