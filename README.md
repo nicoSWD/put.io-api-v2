@@ -73,4 +73,3 @@ $ phpunit
 ## License
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
