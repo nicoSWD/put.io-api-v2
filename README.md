@@ -28,7 +28,7 @@ $ git clone git@github.com:nicoSWD/put.io-api-v2.git
 ```
 
 
-## Examples
+## Usage
 
 ```php
 $putio = new PutIO\API($accessToken);
@@ -60,6 +60,10 @@ $info = $putio->transfers->info($transferID);
 // And a lot more...
 ```
 
+## Security
+
+If you discover any security related issues, please email :author_email instead of using the issue tracker.
+
 ## Testing
 
 ``` bash
@@ -67,17 +71,6 @@ $ phpunit
 ```
 
 ## License
-Copyright (C) 2012-2015 Nicolas Oelgart
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
