@@ -53,33 +53,22 @@ class CurlEngineTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    public function testUploadReturnsExpectedOptions()
+    public function testPostReturnsExpectedOptions()
     {
-        $method = new \ReflectionMethod('\PutIO\Engines\HTTP\CurlEngine', 'upload');
+        $method = new \ReflectionMethod('\PutIO\Engines\HTTP\CurlEngine', 'post');
         $method->setAccessible(\true);
 
         $params = ['file' => 'test.txt'];
-        $options = $method->invokeArgs($this->engine, [&$params]);
+
+        $options = $method->invoke($this->engine, $params);
+        $this->assertArrayHasKey(CURLOPT_POST, $options);
 
         if (class_exists('\CURLFile')) {
-            $this->assertInstanceOf('\CURLFile', $params['file']);
             $this->assertArrayHasKey(CURLOPT_SAFE_UPLOAD, $options);
         } else {
             $this->markTestIncomplete(
                 'Test requires PHP 5.5 and CURLFile'
             );
         }
-    }
-
-    /**
-     *
-     */
-    public function testPostReturnsExpectedOptions()
-    {
-        $method = new \ReflectionMethod('\PutIO\Engines\HTTP\CurlEngine', 'post');
-        $method->setAccessible(\true);
-
-        $options = $method->invoke($this->engine, []);
-        $this->assertArrayHasKey(CURLOPT_POST, $options);
     }
 }
