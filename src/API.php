@@ -75,7 +75,7 @@ class API
     protected $SSLVerifyPeer = \true;
  
     /**
-     * Holds the instances of requested objects.
+     * Holds the instances of requested classes.
      *
      * @var array
      */
