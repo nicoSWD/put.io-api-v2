@@ -72,11 +72,11 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
     }
 
     /**
-     * @param resource      $fp
-     * @param array         $responseHeaders
-     * @param string        $outFile
-     * @param bool          $returnBool
-     * @param string        $arrayKey
+     * @param resource $fp
+     * @param array    $responseHeaders
+     * @param string   $outFile
+     * @param bool     $returnBool
+     * @param string   $arrayKey
      * @return array|bool|int
      * @throws LocalStorageException
      * @throws RemoteConnectionException

@@ -75,6 +75,46 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
         $verifyPeer = \true
     ) {
         $this->verifyPeer = $verifyPeer;
+        list($url, $options) = $this->configureRequestOptions($url, $method, $params, $outFile);
+
+        $ch = curl_init($url);
+        curl_setopt_array($ch, $options);
+        $response = curl_exec($ch);
+        $this->handleResponse(curl_errno($ch), curl_error($ch), curl_getinfo($ch, CURLINFO_HTTP_CODE));
+
+        return $this->getResponse($response, $returnBool, $arrayKey);
+    }
+
+    /**
+     * @param int    $errNum
+     * @param string $error
+     * @param int    $responseCode
+     * @throws RemoteConnectionException
+     */
+    private function handleResponse($errNum, $error, $responseCode)
+    {
+        if ($errNum) {
+            throw new RemoteConnectionException($error, $errNum);
+        }
+
+        if ($responseCode !== 200) {
+            throw new RemoteConnectionException(
+                "Unexpected Response: {$responseCode}",
+                $responseCode
+            );
+        }
+    }
+
+    /**
+     * @param string $url
+     * @param string $method
+     * @param array  $params
+     * @param string $outFile
+     * @return array
+     * @throws LocalStorageException
+     */
+    private function configureRequestOptions($url, $method, array $params, $outFile)
+    {
         $options = $this->getDefaultOptions();
 
         if ($method === 'POST') {
@@ -90,7 +130,7 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
             $url  = static::API_URL . $url . '?';
             $url .= http_build_query($params, '', '&');
         }
-        
+
         if ($outFile === '') {
             $options[CURLOPT_RETURNTRANSFER] = \true;
         } else {
@@ -101,27 +141,7 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
             $options[CURLOPT_FILE] = $fp;
         }
 
-        $ch = curl_init($url);
-        curl_setopt_array($ch, $options);
-        $response = curl_exec($ch);
-
-        if ($errNum = curl_errno($ch)) {
-            throw new RemoteConnectionException(
-                curl_error($ch),
-                $errNum
-            );
-        }
-
-        $responseCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-        if ($responseCode !== 200) {
-            throw new RemoteConnectionException(
-                "Unexpected Response: {$responseCode}",
-                $responseCode
-            );
-        }
-
-        return $this->getResponse($response, $returnBool, $arrayKey);
+        return [$url, $options];
     }
 
     /**

@@ -12,6 +12,10 @@ namespace tests\Engines;
  * Class CurlEngineTest
  * @package tests\Engines
  */
+/**
+ * Class CurlEngineTest
+ * @package tests\Engines
+ */
 class CurlEngineTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -70,5 +74,75 @@ class CurlEngineTest extends \PHPUnit_Framework_TestCase
                 'Test requires PHP 5.5 and CURLFile'
             );
         }
+    }
+
+    /**
+     * @expectedException \PutIO\Exceptions\RemoteConnectionException
+     */
+    public function testHandleResponseThrowsExceptionCurlErrNum()
+    {
+        $method = new \ReflectionMethod('\PutIO\Engines\HTTP\CurlEngine', 'handleResponse');
+        $method->setAccessible(\true);
+
+        $params = [404, 'Not Found', 404];
+        $method->invokeArgs($this->engine, $params);
+    }
+
+    /**
+     * @expectedException \PutIO\Exceptions\RemoteConnectionException
+     */
+    public function testHandleResponseThrowsExceptionOnBadResponseCode()
+    {
+        $method = new \ReflectionMethod('\PutIO\Engines\HTTP\CurlEngine', 'handleResponse');
+        $method->setAccessible(\true);
+
+        $params = [0, 'Not Found', 400];
+        $method->invokeArgs($this->engine, $params);
+    }
+
+    /**
+     *
+     */
+    public function testConfigureRequestOptionsReturnsExpectedData()
+    {
+        $method = new \ReflectionMethod('\PutIO\Engines\HTTP\CurlEngine', 'configureRequestOptions');
+        $method->setAccessible(\true);
+
+        $params = ['account/info', 'POST', [], ''];
+        list($url, $options) = $method->invokeArgs($this->engine, $params);
+
+        $this->assertSame('https://api.put.io/v2/account/info', $url);
+        $this->assertTrue($options[CURLOPT_RETURNTRANSFER]);
+
+        $params = ['account/info', 'POST', ['oauth_token' => '123', 'file' => '@test.txt'], ''];
+        list($url, ) = $method->invokeArgs($this->engine, $params);
+
+        $this->assertSame('https://upload.put.io/v2/account/info?oauth_token=123', $url);
+
+        $params = ['account/info', 'GET', ['foo' => 'bar'], ''];
+        list($url, ) = $method->invokeArgs($this->engine, $params);
+
+        $this->assertSame('https://api.put.io/v2/account/info?foo=bar', $url);
+
+        $tmpName = tempnam(sys_get_temp_dir(), time());
+
+        $params = ['account/info', 'GET', ['foo' => 'bar'], $tmpName];
+        list($url, $options) = $method->invokeArgs($this->engine, $params);
+
+        $this->assertInternalType('resource', $options[CURLOPT_FILE]);
+        $this->assertSame('https://api.put.io/v2/account/info?foo=bar', $url);
+    }
+
+    /**
+     * @expectedException \PutIO\Exceptions\LocalStorageException
+     */
+    public function testConfigureRequestOptionsThrowsExceptionOnOutFileError()
+    {
+        $method = new \ReflectionMethod('\PutIO\Engines\HTTP\CurlEngine', 'configureRequestOptions');
+        $method->setAccessible(\true);
+        $tmpName = '/\/\/\/';
+
+        $params = ['account/info', 'GET', [], $tmpName];
+        $method->invokeArgs($this->engine, $params);
     }
 }
