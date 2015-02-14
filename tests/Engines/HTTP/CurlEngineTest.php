@@ -8,20 +8,17 @@
  */
 namespace {
     if (!class_exists('CURLFile')) {
-        class CURLFile {
+        class CURLFile
+        {
 
         }
 
-        define('CURLOPT_SAFE_UPLOAD', 123);
+        define('CURLOPT_SAFE_UPLOAD', -1);
     }
 }
 
 namespace tests\Engines {
 
-/**
- * Class CurlEngineTest
- * @package tests\Engines
- */
 /**
  * Class CurlEngineTest
  * @package tests\Engines

@@ -155,10 +155,10 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
         ];
 
         if (isset($params['file'])) {
-            $filePath = realpath(substr($params['file'], 1));
-
             // @php >= 5.5
             if (class_exists('\CURLFile')) {
+                $filePath = realpath(substr($params['file'], 1));
+
                 $params['file'] = new CURLFile(
                     $filePath,
                     $this->getMIMEType($filePath),
