@@ -6,7 +6,17 @@
  * @author Nicolas Oelgart
  * @license MIT http://opensource.org/licenses/MIT
  */
-namespace tests\Engines;
+namespace {
+    if (!class_exists('CURLFile')) {
+        class CURLFile {
+
+        }
+
+        define('CURLOPT_SAFE_UPLOAD', 123);
+    }
+}
+
+namespace tests\Engines {
 
 /**
  * Class CurlEngineTest
@@ -62,18 +72,11 @@ class CurlEngineTest extends \PHPUnit_Framework_TestCase
         $method = new \ReflectionMethod('\PutIO\Engines\HTTP\CurlEngine', 'post');
         $method->setAccessible(\true);
 
-        $params = ['file' => 'test.txt'];
+        $params = ['file' => '@test.txt'];
 
         $options = $method->invoke($this->engine, $params);
         $this->assertArrayHasKey(CURLOPT_POST, $options);
-
-        if (class_exists('\CURLFile')) {
-            $this->assertArrayHasKey(CURLOPT_SAFE_UPLOAD, $options);
-        } else {
-            $this->markTestIncomplete(
-                'Test requires PHP 5.5 and CURLFile'
-            );
-        }
+        $this->assertArrayHasKey(CURLOPT_SAFE_UPLOAD, $options);
     }
 
     /**
@@ -115,12 +118,12 @@ class CurlEngineTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($options[CURLOPT_RETURNTRANSFER]);
 
         $params = ['account/info', 'POST', ['oauth_token' => '123', 'file' => '@test.txt'], ''];
-        list($url, ) = $method->invokeArgs($this->engine, $params);
+        list($url,) = $method->invokeArgs($this->engine, $params);
 
         $this->assertSame('https://upload.put.io/v2/account/info?oauth_token=123', $url);
 
         $params = ['account/info', 'GET', ['foo' => 'bar'], ''];
-        list($url, ) = $method->invokeArgs($this->engine, $params);
+        list($url,) = $method->invokeArgs($this->engine, $params);
 
         $this->assertSame('https://api.put.io/v2/account/info?foo=bar', $url);
 
@@ -145,4 +148,4 @@ class CurlEngineTest extends \PHPUnit_Framework_TestCase
         $params = ['account/info', 'GET', [], $tmpName];
         $method->invokeArgs($this->engine, $params);
     }
-}
+}}
