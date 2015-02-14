@@ -1,6 +1,6 @@
 filter:
     paths: [src/*]
-    excluded_paths: [src/Engines/JSON/*, tests/*, vendor/*]
+    excluded_paths: [src/PutIO/Engines/JSON/*, tests/*, vendor/*]
 checks:
   php:
     code_rating: true
