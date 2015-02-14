@@ -72,11 +72,11 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
     }
 
     /**
-     * @param resource|bool $fp
+     * @param resource      $fp
      * @param array         $responseHeaders
      * @param string        $outFile
      * @param bool          $returnBool
-     * @param array         $arrayKey
+     * @param string        $arrayKey
      * @return array|bool|int
      * @throws LocalStorageException
      * @throws RemoteConnectionException
@@ -136,6 +136,7 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
             $url = static::API_URL . $url;
         }
 
+        $contextOptions = [];
         $contextOptions['http']['header'] =
             "User-Agent: " . static::HTTP_USER_AGENT . "\r\n" .
             "Accept: application/json" . "\r\n" .
