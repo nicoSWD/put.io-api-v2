@@ -129,7 +129,7 @@ class HTTPHelperTest extends \PHPUnit_Framework_TestCase
      */
     public function testJSONDecodePEARReturnsExpectedData()
     {
-        $method = new \ReflectionMethod('\PutIO\Helpers\HTTP\HTTPHelper', 'jsonDecodePEAR');
+        $method = new \ReflectionMethod('\PutIO\Helpers\HTTP\HTTPHelper', 'pearJsonDecode');
         $method->setAccessible(\true);
 
         $this->assertSame(['status' => 'OK'], $method->invoke($this->helper, '{"status":"OK"}'));

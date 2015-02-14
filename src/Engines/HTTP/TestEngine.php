@@ -14,6 +14,8 @@ use PutIO\Helpers\HTTP\HTTPHelper;
 /**
  * Class TestEngine
  * @package PutIO\Engines\HTTP
+ *
+ * @codeCoverageIgnore
  */
 final class TestEngine extends HTTPHelper implements HTTPEngine
 {

@@ -81,7 +81,6 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
             $options += $this->post($params);
 
             if (isset($params['file']) && $params['file'][0] === '@') {
-                $options += $this->upload($params);
                 $url  = static::API_UPLOAD_URL . $url;
                 $url .= '?oauth_token=' . $params['oauth_token'];
             } else {
@@ -126,37 +125,31 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
     }
 
     /**
-     * @param array &$params
-     * @return array
-     */
-    private function upload(array &$params)
-    {
-        $filePath = realpath(substr($params['file'], 1));
-        $options = array();
-
-        // @php >= 5.5
-        if (class_exists('\CURLFile')) {
-            $params['file'] = new CURLFile(
-                $filePath,
-                $this->getMIMEType($filePath),
-                basename($filePath)
-            );
-
-            $options[CURLOPT_SAFE_UPLOAD] = \true;
-        }
-
-        return $options;
-    }
-
-    /**
      * @param array $params
      * @return array
      */
     private function post(array $params)
     {
-        return [
-            CURLOPT_POST       => \true,
-            CURLOPT_POSTFIELDS => $params
+        $options = [
+            CURLOPT_POST => \true
         ];
+
+        if (isset($params['file'])) {
+            $filePath = realpath(substr($params['file'], 1));
+
+            // @php >= 5.5
+            if (class_exists('\CURLFile')) {
+                $params['file'] = new CURLFile(
+                    $filePath,
+                    $this->getMIMEType($filePath),
+                    basename($filePath)
+                );
+
+                $options[CURLOPT_SAFE_UPLOAD] = \true;
+            }
+        }
+
+        $options[CURLOPT_POSTFIELDS] = $params;
+        return $options;
     }
 }

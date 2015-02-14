@@ -136,11 +136,12 @@ class API
     public function getHTTPEngine()
     {
         if (!$this->HTTPEngine) {
-            if (function_exists('curl_init')) {
-                $this->HTTPEngine = new Engines\HTTP\CurlEngine();
-            } else {
-                $this->HTTPEngine = new Engines\HTTP\NativeEngine();
-            }
+            $engine = function_exists('curl_init')
+                ? 'Curl'
+                : 'Native';
+
+            $engine = '\PutIO\Engines\HTTP\\' . $engine . 'Engine';
+            $this->HTTPEngine = new $engine();
         }
 
         return $this->HTTPEngine;

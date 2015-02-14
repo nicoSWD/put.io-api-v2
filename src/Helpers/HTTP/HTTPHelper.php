@@ -36,11 +36,9 @@ class HTTPHelper
     const API_UPLOAD_URL = 'https://upload.put.io/v2/';
 
     /**
-     * Holds whether or not the JSON PHP extension is available.
-     *
-     * @var bool|null
+     * @var string|null
      */
-    protected $jsonExt = \null;
+    protected $jsonDecoder = \null;
     
     /**
      * Returns true if the server responded with status === OK.
@@ -137,27 +135,34 @@ class HTTPHelper
     {
         return realpath(__DIR__ . '/../../Certificates/StarfieldClass2CA.pem');
     }
+
+    /**
+     * @param $string
+     * @return mixed
+     */
+    protected function jsonDecode($string)
+    {
+        if (!isset($this->jsonDecoder)) {
+            $this->jsonDecoder = function_exists('json_decode')
+                ? 'nativeJsonDecode'
+                : 'pearJsonDecode';
+        }
+
+        return $this->{$this->jsonDecoder}($string);
+    }
     
     /**
-     * Decodes a JSON encoded string. Natively, or using the PEAR package.
+     * Decodes a JSON encoded string natively.
      *
      * @param string $string
      * @return array|null
      */
-    protected function jsonDecode($string)
+    protected function nativeJsonDecode($string)
     {
-        if (!isset($this->jsonExt)) {
-            $this->jsonExt = function_exists('json_decode');
-        }
+        $result = @json_decode($string, \true);
 
-        if ($this->jsonExt) {
-            $result = @json_decode($string, \true);
-
-            if (!$result || JSON_ERROR_NONE !== json_last_error()) {
-                $result = \null;
-            }
-        } else {
-            $result = $this->jsonDecodePEAR($string);
+        if (!$result || JSON_ERROR_NONE !== json_last_error()) {
+            $result = \null;
         }
 
         return $result;
@@ -167,7 +172,7 @@ class HTTPHelper
      * @param string $string
      * @return array|null
      */
-    protected function jsonDecodePEAR($string)
+    protected function pearJsonDecode($string)
     {
         if (!class_exists('Services_JSON')) {
             require __DIR__ . '/../../Engines/JSON/JSON.php';

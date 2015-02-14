@@ -63,10 +63,66 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
         $arrayKey = '',
         $verifyPeer = \true
     ) {
+
+        list($url, $contextOptions) = $this->configureRequestOptions($url, $method, $params, $verifyPeer);
+        $fp = @fopen($url, 'rb', \false, stream_context_create($contextOptions));
+        $headers = stream_get_meta_data($fp)['wrapper_data'];
+
+        return $this->handleRequest($fp, $headers, $outFile, $returnBool, $arrayKey);
+    }
+
+    /**
+     * @param resource|bool $fp
+     * @param array         $responseHeaders
+     * @param string        $outFile
+     * @param bool          $returnBool
+     * @param array         $arrayKey
+     * @return array|bool|int
+     * @throws LocalStorageException
+     * @throws RemoteConnectionException
+     */
+    private function handleRequest($fp, array $responseHeaders, $outFile, $returnBool, $arrayKey)
+    {
+        if ($fp === \false) {
+            throw new RemoteConnectionException(
+                "Unable to connect to host"
+            );
+        }
+
+        $responseCode = $this->getResponseCode($responseHeaders);
+
+        if ($responseCode !== 200) {
+            throw new RemoteConnectionException(
+                "Unexpected Response: {$responseCode}",
+                $responseCode
+            );
+        }
+
+        if ($outFile !== '') {
+            return $this->writeToFile($fp, $outFile);
+        }
+
+        return $this->getResponse(
+            $this->readResponse($fp),
+            $returnBool,
+            $arrayKey
+        );
+    }
+
+    /**
+     * @param string $url
+     * @param string $method
+     * @param array  $params
+     * @param bool   $verifyPeer
+     * @return array
+     * @throws LocalStorageException
+     */
+    private function configureRequestOptions($url, $method, array $params, $verifyPeer)
+    {
         if (isset($params['file']) && $params['file'][0] === '@') {
             $boundary  = '---------------------';
             $boundary .= substr(md5(uniqid('', \true)), 0, 10);
-            
+
             $url  = static::API_UPLOAD_URL . $url;
             $url .= '?oauth_token=' . $params['oauth_token'];
 
@@ -79,8 +135,11 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
             $cnMatch = 'api.put.io';
             $url = static::API_URL . $url;
         }
-        
-        $contextOptions = [];
+
+        $contextOptions['http']['header'] =
+            "User-Agent: " . static::HTTP_USER_AGENT . "\r\n" .
+            "Accept: application/json" . "\r\n" .
+            "Content-Type: " . $contentType . "\r\n";
 
         if ($verifyPeer) {
             $contextOptions['ssl'] = [
@@ -93,42 +152,16 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
             ];
         }
 
+        $contextOptions['http']['method'] = $method;
+
         if ($method === 'POST') {
-            $contextOptions['http'] = [
-                'method' => 'POST',
-                'header' =>
-                    "Accept: application/json" . "\r\n" .
-                    "Content-Type: " . $contentType . "\r\n" .
-                    "Content-Length: " . strlen($data) . "\r\n" .
-                    "User-Agent: " . static::HTTP_USER_AGENT . "\r\n",
-                'content' => $data
-            ];
+            $contextOptions['http']['content'] = $data;
+            $contextOptions['http']['header'] .= "Content-Length: " . strlen($data) . "\r\n";
         } else {
             $url .= '?' . $data;
         }
 
-        $context = stream_context_create($contextOptions);
-
-        if (($fp = @fopen($url, 'rb', \false, $context)) === \false) {
-            $responseCode = $this->getResponseCode($http_response_header);
-
-            if ($responseCode !== 200) {
-                throw new RemoteConnectionException(
-                    "Unexpected Response: {$responseCode}",
-                    $responseCode
-                );
-            }
-        }
-        
-        if ($outFile !== '') {
-            return $this->writeToFile($fp, $outFile);
-        }
-
-        return $this->getResponse(
-            $this->readResponse($fp),
-            $returnBool,
-            $arrayKey
-        );
+        return [$url, $contextOptions];
     }
 
     /**
