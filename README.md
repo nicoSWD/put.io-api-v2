@@ -3,7 +3,7 @@
 [![Build Status](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/badges/build.png?b=master)](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/build-status/master) [![Code Coverage](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/?branch=master)
 
-[![Put.io Logo](https://soon.put.io/assets/img/logo.svg)](https://put.io/ =250x)
+[![Put.io Logo](http://s15.postimg.org/j2ewelz5n/putio_logo.png)](https://put.io/)
 
 This is a powerful PHP class for [put.io](https://put.io/)'s [OAuth2 API](https://api.put.io/v2/docs/) (version 2).
 It supports all features that put.io's API provides, including file uploads, downloads, transfers, friends, etc...
