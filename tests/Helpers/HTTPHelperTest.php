@@ -45,16 +45,16 @@ class HTTPHelperTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    public function testGetReponseCodeParsesHeaderCorrectly()
+    public function testGetResponseCodeParsesHeaderCorrectly()
     {
         $method = new \ReflectionMethod('\PutIO\Helpers\HTTP\HTTPHelper', 'getResponseCode');
         $method->setAccessible(\true);
 
-        $this->assertEquals(200, $method->invoke($this->helper, [
+        $this->assertSame(200, $method->invoke($this->helper, [
             'HTTP/1.1 200 OK'
         ]));
 
-        $this->assertEquals(0, $method->invoke($this->helper, []));
+        $this->assertSame(0, $method->invoke($this->helper, []));
     }
 
     /**
@@ -94,10 +94,7 @@ class HTTPHelperTest extends \PHPUnit_Framework_TestCase
         ));
 
         $this->assertSame(
-            [
-                'valid' => 'json',
-                'robots' => 'yay'
-            ],
+            ['valid' => 'json', 'robots' => 'yay'],
             $method->invokeArgs(
                 $this->helper,
                 ['{"valid": "json", "robots": "yay"}', \false, '']
