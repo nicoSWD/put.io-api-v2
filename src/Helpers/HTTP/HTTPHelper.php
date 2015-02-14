@@ -4,7 +4,7 @@
  * Copyright (C) 2012-2015 Nicolas Oelgart
  * 
  * @author Nicolas Oelgart
- * @license GPL 3 http://www.gnu.org/copyleft/gpl.html
+ * @license MIT http://opensource.org/licenses/MIT
  *
  * Helps handing HTTP requests.
  */
