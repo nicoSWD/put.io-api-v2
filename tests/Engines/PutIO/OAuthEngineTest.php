@@ -43,6 +43,9 @@ class OAuthEngineTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('abc123', $token);
     }
 
+    /**
+     *
+     */
     public function testRequestPermissionSendsCorrectHeader()
     {
         $clientID = 123;

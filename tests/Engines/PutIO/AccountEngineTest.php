@@ -48,7 +48,7 @@ class AccountEngineTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PutIO\Engines\PutIO\AccountEngine::settings()
+     *
      */
     public function testAccountEngineReturnsCorrectSettingsData()
     {
