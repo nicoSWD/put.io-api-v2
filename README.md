@@ -10,9 +10,7 @@ It supports all features that put.io's API provides, including file uploads, dow
 
 Take a look at the [Wiki](https://github.com/nicoSWD/put.io-api-v2/wiki/) and [put.io's API documentation](https://api.put.io/v2/docs/) to get started.
 
-**Pull requests are welcome! Fix, improve, suggest!**
-
-You can also find me on Twitter: @[nicoSWD](https://twitter.com/nicoSWD)
+Find me on Twitter: @[nicoSWD](https://twitter.com/nicoSWD)
 
 ## Install
 
@@ -69,6 +67,9 @@ If you discover any security related issues, please email nico@oelgart.com inste
 ``` bash
 $ phpunit
 ```
+
+## Contributing
+Pull requests are very welcome! If they include tests, even better. This project follows PSR-2 coding standards, please make sure your pull requestst do too.
 
 ## License
 
