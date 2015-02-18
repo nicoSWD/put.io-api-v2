@@ -1,5 +1,6 @@
 ## Put.io OAuth API Wrapper for PHP 5.4
 
+[![Latest Stable Version](https://poser.pugx.org/nicoswd/putio/v/stable.svg)](https://packagist.org/packages/nicoswd/putio)
 [![Build Status](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/badges/build.png?b=master)](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/build-status/master) [![Code Coverage](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/?branch=master)
 
@@ -73,4 +74,4 @@ Pull requests are very welcome! If they include tests, even better. This project
 
 ## License
 
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![License](https://poser.pugx.org/nicoswd/putio/license.svg)](https://packagist.org/packages/nicoswd/putio)
