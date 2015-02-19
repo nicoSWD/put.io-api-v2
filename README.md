@@ -18,7 +18,7 @@ Find me on Twitter: @[nicoSWD](https://twitter.com/nicoSWD)
 Via Composer
 
 ``` bash
-$ composer require "nicoswd/putio": "0.3*"
+$ composer require "nicoswd/putio": "0.3.*"
 ```
 
 Via git
