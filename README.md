@@ -61,7 +61,7 @@ $info = $putio->transfers->info($transferID);
 
 ## Security
 
-If you discover any security related issues, please email nico@oelgart.com instead of using the issue tracker.
+If you discover any security related issues, please email security@nic0.me instead of using the issue tracker.
 
 ## Testing
 
