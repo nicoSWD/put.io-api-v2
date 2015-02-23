@@ -1,8 +1,8 @@
 ## Put.io OAuth API Wrapper for PHP 5.4
 
-[![Latest Stable Version](https://poser.pugx.org/nicoswd/putio/v/stable.svg)](https://packagist.org/packages/nicoswd/putio)
+[![Latest Stable Version](https://img.shields.io/packagist/v/nicoswd/putio.svg)](https://packagist.org/packages/nicoswd/putio)
 [![Build Status](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/badges/build.png?b=master)](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/build-status/master) [![Code Coverage](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/?branch=master)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/nicoswd/put.io-api-v2.svg?b=master)](https://scrutinizer-ci.com/g/nicoSWD/put.io-api-v2/?branch=master)
 
 [![Put.io Logo](http://s15.postimg.org/j2ewelz5n/putio_logo.png)](https://put.io/)
 
@@ -74,4 +74,4 @@ Pull requests are very welcome! If they include tests, even better. This project
 
 ## License
 
-[![License](https://poser.pugx.org/nicoswd/putio/license.svg)](https://packagist.org/packages/nicoswd/putio)
+[![License](https://img.shields.io/packagist/l/nicoSWD/putio.svg)](https://packagist.org/packages/nicoswd/putio)
