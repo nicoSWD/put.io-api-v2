@@ -167,10 +167,10 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
     /**
      * @param resource $fp
      * @param string   $outFile
-     * @return int|bool             Number of bytes written
+     * @return int             Number of bytes written
      * @throws LocalStorageException
      */
-    private function writeToFile($fp, string $outFile)
+    private function writeToFile($fp, string $outFile) : int
     {
         if (($localFp = @fopen($outFile, 'w+')) === \false) {
             throw new LocalStorageException(
