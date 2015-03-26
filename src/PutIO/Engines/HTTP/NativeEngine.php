@@ -63,7 +63,6 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
         string $arrayKey = '',
         bool $verifyPeer = \true
     ) : bool {
-
         list($url, $contextOptions) = $this->configureRequestOptions($url, $method, $params, $verifyPeer);
         $fp = @fopen($url, 'rb', \false, stream_context_create($contextOptions));
         $headers = stream_get_meta_data($fp)['wrapper_data'];
