@@ -6,6 +6,8 @@
 
 [![Put.io Logo](http://s15.postimg.org/j2ewelz5n/putio_logo.png)](https://put.io/)
 
+**Note: This is an experimental branch for PHP 7**
+
 This is a powerful PHP library for [put.io](https://put.io/)'s [OAuth2 API](https://api.put.io/v2/docs/).
 It supports all features that put.io's API provides natively, including file uploads, downloads, transfers, friends, etc... No dependencies required.
 
