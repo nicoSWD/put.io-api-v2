@@ -8,6 +8,8 @@
  *
  * This class helps PutIO engines to do common tasks.
  */
+declare(strict_types=1);
+
 namespace PutIO\Helpers\PutIO;
 
 use PutIO\API;

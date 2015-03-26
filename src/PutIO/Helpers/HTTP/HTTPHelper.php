@@ -8,6 +8,8 @@
  *
  * Helps handing HTTP requests.
  */
+declare(strict_types=1);
+
 namespace PutIO\Helpers\HTTP;
 
 use \Services_JSON;

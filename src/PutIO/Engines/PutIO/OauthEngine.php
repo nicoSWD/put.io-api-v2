@@ -11,6 +11,8 @@
  *
  * https://api.put.io/v2/docs/#authentication
  */
+declare(strict_types=1);
+
 namespace PutIO\Engines\PutIO;
 
 use PutIO\Helpers\PutIO\PutIOHelper;

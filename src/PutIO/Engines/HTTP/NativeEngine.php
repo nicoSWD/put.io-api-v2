@@ -12,6 +12,8 @@
  *
  * If your host doesn't have cURL nor allow_url_fopen, then it's time to change.
  */
+declare(strict_types=1);
+
 namespace PutIO\Engines\HTTP;
 
 use PutIO\Engines\HTTPEngine;

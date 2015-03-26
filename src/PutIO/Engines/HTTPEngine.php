@@ -8,6 +8,8 @@
  *
  * All HTTP engines must implement this interface.
  */
+declare(strict_types=1);
+
 namespace PutIO\Engines;
 
 /**

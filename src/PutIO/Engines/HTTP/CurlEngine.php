@@ -8,6 +8,8 @@
  *
  * Handles HTTP requests using cURL.
  */
+declare(strict_types=1);
+
 namespace PutIO\Engines\HTTP;
 
 use CURLFile;
