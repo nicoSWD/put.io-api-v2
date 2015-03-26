@@ -215,7 +215,7 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
 
         if (($fileData = @file_get_contents($filePath)) === \false) {
             throw new LocalStorageException(
-                'Unable to open local file: ' . ($filePath)
+                "Unable to open local file: {$filePath}"
             );
         }
 
