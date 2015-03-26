@@ -64,8 +64,9 @@ class HTTPHelper
      */
     protected function getResponseCode(array $headers) : int
     {
-        if (isset($headers[0]) &&
-            preg_match('~HTTP/1\.[01]\s+(\d+)~', $headers[0], $match)) {
+        $header = $headers[0] ?? '';
+
+        if (preg_match('~HTTP/1\.[01]\s+(\d+)~', $header, $match)) {
             return (int) $match[1];
         }
         

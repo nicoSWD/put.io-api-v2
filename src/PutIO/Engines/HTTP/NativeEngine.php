@@ -148,8 +148,7 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
                 'allow_self_signed' => \false,
                 'cafile'            => $this->getCertPath(),
                 'verify_depth'      => 5,
-                'CN_match'          => $cnMatch, // @php <  5.6.0
-                'peer_name'         => $cnMatch  // @php >= 5.6.0
+                'peer_name'         => $cnMatch
             ];
         }
 
@@ -179,12 +178,8 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
             );
         }
 
-        $written = 0;
-
-        while (!feof($fp)) {
-            $written += fputs($localFp, fread($fp, 8192));
-        }
-
+        $written = stream_copy_to_stream($fp, $localFp);
+        
         fclose($localFp);
         fclose($fp);
 

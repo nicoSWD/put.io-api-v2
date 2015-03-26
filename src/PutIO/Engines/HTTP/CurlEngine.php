@@ -158,19 +158,16 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
             CURLOPT_POST => \true
         ];
 
-        if (isset($params['file'])) {
-            // @php >= 5.5
-            if (class_exists('\CURLFile')) {
-                $filePath = realpath(substr($params['file'], 1));
+        if (isset($params['file'])) { 
+            $filePath = realpath(substr($params['file'], 1));
 
-                $params['file'] = new CURLFile(
-                    $filePath,
-                    $this->getMIMEType($filePath),
-                    basename($filePath)
-                );
+            $params['file'] = new CURLFile(
+                $filePath,
+                $this->getMIMEType($filePath),
+                basename($filePath)
+            );
 
-                $options[CURLOPT_SAFE_UPLOAD] = \true;
-            }
+            $options[CURLOPT_SAFE_UPLOAD] = \true;
         }
 
         $options[CURLOPT_POSTFIELDS] = $params;

@@ -63,13 +63,7 @@ final class OauthEngine extends PutIOHelper
             'code'          => $code
         ]);
 
-        $result = \false;
-        
-        if (!empty($response['access_token'])) {
-            $result = $response['access_token'];
-        }
-        
-        return $result;
+        return $response['access_token'] ?? false;
     }
 
     /**

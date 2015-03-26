@@ -132,7 +132,6 @@ class NativeEngineTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('', $response[1]['http']['content']);
 
         $this->assertTrue($response[1]['ssl']['verify_peer']);
-        $this->assertSame('api.put.io', $response[1]['ssl']['CN_match']);
         $this->assertSame('api.put.io', $response[1]['ssl']['peer_name']);
 
         // Without verify peer, no SSL options should be generated.
@@ -146,8 +145,6 @@ class NativeEngineTest extends \PHPUnit_Framework_TestCase
             fclose($fp);
 
             $response = $method->invokeArgs($this->engine, ['account/info', 'POST', ['file' => '@' . $tmpName, 'oauth_token'=> '123'], \true]);
-
-            $this->assertSame('upload.put.io', $response[1]['ssl']['CN_match']);
             $this->assertSame('upload.put.io', $response[1]['ssl']['peer_name']);
         } else {
             $this->markTestIncomplete(
