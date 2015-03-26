@@ -26,7 +26,7 @@ final class TransfersEngine extends PutIOHelper
      *
      * @return array
      */
-    public function listall()
+    public function listall() : array
     {
         return $this->get('transfers/list', [], \false, 'transfers');
     }
@@ -41,8 +41,12 @@ final class TransfersEngine extends PutIOHelper
      *                                  the given URL when file is ready.
      * @return array
      */
-    public function add($url, $parentID = 0, $extract = \false, $callbackUrl = '')
-    {
+    public function add(
+        string $url,
+        int $parentID = 0,
+        bool $extract = \false,
+        string $callbackUrl = ''
+    ) : array {
         $data = [
             'url'            => $url,
             'save_parent_id' => $parentID,
@@ -59,7 +63,7 @@ final class TransfersEngine extends PutIOHelper
      * @param integer $transferID   ID of the transfer
      * @return array
      */
-    public function info($transferID)
+    public function info(int $transferID) : array
     {
         return $this->get("transfers/{$transferID}", [], \false);
     }
@@ -70,7 +74,7 @@ final class TransfersEngine extends PutIOHelper
      * @param int $transferID   Transfer IDs you want to retry.
      * @return boolean
      */
-    public function retry($transferID)
+    public function retry(int $transferID) : bool
     {
         $data = [
             'id' => $transferID
@@ -85,7 +89,7 @@ final class TransfersEngine extends PutIOHelper
      * @param int|array $transferIDs   Transfer IDs you want to cancel.
      * @return boolean
      */
-    public function cancel($transferIDs)
+    public function cancel($transferIDs) : bool
     {
         if (is_array($transferIDs)) {
             $transferIDs = implode(',', $transferIDs);
@@ -103,7 +107,7 @@ final class TransfersEngine extends PutIOHelper
      *
      * @return boolean
      */
-    public function clean()
+    public function clean() : bool
     {
         return $this->post('transfers/clean', [], \true);
     }

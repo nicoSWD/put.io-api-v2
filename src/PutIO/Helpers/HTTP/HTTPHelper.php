@@ -46,7 +46,7 @@ class HTTPHelper
      * @param array $response    Response from remote server.
      * @return bool
      */
-    protected function getStatus(array $response)
+    protected function getStatus(array $response) : bool
     {
         if (isset($response['status']) && $response['status'] === 'OK') {
             return \true;
@@ -62,7 +62,7 @@ class HTTPHelper
      * @param array $headers    Array containing response headers
      * @return int
      */
-    protected function getResponseCode(array $headers)
+    protected function getResponseCode(array $headers) : int
     {
         if (isset($headers[0]) &&
             preg_match('~HTTP/1\.[01]\s+(\d+)~', $headers[0], $match)) {
@@ -82,7 +82,7 @@ class HTTPHelper
      * @param string $file    Path of the file you want to get the MIME type of.
      * @return string
      */
-    protected function getMIMEType($file)
+    protected function getMIMEType(string $file) : string
     {
         $mime = 'application/octet-stream';
 
@@ -105,7 +105,7 @@ class HTTPHelper
      *                                  of the response.
      * @return array|bool
      */
-    protected function getResponse($response, $returnBool, $arrayKey = '')
+    protected function getResponse(string $response, bool $returnBool, string $arrayKey = '')
     {
         $response = $this->jsonDecode($response);
 
@@ -131,7 +131,7 @@ class HTTPHelper
     /**
      * @return string
      */
-    protected function getCertPath()
+    protected function getCertPath() : string
     {
         return realpath(__DIR__ . '/../../Certificates/StarfieldClass2CA.pem');
     }
@@ -140,7 +140,7 @@ class HTTPHelper
      * @param $string
      * @return mixed
      */
-    protected function jsonDecode($string)
+    protected function jsonDecode(string $string)
     {
         if (!isset($this->jsonDecoder)) {
             $this->jsonDecoder = function_exists('json_decode')
@@ -157,7 +157,7 @@ class HTTPHelper
      * @param string $string
      * @return array|null
      */
-    protected function nativeJsonDecode($string)
+    protected function nativeJsonDecode(string $string)
     {
         $result = @json_decode($string, \true);
 
@@ -172,7 +172,7 @@ class HTTPHelper
      * @param string $string
      * @return array|null
      */
-    protected function pearJsonDecode($string)
+    protected function pearJsonDecode(string $string)
     {
         if (!class_exists('Services_JSON')) {
             require __DIR__ . '/../../Engines/JSON/JSON.php';

@@ -32,7 +32,7 @@ final class OauthEngine extends PutIOHelper
      * @param string $redirectURI   The URI where the user will be redirected
      *                                  to once permission is granted.
      */
-    public function requestPermission($clientID, $redirectURI)
+    public function requestPermission(int $clientID, string $redirectURI)
     {
         header('Location: ' . $this->getRedirectURL($clientID, $redirectURI));
         exit;
@@ -49,8 +49,12 @@ final class OauthEngine extends PutIOHelper
      * @param string $code           Code obtained by first step
      * @return string|bool
      */
-    public function verifyCode($clientID, $clientSecret, $redirectURI, $code)
-    {
+    public function verifyCode(
+        int $clientID,
+        string $clientSecret,
+        string $redirectURI,
+        string $code
+    ) {
         $response = $this->get('oauth2/access_token', [
             'client_id'     => $clientID,
             'client_secret' => $clientSecret,
@@ -73,7 +77,7 @@ final class OauthEngine extends PutIOHelper
      * @param string $redirectURI
      * @return string
      */
-    private function getRedirectURL($clientID, $redirectURI)
+    private function getRedirectURL(int $clientID, string $redirectURI) : string
     {
         return sprintf(
             'https://api.put.io/v2/oauth2/authenticate?' .

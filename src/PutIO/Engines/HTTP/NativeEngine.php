@@ -55,14 +55,14 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
      * @throws \PutIO\Exceptions\RemoteConnectionException
      */
     public function request(
-        $method,
-        $url,
+        string $method,
+        string $url,
         array $params = [],
-        $outFile = '',
-        $returnBool = \false,
-        $arrayKey = '',
-        $verifyPeer = \true
-    ) {
+        string $outFile = '',
+        bool $returnBool = \false,
+        string $arrayKey = '',
+        bool $verifyPeer = \true
+    ) : bool {
 
         list($url, $contextOptions) = $this->configureRequestOptions($url, $method, $params, $verifyPeer);
         $fp = @fopen($url, 'rb', \false, stream_context_create($contextOptions));
@@ -81,7 +81,7 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
      * @throws LocalStorageException
      * @throws RemoteConnectionException
      */
-    private function handleRequest($fp, array $responseHeaders, $outFile, $returnBool, $arrayKey)
+    private function handleRequest($fp, array $responseHeaders, string $outFile, bool $returnBool, string $arrayKey)
     {
         if ($fp === \false) {
             throw new RemoteConnectionException(
@@ -117,7 +117,7 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
      * @return array
      * @throws LocalStorageException
      */
-    private function configureRequestOptions($url, $method, array $params, $verifyPeer)
+    private function configureRequestOptions(string $url, string $method, array $params, bool $verifyPeer) : array
     {
         if (isset($params['file']) && $params['file'][0] === '@') {
             $boundary  = '---------------------';
@@ -171,7 +171,7 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
      * @return int|bool             Number of bytes written
      * @throws LocalStorageException
      */
-    private function writeToFile($fp, $outFile)
+    private function writeToFile($fp, string $outFile)
     {
         if (($localFp = @fopen($outFile, 'w+')) === \false) {
             throw new LocalStorageException(
@@ -195,7 +195,7 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
      * @param resource $fp
      * @return string
      */
-    private function readResponse($fp)
+    private function readResponse($fp) : string
     {
         $response = '';
 
@@ -213,7 +213,7 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
      * @return string
      * @throws LocalStorageException
      */
-    private function getPostData(array $params, $boundary)
+    private function getPostData(array $params, string $boundary) : string
     {
         $data = '';
         $filePath = substr($params['file'], 1);

@@ -30,7 +30,7 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
     /**
      * @return array
      */
-    private function getDefaultOptions()
+    private function getDefaultOptions() : array
     {
         $options = [
             CURLOPT_USERAGENT      => static::HTTP_USER_AGENT,
@@ -66,13 +66,13 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
      * @throws RemoteConnectionException
      */
     public function request(
-        $method,
-        $url,
+        string $method,
+        string $url,
         array $params = [],
-        $outFile = '',
-        $returnBool = \false,
-        $arrayKey = '',
-        $verifyPeer = \true
+        string $outFile = '',
+        bool $returnBool = \false,
+        string $arrayKey = '',
+        bool $verifyPeer = \true
     ) {
         $this->verifyPeer = $verifyPeer;
         list($url, $options) = $this->configureRequestOptions($url, $method, $params, $outFile);
@@ -91,7 +91,7 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
      * @param int    $responseCode
      * @throws RemoteConnectionException
      */
-    private function handleResponse($errNum, $error, $responseCode)
+    private function handleResponse(int $errNum, string $error, int $responseCode)
     {
         if ($errNum) {
             throw new RemoteConnectionException($error, $errNum);
@@ -113,8 +113,12 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
      * @return array
      * @throws LocalStorageException
      */
-    private function configureRequestOptions($url, $method, array $params, $outFile)
-    {
+    private function configureRequestOptions(
+        string $url,
+        string $method,
+        array $params,
+        string $outFile
+    ) : array {
         $options = $this->getDefaultOptions();
 
         if ($method === 'POST') {
@@ -148,7 +152,7 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
      * @param array $params
      * @return array
      */
-    private function post(array $params)
+    private function post(array $params) : array
     {
         $options = [
             CURLOPT_POST => \true

@@ -27,7 +27,7 @@ final class FilesEngine extends PutIOHelper
      * @param integer $parentID  Only returns files of $parentID if supplied
      * @return mixed
      */
-    public function listall($parentID = 0)
+    public function listall(int $parentID = 0)
     {
         $params = [
             'parent_id' => $parentID
@@ -43,7 +43,7 @@ final class FilesEngine extends PutIOHelper
      * @param integer $page    Page number
      * @return array
      */
-    public function search($query, $page = 1)
+    public function search(string $query, int $page = 1) : array
     {
         return $this->get(sprintf(
             'files/search/%s/page/%d',
@@ -70,7 +70,7 @@ final class FilesEngine extends PutIOHelper
      * @return mixed
      * @throws \Exception
      */
-    public function upload($file, $parentID = 0)
+    public function upload(string $file, int $parentID = 0)
     {
         if (!$file = realpath($file)) {
             throw new \Exception('File not found');
@@ -89,7 +89,7 @@ final class FilesEngine extends PutIOHelper
      * @param integer $parentID    ID of the parent folder.
      * @return mixed
      */
-    public function makeDir($name, $parentID = 0)
+    public function makeDir(string $name, int $parentID = 0)
     {
         $data = [
             'name'      => $name,
@@ -105,7 +105,7 @@ final class FilesEngine extends PutIOHelper
      * @param integer $fileID   ID of the file.
      * @return mixed
      */
-    public function info($fileID)
+    public function info(int $fileID)
     {
         return $this->get("files/{$fileID}", [], \false, 'file');
     }
@@ -116,7 +116,7 @@ final class FilesEngine extends PutIOHelper
      * @param mixed $fileIDs  IDs of files you want to delete. Array or integer.
      * @return boolean
      */
-    public function delete($fileIDs)
+    public function delete($fileIDs) : bool
     {
         if (is_array($fileIDs)) {
             $fileIDs = implode(',', $fileIDs);
@@ -136,7 +136,7 @@ final class FilesEngine extends PutIOHelper
      * @param string  $name    New name of the file.
      * @return boolean
      */
-    public function rename($fileID, $name)
+    public function rename(int $fileID, string $name) : bool
     {
         $data = [
             'file_id' => $fileID,
@@ -153,7 +153,7 @@ final class FilesEngine extends PutIOHelper
      * @param integer $parentID ID of the folder you want to move the files to.
      * @return boolean
      */
-    public function move($fileIDs, $parentID)
+    public function move($fileIDs, int $parentID) : bool
     {
         if (is_array($fileIDs)) {
             $fileIDs = implode(',', $fileIDs);
@@ -173,7 +173,7 @@ final class FilesEngine extends PutIOHelper
      * @param integer $fileID   ID of the file you want to convert.
      * @return boolean
      */
-    public function convertToMP4($fileID)
+    public function convertToMP4(int $fileID) : bool
     {
         return $this->post("files/{$fileID}/mp4", [], \true);
     }
@@ -182,9 +182,9 @@ final class FilesEngine extends PutIOHelper
      * Returns information about the conversation process of a specific file.
      *
      * @param integer $fileID    ID of the file you want to get the status of.
-     * @return array
+     * @return bool
      */
-    public function getMP4Status($fileID)
+    public function getMP4Status(int $fileID) : bool
     {
         return $this->get("files/{$fileID}/mp4", [], \false, 'mp4');
     }
@@ -200,7 +200,7 @@ final class FilesEngine extends PutIOHelper
      *                              of a file.
      * @return boolean
      */
-    public function download($fileID, $saveAs = '', $isMP4 = \false)
+    public function download(int $fileID, string $saveAs = '', bool $isMP4 = \false) : bool
     {
         if ($saveAs === '') {
             if (!$info = $this->info($fileID)) {
@@ -224,7 +224,7 @@ final class FilesEngine extends PutIOHelper
      * @param string  $saveAs   Local path you want to save the file to.
      * @return boolean
      */
-    public function downloadMP4($fileID, $saveAs = '')
+    public function downloadMP4(int $fileID, string $saveAs = '') : bool
     {
         return $this->download($fileID, $saveAs, \true);
     }
@@ -239,7 +239,7 @@ final class FilesEngine extends PutIOHelper
      *                              of a file.
      * @return string
      */
-    public function getDownloadURL($fileID, $isMP4 = \false)
+    public function getDownloadURL(int $fileID, bool $isMP4 = \false) : string
     {
         return sprintf(
             'https://api.put.io/v2/files/%d/%sdownload?oauth_token=%s',

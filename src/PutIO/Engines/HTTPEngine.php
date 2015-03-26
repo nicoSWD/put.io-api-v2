@@ -33,12 +33,12 @@ interface HTTPEngine
      * @return mixed
      */
     public function request(
-        $method,
-        $url,
+        string $method,
+        string $url,
         array $params = [],
-        $outFile = '',
-        $returnBool = \false,
-        $arrayKey = '',
-        $verifyPeer = \true
+        string $outFile = '',
+        bool $returnBool = \false,
+        string $arrayKey = '',
+        bool $verifyPeer = \true
     );
 }

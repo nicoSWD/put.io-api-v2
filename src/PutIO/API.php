@@ -33,6 +33,8 @@
 namespace PutIO;
 
 use PutIO\Engines;
+use PutIO\Engines\HTTPEngine;
+use PutIO\Helpers\PutIO\PutIOHelper;
 
 /**
  * Class API
@@ -86,7 +88,7 @@ class API
      *
      * @param string $OAuthToken   User's OAuth token.
      */
-    public function __construct($OAuthToken = '')
+    public function __construct(string $OAuthToken = '')
     {
         $this->setOAuthToken($OAuthToken);
     }
@@ -94,15 +96,15 @@ class API
     /**
      * @param bool $bool
      */
-    public function setSSLVerifyPeer($bool = \true)
+    public function setSSLVerifyPeer(bool $bool = \true)
     {
-        $this->SSLVerifyPeer = (bool) $bool;
+        $this->SSLVerifyPeer = $bool;
     }
 
     /**
      * @return bool $bool
      */
-    public function getSSLVerifyPeer()
+    public function getSSLVerifyPeer() : bool
     {
         return $this->SSLVerifyPeer;
     }
@@ -110,27 +112,27 @@ class API
     /**
      * @param string $token
      */
-    public function setOAuthToken($token)
+    public function setOAuthToken(string $token)
     {
-        $this->OAuthToken = (string) $token;
+        $this->OAuthToken = $token;
     }
 
     /**
      * @return string
      */
-    public function getOAuthToken()
+    public function getOAuthToken() : string
     {
         return $this->OAuthToken;
     }
 
     /**
-     * @param string|Engines\HTTPEngine $engine
+     * @param string|HTTPEngine $engine
      */
     public function setHTTPEngine($engine)
     {
-        if (!($engine instanceof Engines\HTTPEngine)) {
+        if (!($engine instanceof HTTPEngine)) {
             $class = '\PutIO\Engines\HTTP\\' . $engine . 'Engine';
-            /* @var Engines\HTTPEngine $engine */
+            /* @var HTTPEngine $engine */
             $engine = new $class();
         }
 
@@ -138,9 +140,9 @@ class API
     }
 
     /**
-     * @return Engines\HTTPEngine
+     * @return HTTPEngine
      */
-    public function getHTTPEngine()
+    public function getHTTPEngine() : HTTPEngine
     {
         if (!$this->HTTPEngine) {
             $engine = function_exists('curl_init')
@@ -158,10 +160,10 @@ class API
      * Magic method, returns an instance of the requested class.
      *
      * @param string $name   Class name
-     * @return Helpers\PutIO\PutIOHelper
+     * @return PutIOHelper
      * @throws \RuntimeException
      */
-    public function __get($name)
+    public function __get(string $name) : PutIOHelper
     {
         $class = strtolower($name);
         $class = ucfirst($class) . 'Engine';

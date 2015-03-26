@@ -34,13 +34,13 @@ final class TestEngine extends HTTPHelper implements HTTPEngine
      * @throws \PutIO\Exceptions\LocalStorageException
      */
     public function request(
-        $method,
-        $url,
+        string $method,
+        string $url,
         array $params = [],
-        $outFile = '',
-        $returnBool = \false,
-        $arrayKey = '',
-        $verifyPeer = \true
+        string $outFile = '',
+        bool $returnBool = \false,
+        string $arrayKey = '',
+        bool $verifyPeer = \true
     ) {
         $url = str_replace('/', '_', $url);
 

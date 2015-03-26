@@ -53,10 +53,10 @@ class PutIOHelper
      * @return mixed
      */
     protected function get(
-        $path,
+        string $path,
         array $params = [],
-        $returnBool = \false,
-        $arrayKey = ''
+        bool $returnBool = \false,
+        string $arrayKey = ''
     ) {
         return $this->request('GET', $path, $params, '', $returnBool, $arrayKey);
     }
@@ -72,10 +72,10 @@ class PutIOHelper
      * @return mixed
      */
     protected function post(
-        $path,
+        string $path,
         array $params = [],
-        $returnBool = \false,
-        $arrayKey = ''
+        bool $returnBool = \false,
+        string $arrayKey = ''
     ) {
         return $this->request('POST', $path, $params, '', $returnBool, $arrayKey);
     }
@@ -91,7 +91,7 @@ class PutIOHelper
      * @param string $saveAS  Path to local file.
      * @return bool
      */
-    protected function downloadFile($path, $saveAS)
+    protected function downloadFile(string $path, string $saveAS) : bool
     {
         return $this->request('GET', $path, [], $saveAS, \true);
     }
@@ -105,9 +105,9 @@ class PutIOHelper
      *
      * @param string $path     Path to file you want to upload.
      * @param array  $params   Addition variables to be sent.
-     * @return bool
+     * @return array
      */
-    protected function uploadFile($path, array $params = [])
+    protected function uploadFile(string $path, array $params = []) : array
     {
         return $this->request('POST', $path, $params, '', \false, 'file');
     }
@@ -127,12 +127,12 @@ class PutIOHelper
      * @throws \PutIO\Exceptions\LocalStorageException
      */
     protected function request(
-        $method,
-        $path,
+        string $method,
+        string $path,
         array $params = [],
-        $outFile = '',
-        $returnBool = \false,
-        $arrayKey = ''
+        string $outFile = '',
+        bool $returnBool = \false,
+        string $arrayKey = ''
     ) {
         if ($token = $this->putio->getOAuthToken()) {
             $params['oauth_token'] = $token;

@@ -26,7 +26,7 @@ final class FriendsEngine extends PutIOHelper
      *
      * @return array 
      */
-    public function listall()
+    public function listall() : array
     {
         return $this->get('friends/list', [], \false, 'friends');
     }
@@ -36,7 +36,7 @@ final class FriendsEngine extends PutIOHelper
      *
      * @return array
      */
-    public function pendingRequests()
+    public function pendingRequests() : array
     {
         return $this->get('friends/waiting-requests', [], \false, 'friends');
     }
@@ -47,7 +47,7 @@ final class FriendsEngine extends PutIOHelper
      * @param string $username User to receive friend request
      * @return boolean
      */
-    public function sendRequest($username)
+    public function sendRequest(string $username) : bool
     {
         return $this->post("friends/{$username}/request", [], \true);
     }
@@ -58,7 +58,7 @@ final class FriendsEngine extends PutIOHelper
      * @param string $username User to have their request denied
      * @return boolean
      */
-    public function approveRequest($username)
+    public function approveRequest(string $username) : bool
     {
         return $this->post("friends/{$username}/approve", [], \true);
     }
@@ -69,7 +69,7 @@ final class FriendsEngine extends PutIOHelper
      * @param string $username User to have their request denied
      * @return boolean
      */
-    public function denyRequest($username)
+    public function denyRequest(string $username) : bool
     {
         return $this->post("friends/{$username}/deny", [], \true);
     }
@@ -80,7 +80,7 @@ final class FriendsEngine extends PutIOHelper
      * @param string $username User to have their request denied
      * @return boolean
      */
-    public function unfriend($username)
+    public function unfriend(string $username) : bool
     {
         return $this->post("friends/{$username}/unfriend", [], \true);
     }
