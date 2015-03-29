@@ -13,6 +13,8 @@ Take a look at the [Wiki](https://github.com/nicoSWD/put.io-api-v2/wiki/) and [p
 
 Find me on Twitter: @[nicoSWD](https://twitter.com/nicoSWD)
 
+**Take a look at the experimental [branch for PHP 7](https://github.com/nicoSWD/put.io-api-v2/tree/php7) with strict type hints and return types**
+
 ## Install
 
 Via Composer
