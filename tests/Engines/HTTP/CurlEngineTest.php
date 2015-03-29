@@ -12,7 +12,10 @@ namespace {
     if (!class_exists('CURLFile')) {
         class CURLFile
         {
+            public function __construct(string $filename, string $mimetype = '', string $postname = '')
+            {
 
+            }
         }
 
         define('CURLOPT_SAFE_UPLOAD', -1);
