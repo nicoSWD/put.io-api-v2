@@ -71,11 +71,19 @@ class CurlEngineTest extends \PHPUnit_Framework_TestCase
         $method = new \ReflectionMethod('\PutIO\Engines\HTTP\CurlEngine', 'post');
         $method->setAccessible(true);
 
-        $params = ['file' => '@test.txt'];
+        $file = tempnam(sys_get_temp_dir(), (string) time());
 
-        $options = $method->invoke($this->engine, $params);
-        $this->assertArrayHasKey(CURLOPT_POST, $options);
-        $this->assertArrayHasKey(CURLOPT_SAFE_UPLOAD, $options);
+        if (!$file || @!touch($file)) {
+            $this->markTestSkipped(
+                'Unable to create temp file. Test skipped.'
+            );
+        } else {
+            $params = ['file' => '@' . $file];
+
+            $options = $method->invoke($this->engine, $params);
+            $this->assertArrayHasKey(CURLOPT_POST, $options);
+            $this->assertArrayHasKey(CURLOPT_SAFE_UPLOAD, $options);
+        }
     }
 
     /**
@@ -116,11 +124,6 @@ class CurlEngineTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('https://api.put.io/v2/account/info', $url);
         $this->assertTrue($options[CURLOPT_RETURNTRANSFER]);
 
-        $params = ['account/info', 'POST', ['oauth_token' => '123', 'file' => '@test.txt'], ''];
-        list($url,) = $method->invokeArgs($this->engine, $params);
-
-        $this->assertSame('https://upload.put.io/v2/account/info?oauth_token=123', $url);
-
         $params = ['account/info', 'GET', ['foo' => 'bar'], ''];
         list($url,) = $method->invokeArgs($this->engine, $params);
 
@@ -133,6 +136,19 @@ class CurlEngineTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInternalType('resource', $options[CURLOPT_FILE]);
         $this->assertSame('https://api.put.io/v2/account/info?foo=bar', $url);
+
+        $file = tempnam(sys_get_temp_dir(), (string) time());
+        
+        if (!$file || @!touch($file)) {
+            $this->markTestIncomplete(
+                'Unable to create temp file. Test incomplete.'
+            );
+        } else {
+            $params = ['account/info', 'POST', ['oauth_token' => '123', 'file' => '@' . $file], ''];
+            list($url,) = $method->invokeArgs($this->engine, $params);
+
+            $this->assertSame('https://upload.put.io/v2/account/info?oauth_token=123', $url);
+        }
     }
 
     /**
