@@ -6,6 +6,8 @@
  * @author Nicolas Oelgart
  * @license MIT http://opensource.org/licenses/MIT
  */
+declare(strict_types=1);
+
 namespace tests\Engines;
 
 /**
@@ -70,7 +72,7 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
      */
     public function testUploadThrowsExceptionIfFileNotFound()
     {
-        $this->api->files->upload(md5(microtime(\true)));
+        $this->api->files->upload(md5((string) microtime(true)));
     }
 
     /**
@@ -170,7 +172,7 @@ class FilesEngineTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(
             'https://api.put.io/v2/files/41/mp4/download?oauth_token=' . $token,
-            $this->api->files->getDownloadURL(41, \true)
+            $this->api->files->getDownloadURL(41, true)
         );
     }
 }

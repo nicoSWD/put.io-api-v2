@@ -6,6 +6,8 @@
  * @author Nicolas Oelgart
  * @license MIT http://opensource.org/licenses/MIT
  */
+declare(strict_types=1);
+
 namespace tests\PutIO;
 
 /**
@@ -56,8 +58,8 @@ class APITest extends \PHPUnit_Framework_TestCase
         $this->api->setOAuthToken('xxxxx');
         $this->assertSame('xxxxx', $this->api->getOAuthToken());
 
-        $this->api->setSSLVerifyPeer(\false);
-        $this->assertSame(\false, $this->api->getSSLVerifyPeer());
+        $this->api->setSSLVerifyPeer(false);
+        $this->assertSame(false, $this->api->getSSLVerifyPeer());
     }
 
     /**

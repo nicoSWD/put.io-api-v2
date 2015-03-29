@@ -6,6 +6,8 @@
  * @author Nicolas Oelgart
  * @license MIT http://opensource.org/licenses/MIT
  */
+declare(strict_types=1);
+
 namespace {
     if (!class_exists('CURLFile')) {
         class CURLFile
@@ -44,7 +46,7 @@ class CurlEngineTest extends \PHPUnit_Framework_TestCase
     public function testGetDefaultOptionsReturnsExpectedData()
     {
         $method = new \ReflectionMethod('\PutIO\Engines\HTTP\CurlEngine', 'getDefaultOptions');
-        $method->setAccessible(\true);
+        $method->setAccessible(true);
 
         $options = $method->invoke($this->engine);
 
@@ -53,8 +55,8 @@ class CurlEngineTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey(CURLOPT_CAINFO, $options); // Verify by default
 
         $property = new \ReflectionProperty('\PutIO\Engines\HTTP\CurlEngine', 'verifyPeer');
-        $property->setAccessible(\true);
-        $property->setValue($this->engine, \false);
+        $property->setAccessible(true);
+        $property->setValue($this->engine, false);
 
         $options = $method->invoke($this->engine);
 
@@ -67,7 +69,7 @@ class CurlEngineTest extends \PHPUnit_Framework_TestCase
     public function testPostReturnsExpectedOptions()
     {
         $method = new \ReflectionMethod('\PutIO\Engines\HTTP\CurlEngine', 'post');
-        $method->setAccessible(\true);
+        $method->setAccessible(true);
 
         $params = ['file' => '@test.txt'];
 
@@ -82,7 +84,7 @@ class CurlEngineTest extends \PHPUnit_Framework_TestCase
     public function testHandleResponseThrowsExceptionCurlErrNum()
     {
         $method = new \ReflectionMethod('\PutIO\Engines\HTTP\CurlEngine', 'handleResponse');
-        $method->setAccessible(\true);
+        $method->setAccessible(true);
 
         $params = [404, 'Not Found', 404];
         $method->invokeArgs($this->engine, $params);
@@ -94,7 +96,7 @@ class CurlEngineTest extends \PHPUnit_Framework_TestCase
     public function testHandleResponseThrowsExceptionOnBadResponseCode()
     {
         $method = new \ReflectionMethod('\PutIO\Engines\HTTP\CurlEngine', 'handleResponse');
-        $method->setAccessible(\true);
+        $method->setAccessible(true);
 
         $params = [0, 'Not Found', 400];
         $method->invokeArgs($this->engine, $params);
@@ -106,7 +108,7 @@ class CurlEngineTest extends \PHPUnit_Framework_TestCase
     public function testConfigureRequestOptionsReturnsExpectedData()
     {
         $method = new \ReflectionMethod('\PutIO\Engines\HTTP\CurlEngine', 'configureRequestOptions');
-        $method->setAccessible(\true);
+        $method->setAccessible(true);
 
         $params = ['account/info', 'POST', [], ''];
         list($url, $options) = $method->invokeArgs($this->engine, $params);
@@ -124,7 +126,7 @@ class CurlEngineTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame('https://api.put.io/v2/account/info?foo=bar', $url);
 
-        $tmpName = tempnam(sys_get_temp_dir(), time());
+        $tmpName = tempnam(sys_get_temp_dir(), (string) time());
 
         $params = ['account/info', 'GET', ['foo' => 'bar'], $tmpName];
         list($url, $options) = $method->invokeArgs($this->engine, $params);
@@ -139,7 +141,7 @@ class CurlEngineTest extends \PHPUnit_Framework_TestCase
     public function testConfigureRequestOptionsThrowsExceptionOnOutFileError()
     {
         $method = new \ReflectionMethod('\PutIO\Engines\HTTP\CurlEngine', 'configureRequestOptions');
-        $method->setAccessible(\true);
+        $method->setAccessible(true);
         $tmpName = '/\/\/\/';
 
         $params = ['account/info', 'GET', [], $tmpName];

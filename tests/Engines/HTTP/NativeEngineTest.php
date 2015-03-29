@@ -32,12 +32,12 @@ class NativeEngineTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadResponseReturnsReadData()
     {
-        if (($fp = tmpfile()) !== \false) {
+        if (($fp = tmpfile()) !== false) {
             fwrite($fp, 'test');
             fseek($fp, 0);
 
             $method = new \ReflectionMethod('\PutIO\Engines\HTTP\NativeEngine', 'readResponse');
-            $method->setAccessible(\true);
+            $method->setAccessible(true);
 
             // NativeEngine::readResponse closes the resource
             $response = $method->invoke($this->engine, $fp);
@@ -56,9 +56,9 @@ class NativeEngineTest extends \PHPUnit_Framework_TestCase
     public function testHandleRequestThrowsExceptionIfFopenFailed()
     {
         $method = new \ReflectionMethod('\PutIO\Engines\HTTP\NativeEngine', 'handleRequest');
-        $method->setAccessible(\true);
+        $method->setAccessible(true);
 
-        $method->invokeArgs($this->engine, [\false, [], '', '', '']);
+        $method->invokeArgs($this->engine, [false, [], '', '', '']);
     }
 
     /**
@@ -67,9 +67,9 @@ class NativeEngineTest extends \PHPUnit_Framework_TestCase
     public function testHandleRequestThrowsExceptionOnNon200StatusCodes()
     {
         $method = new \ReflectionMethod('\PutIO\Engines\HTTP\NativeEngine', 'handleRequest');
-        $method->setAccessible(\true);
+        $method->setAccessible(true);
 
-        if (($fp = tmpfile()) !== \false) {
+        if (($fp = tmpfile()) !== false) {
             $method->invokeArgs($this->engine, [$fp, [0 => 'HTTP/1.1 401 Unauthorized'], '', '', '']);
         } else {
             $this->markTestIncomplete('File writing permissions required');
@@ -82,9 +82,9 @@ class NativeEngineTest extends \PHPUnit_Framework_TestCase
     public function testHandleRequestWritesToOutfileIfSpecified()
     {
         $method = new \ReflectionMethod('\PutIO\Engines\HTTP\NativeEngine', 'handleRequest');
-        $method->setAccessible(\true);
+        $method->setAccessible(true);
 
-        if (($fp = tmpfile()) !== \false) {
+        if (($fp = tmpfile()) !== false) {
             fwrite($fp, 'test');
             fseek($fp, 0);
             $outFile = tempnam(sys_get_temp_dir(), time());
@@ -104,9 +104,9 @@ class NativeEngineTest extends \PHPUnit_Framework_TestCase
     public function testHandleRequestWritesReturnsDecodedJSON()
     {
         $method = new \ReflectionMethod('\PutIO\Engines\HTTP\NativeEngine', 'handleRequest');
-        $method->setAccessible(\true);
+        $method->setAccessible(true);
 
-        if (($fp = tmpfile()) !== \false) {
+        if (($fp = tmpfile()) !== false) {
             fwrite($fp, '{"status": "ok"}');
             fseek($fp, 0);
 
@@ -123,9 +123,9 @@ class NativeEngineTest extends \PHPUnit_Framework_TestCase
     public function testConfigureRequestOptionsReturnsExpectedArray()
     {
         $method = new \ReflectionMethod('\PutIO\Engines\HTTP\NativeEngine', 'configureRequestOptions');
-        $method->setAccessible(\true);
+        $method->setAccessible(true);
 
-        $response = $method->invokeArgs($this->engine, ['account/info', 'POST', [], \true]);
+        $response = $method->invokeArgs($this->engine, ['account/info', 'POST', [], true]);
 
         $this->assertSame('https://api.put.io/v2/account/info', $response[0]);
         $this->assertSame('POST', $response[1]['http']['method']);
@@ -135,7 +135,7 @@ class NativeEngineTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('api.put.io', $response[1]['ssl']['peer_name']);
 
         // Without verify peer, no SSL options should be generated.
-        $response = $method->invokeArgs($this->engine, ['account/info', 'POST', [], \false]);
+        $response = $method->invokeArgs($this->engine, ['account/info', 'POST', [], false]);
         $this->assertArrayNotHasKey('ssl', $response[1]);
 
         $tmpName = tempnam(sys_get_temp_dir(), time());
@@ -144,7 +144,7 @@ class NativeEngineTest extends \PHPUnit_Framework_TestCase
             fwrite($fp, 'test');
             fclose($fp);
 
-            $response = $method->invokeArgs($this->engine, ['account/info', 'POST', ['file' => '@' . $tmpName, 'oauth_token'=> '123'], \true]);
+            $response = $method->invokeArgs($this->engine, ['account/info', 'POST', ['file' => '@' . $tmpName, 'oauth_token'=> '123'], true]);
             $this->assertSame('upload.put.io', $response[1]['ssl']['peer_name']);
         } else {
             $this->markTestIncomplete(
@@ -152,7 +152,7 @@ class NativeEngineTest extends \PHPUnit_Framework_TestCase
             );
         }
 
-        $response = $method->invokeArgs($this->engine, ['account/info', 'GET', [], \true]);
+        $response = $method->invokeArgs($this->engine, ['account/info', 'GET', [], true]);
         $this->assertSame('GET', $response[1]['http']['method']);
     }
 
@@ -163,12 +163,12 @@ class NativeEngineTest extends \PHPUnit_Framework_TestCase
     {
         $tmpName = tempnam(sys_get_temp_dir(), time());
 
-        if (($fp = fopen($tmpName, 'w')) !== \false) {
+        if (($fp = fopen($tmpName, 'w')) !== false) {
             fwrite($fp, 'test');
             fclose($fp);
 
             $method = new \ReflectionMethod('\PutIO\Engines\HTTP\NativeEngine', 'getPostData');
-            $method->setAccessible(\true);
+            $method->setAccessible(true);
 
             $params = [
                 'foo' => 'bar',
@@ -209,11 +209,11 @@ test
     public function testGetPostDataThrowsExceptionIfFileNotFound()
     {
         $method = new \ReflectionMethod('\PutIO\Engines\HTTP\NativeEngine', 'getPostData');
-        $method->setAccessible(\true);
+        $method->setAccessible(true);
 
         $params = [
-            'foo' => 'bar',
-            'bar' => 'foo',
+            'foo'  => 'bar',
+            'bar'  => 'foo',
             'file' => '@fileSomethingSomeThing'
         ];
 
@@ -227,12 +227,12 @@ test
     {
         $tmpName = tempnam(sys_get_temp_dir(), time());
 
-        if (($fp = fopen($tmpName, 'w+')) !== \false) {
+        if (($fp = fopen($tmpName, 'w+')) !== false) {
             fwrite($fp, 'test');
             fseek($fp, 0);
 
             $method = new \ReflectionMethod('\PutIO\Engines\HTTP\NativeEngine', 'writeToFile');
-            $method->setAccessible(\true);
+            $method->setAccessible(true);
 
             $outFile = tempnam(sys_get_temp_dir(), time());
 
@@ -251,7 +251,7 @@ test
     public function testWriteToFileThrowsExceptionIfFileNotFound()
     {
         $method = new \ReflectionMethod('\PutIO\Engines\HTTP\NativeEngine', 'writeToFile');
-        $method->setAccessible(\true);
+        $method->setAccessible(true);
 
         $method->invokeArgs($this->engine, [null, '/\/\/\/']);
     }

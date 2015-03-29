@@ -6,6 +6,8 @@
  * @author Nicolas Oelgart
  * @license MIT http://opensource.org/licenses/MIT
  */
+declare(strict_types=1);
+
 namespace tests\Helpers;
 
 /**
@@ -33,7 +35,7 @@ class HTTPHelperTest extends \PHPUnit_Framework_TestCase
     public function testGetStatusReturnsCorrectValue()
     {
         $method = new \ReflectionMethod('\PutIO\Helpers\HTTP\HTTPHelper', 'getStatus');
-        $method->setAccessible(\true);
+        $method->setAccessible(true);
 
         $this->assertTrue($method->invoke($this->helper, [
             'status' => 'OK'
@@ -48,7 +50,7 @@ class HTTPHelperTest extends \PHPUnit_Framework_TestCase
     public function testGetResponseCodeParsesHeaderCorrectly()
     {
         $method = new \ReflectionMethod('\PutIO\Helpers\HTTP\HTTPHelper', 'getResponseCode');
-        $method->setAccessible(\true);
+        $method->setAccessible(true);
 
         $this->assertSame(200, $method->invoke($this->helper, [
             'HTTP/1.1 200 OK'
@@ -63,9 +65,9 @@ class HTTPHelperTest extends \PHPUnit_Framework_TestCase
     public function testGetResponseReturnsFalseForInvalidJSON()
     {
         $method = new \ReflectionMethod('\PutIO\Helpers\HTTP\HTTPHelper', 'getResponse');
-        $method->setAccessible(\true);
+        $method->setAccessible(true);
 
-        $this->assertFalse($method->invokeArgs($this->helper, ['{"invalid : "}', \true]));
+        $this->assertFalse($method->invokeArgs($this->helper, ['{"invalid : "}', true]));
     }
 
     /**
@@ -74,31 +76,33 @@ class HTTPHelperTest extends \PHPUnit_Framework_TestCase
     public function testGetResponseReturnsSpecificValueIfKeyIsSupplied()
     {
         $method = new \ReflectionMethod('\PutIO\Helpers\HTTP\HTTPHelper', 'getResponse');
-        $method->setAccessible(\true);
+        $method->setAccessible(true);
 
         $this->assertSame(
             'yay',
             $method->invokeArgs(
                 $this->helper,
-                ['{"valid": "json", "robots": "yay"}', \false, 'robots']
-        ));
+                ['{"valid": "json", "robots": "yay"}', false, 'robots']
+            )
+        );
 
         $this->assertFalse($method->invokeArgs(
             $this->helper,
-            ['{"valid": "json", "robots": "yay"}', \false, 'this key does not exist']
+            ['{"valid": "json", "robots": "yay"}', false, 'this key does not exist']
         ));
 
         $this->assertTrue($method->invokeArgs(
-                $this->helper,
-                ['{"status": "OK"}', \true]
+            $this->helper,
+            ['{"status": "OK"}', true]
         ));
 
         $this->assertSame(
             ['valid' => 'json', 'robots' => 'yay'],
             $method->invokeArgs(
                 $this->helper,
-                ['{"valid": "json", "robots": "yay"}', \false, '']
-            ));
+                ['{"valid": "json", "robots": "yay"}', false, '']
+            )
+        );
     }
 
     /**
@@ -107,7 +111,7 @@ class HTTPHelperTest extends \PHPUnit_Framework_TestCase
     public function testGetMIMETypeReturnsCorrectTypeIfExtensionIsInstalled()
     {
         $method = new \ReflectionMethod('\PutIO\Helpers\HTTP\HTTPHelper', 'getMIMEType');
-        $method->setAccessible(\true);
+        $method->setAccessible(true);
 
         if (function_exists('finfo_open') && @finfo_open(FILEINFO_MIME)) {
             $expected = 'text/plain';
@@ -128,7 +132,7 @@ class HTTPHelperTest extends \PHPUnit_Framework_TestCase
     public function testJSONDecodePEARReturnsExpectedData()
     {
         $method = new \ReflectionMethod('\PutIO\Helpers\HTTP\HTTPHelper', 'pearJsonDecode');
-        $method->setAccessible(\true);
+        $method->setAccessible(true);
 
         $this->assertSame(['status' => 'OK'], $method->invoke($this->helper, '{"status":"OK"}'));
     }

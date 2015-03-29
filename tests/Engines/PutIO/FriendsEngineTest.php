@@ -6,6 +6,8 @@
  * @author Nicolas Oelgart
  * @license MIT http://opensource.org/licenses/MIT
  */
+declare(strict_types=1);
+
 namespace tests\Engines;
 
 /**

@@ -6,6 +6,8 @@
  * @author Nicolas Oelgart
  * @license MIT http://opensource.org/licenses/MIT
  */
+declare(strict_types=1);
+
 namespace tests\Engines;
 
 /**
@@ -34,7 +36,7 @@ class OAuthEngineTest extends \PHPUnit_Framework_TestCase
     public function testVerifyAccessToken()
     {
         $clientID = 123;
-        $clientSecret = 456;
+        $clientSecret = '456';
         $redirectURI = 'https://example.org/callback';
         $code = '123';
 
@@ -52,7 +54,7 @@ class OAuthEngineTest extends \PHPUnit_Framework_TestCase
         $redirectURI = 'http://localhost';
 
         $method = new \ReflectionMethod('\PutIO\Engines\PutIO\OauthEngine', 'getRedirectURL');
-        $method->setAccessible(\true);
+        $method->setAccessible(true);
 
         $url = $method->invokeArgs($this->api->oauth, [$clientID, $redirectURI]);
 
