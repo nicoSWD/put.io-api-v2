@@ -1,4 +1,4 @@
-## Put.io OAuth API Wrapper for PHP 5.4
+## Put.io OAuth API Wrapper for PHP 7
 
 [![Build Status](https://travis-ci.org/nicoSWD/put.io-api-v2.svg?branch=php7)](https://travis-ci.org/nicoSWD/put.io-api-v2)
 
