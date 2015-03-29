@@ -40,14 +40,14 @@ final class TestEngine extends HTTPHelper implements HTTPEngine
         string $url,
         array $params = [],
         string $outFile = '',
-        bool $returnBool = \false,
+        bool $returnBool = false,
         string $arrayKey = '',
-        bool $verifyPeer = \true
+        bool $verifyPeer = true
     ) {
         $url = str_replace('/', '_', $url);
 
         if (!$response = @file_get_contents("tests/data/{$url}.json")) {
-            return \false;
+            return false;
         }
 
         return $this->getResponse($response, $returnBool, $arrayKey);

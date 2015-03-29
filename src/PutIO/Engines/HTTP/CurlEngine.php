@@ -27,7 +27,7 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
     /**
      * @var bool
      */
-    private $verifyPeer = \true;
+    private $verifyPeer = true;
 
     /**
      * @return array
@@ -37,17 +37,17 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
         $options = [
             CURLOPT_USERAGENT      => static::HTTP_USER_AGENT,
             CURLOPT_CONNECTTIMEOUT => 10,
-            CURLOPT_FOLLOWLOCATION => \true,
+            CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTPHEADER     => ['Accept: application/json']
         ];
 
         if ($this->verifyPeer) {
-            $options[CURLOPT_SSL_VERIFYPEER] = \true;
+            $options[CURLOPT_SSL_VERIFYPEER] = true;
             $options[CURLOPT_SSL_VERIFYHOST] = 2;
             $options[CURLOPT_CAINFO]         = $this->getCertPath();
         } else {
-            $options[CURLOPT_SSL_VERIFYPEER] = \false;
-            $options[CURLOPT_SSL_VERIFYHOST] = \false;
+            $options[CURLOPT_SSL_VERIFYPEER] = false;
+            $options[CURLOPT_SSL_VERIFYHOST] = false;
         }
 
         return $options;
@@ -72,9 +72,9 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
         string $url,
         array $params = [],
         string $outFile = '',
-        bool $returnBool = \false,
+        bool $returnBool = false,
         string $arrayKey = '',
-        bool $verifyPeer = \true
+        bool $verifyPeer = true
     ) {
         $this->verifyPeer = $verifyPeer;
         list($url, $options) = $this->configureRequestOptions($url, $method, $params, $outFile);
@@ -138,9 +138,9 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
         }
 
         if ($outFile === '') {
-            $options[CURLOPT_RETURNTRANSFER] = \true;
+            $options[CURLOPT_RETURNTRANSFER] = true;
         } else {
-            if (($fp = @fopen($outFile, 'w+')) === \false) {
+            if (($fp = @fopen($outFile, 'w+')) === false) {
                 throw new LocalStorageException('Unable to create local file');
             }
 
@@ -157,7 +157,7 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
     private function post(array $params) : array
     {
         $options = [
-            CURLOPT_POST => \true
+            CURLOPT_POST => true
         ];
 
         if (isset($params['file'])) {
@@ -169,7 +169,7 @@ final class CurlEngine extends HTTPHelper implements HTTPEngine
                 basename($filePath)
             );
 
-            $options[CURLOPT_SAFE_UPLOAD] = \true;
+            $options[CURLOPT_SAFE_UPLOAD] = true;
         }
 
         $options[CURLOPT_POSTFIELDS] = $params;

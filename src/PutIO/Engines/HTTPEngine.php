@@ -39,8 +39,8 @@ interface HTTPEngine
         string $url,
         array $params = [],
         string $outFile = '',
-        bool $returnBool = \false,
+        bool $returnBool = false,
         string $arrayKey = '',
-        bool $verifyPeer = \true
+        bool $verifyPeer = true
     );
 }

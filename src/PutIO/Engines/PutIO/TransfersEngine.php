@@ -30,7 +30,7 @@ final class TransfersEngine extends PutIOHelper
      */
     public function listall() : array
     {
-        return $this->get('transfers/list', [], \false, 'transfers');
+        return $this->get('transfers/list', [], false, 'transfers');
     }
     
     /**
@@ -46,7 +46,7 @@ final class TransfersEngine extends PutIOHelper
     public function add(
         string $url,
         int $parentID = 0,
-        bool $extract = \false,
+        bool $extract = false,
         string $callbackUrl = ''
     ) : array {
         $data = [
@@ -56,7 +56,7 @@ final class TransfersEngine extends PutIOHelper
             'callback_url'   => $callbackUrl
         ];
 
-        return $this->post('transfers/add', $data, \false);
+        return $this->post('transfers/add', $data, false);
     }
     
     /**
@@ -67,7 +67,7 @@ final class TransfersEngine extends PutIOHelper
      */
     public function info(int $transferID) : array
     {
-        return $this->get("transfers/{$transferID}", [], \false);
+        return $this->get("transfers/{$transferID}", [], false);
     }
     
     /**
@@ -82,7 +82,7 @@ final class TransfersEngine extends PutIOHelper
             'id' => $transferID
         ];
 
-        return $this->post('transfers/retry', $data, \true);
+        return $this->post('transfers/retry', $data, true);
     }
 
     /**
@@ -101,7 +101,7 @@ final class TransfersEngine extends PutIOHelper
             'transfer_ids' => $transferIDs
         ];
 
-        return $this->post('transfers/cancel', $data, \true);
+        return $this->post('transfers/cancel', $data, true);
     }
 
     /**
@@ -111,6 +111,6 @@ final class TransfersEngine extends PutIOHelper
      */
     public function clean() : bool
     {
-        return $this->post('transfers/clean', [], \true);
+        return $this->post('transfers/clean', [], true);
     }
 }

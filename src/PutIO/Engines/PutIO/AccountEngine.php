@@ -31,7 +31,7 @@ final class AccountEngine extends PutIOHelper
      */
     public function info()
     {
-        return $this->get('account/info', [], \false, 'info');
+        return $this->get('account/info', [], false, 'info');
     }
     
     /**
@@ -42,6 +42,6 @@ final class AccountEngine extends PutIOHelper
      */
     public function settings()
     {
-        return $this->get('account/settings', [], \false, 'settings');
+        return $this->get('account/settings', [], false, 'settings');
     }
 }

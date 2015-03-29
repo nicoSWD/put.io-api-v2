@@ -61,12 +61,12 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
         string $url,
         array $params = [],
         string $outFile = '',
-        bool $returnBool = \false,
+        bool $returnBool = false,
         string $arrayKey = '',
-        bool $verifyPeer = \true
+        bool $verifyPeer = true
     ) : bool {
         list($url, $contextOptions) = $this->configureRequestOptions($url, $method, $params, $verifyPeer);
-        $fp = @fopen($url, 'rb', \false, stream_context_create($contextOptions));
+        $fp = @fopen($url, 'rb', false, stream_context_create($contextOptions));
         $headers = stream_get_meta_data($fp)['wrapper_data'];
 
         return $this->handleRequest($fp, $headers, $outFile, $returnBool, $arrayKey);
@@ -84,7 +84,7 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
      */
     private function handleRequest($fp, array $responseHeaders, string $outFile, bool $returnBool, string $arrayKey)
     {
-        if ($fp === \false) {
+        if ($fp === false) {
             throw new RemoteConnectionException(
                 "Unable to connect to host"
             );
@@ -122,7 +122,7 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
     {
         if (isset($params['file']) && $params['file'][0] === '@') {
             $boundary  = '---------------------';
-            $boundary .= substr(md5(uniqid('', \true)), 0, 10);
+            $boundary .= substr(md5(uniqid('', true)), 0, 10);
 
             $url  = static::API_UPLOAD_URL . $url;
             $url .= '?oauth_token=' . $params['oauth_token'];
@@ -145,8 +145,8 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
 
         if ($verifyPeer) {
             $contextOptions['ssl'] = [
-                'verify_peer'       => \true,
-                'allow_self_signed' => \false,
+                'verify_peer'       => true,
+                'allow_self_signed' => false,
                 'cafile'            => $this->getCertPath(),
                 'verify_depth'      => 5,
                 'peer_name'         => $cnMatch
@@ -173,7 +173,7 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
      */
     private function writeToFile($fp, string $outFile) : int
     {
-        if (($localFp = @fopen($outFile, 'w+')) === \false) {
+        if (($localFp = @fopen($outFile, 'w+')) === false) {
             throw new LocalStorageException(
                 'Unable to create local file. Check permissions.'
             );
@@ -215,7 +215,7 @@ final class NativeEngine extends HTTPHelper implements HTTPEngine
         $filePath = substr($params['file'], 1);
         unset($params['file']);
 
-        if (($fileData = @file_get_contents($filePath)) === \false) {
+        if (($fileData = @file_get_contents($filePath)) === false) {
             throw new LocalStorageException(
                 "Unable to open local file: {$filePath}"
             );

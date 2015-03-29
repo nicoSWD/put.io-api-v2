@@ -68,7 +68,7 @@ class API
      *
      * @var null|Engines\HTTPEngine
      */
-    protected $HTTPEngine = \null;
+    protected $HTTPEngine = null;
     
     /**
      * If true (highly recommended), proper SSL peer/host verification
@@ -76,7 +76,7 @@ class API
      *
      * @var bool
      */
-    protected $SSLVerifyPeer = \true;
+    protected $SSLVerifyPeer = true;
  
     /**
      * Holds the instances of requested classes.
@@ -98,7 +98,7 @@ class API
     /**
      * @param bool $bool
      */
-    public function setSSLVerifyPeer(bool $bool = \true)
+    public function setSSLVerifyPeer(bool $bool = true)
     {
         $this->SSLVerifyPeer = $bool;
     }

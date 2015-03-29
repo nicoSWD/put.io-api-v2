@@ -25,14 +25,14 @@ class PutIOHelper
      *
      * @var API|null
      */
-    protected $putio = \null;
+    protected $putio = null;
     
     /**
      * Holds the instance of the HTTP Engine class
      *
      * @var \PutIO\Engines\HTTPEngine|null
      */
-    protected $HTTPEngine = \null;
+    protected $HTTPEngine = null;
 
     /**
      * Class constructor. Stores an instance of PutIO.
@@ -57,7 +57,7 @@ class PutIOHelper
     protected function get(
         string $path,
         array $params = [],
-        bool $returnBool = \false,
+        bool $returnBool = false,
         string $arrayKey = ''
     ) {
         return $this->request('GET', $path, $params, '', $returnBool, $arrayKey);
@@ -76,7 +76,7 @@ class PutIOHelper
     protected function post(
         string $path,
         array $params = [],
-        bool $returnBool = \false,
+        bool $returnBool = false,
         string $arrayKey = ''
     ) {
         return $this->request('POST', $path, $params, '', $returnBool, $arrayKey);
@@ -95,7 +95,7 @@ class PutIOHelper
      */
     protected function downloadFile(string $path, string $saveAS) : bool
     {
-        return $this->request('GET', $path, [], $saveAS, \true);
+        return $this->request('GET', $path, [], $saveAS, true);
     }
     
     /**
@@ -111,7 +111,7 @@ class PutIOHelper
      */
     protected function uploadFile(string $path, array $params = []) : array
     {
-        return $this->request('POST', $path, $params, '', \false, 'file');
+        return $this->request('POST', $path, $params, '', false, 'file');
     }
     
     /**
@@ -133,7 +133,7 @@ class PutIOHelper
         string $path,
         array $params = [],
         string $outFile = '',
-        bool $returnBool = \false,
+        bool $returnBool = false,
         string $arrayKey = ''
     ) {
         if ($token = $this->putio->getOAuthToken()) {

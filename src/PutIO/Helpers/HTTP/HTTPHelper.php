@@ -40,7 +40,7 @@ class HTTPHelper
     /**
      * @var string|null
      */
-    protected $jsonDecoder = \null;
+    protected $jsonDecoder = null;
     
     /**
      * Returns true if the server responded with status === OK.
@@ -51,10 +51,10 @@ class HTTPHelper
     protected function getStatus(array $response) : bool
     {
         if (isset($response['status']) && $response['status'] === 'OK') {
-            return \true;
+            return true;
         }
         
-        return \false;
+        return false;
     }
     
     /**
@@ -90,7 +90,7 @@ class HTTPHelper
         $mime = 'application/octet-stream';
 
         if (function_exists('finfo_open') && $info = @finfo_open(FILEINFO_MIME)) {
-            if (($mime = @finfo_file($info, $file)) !== \false) {
+            if (($mime = @finfo_file($info, $file)) !== false) {
                 $mime = explode(';', $mime);
                 $mime = trim($mime[0]);
             }
@@ -112,8 +112,8 @@ class HTTPHelper
     {
         $response = $this->jsonDecode($response);
 
-        if ($response === \null) {
-            return \false;
+        if ($response === null) {
+            return false;
         }
         
         if ($returnBool) {
@@ -125,7 +125,7 @@ class HTTPHelper
                 return $response[$arrayKey];
             }
 
-            return \false;
+            return false;
         }
         
         return $response;
@@ -162,10 +162,10 @@ class HTTPHelper
      */
     protected function nativeJsonDecode(string $string)
     {
-        $result = @json_decode($string, \true);
+        $result = @json_decode($string, true);
 
         if (!$result || JSON_ERROR_NONE !== json_last_error()) {
-            $result = \null;
+            $result = null;
         }
 
         return $result;

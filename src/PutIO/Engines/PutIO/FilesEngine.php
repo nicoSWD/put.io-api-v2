@@ -35,7 +35,7 @@ final class FilesEngine extends PutIOHelper
             'parent_id' => $parentID
         ];
 
-        return $this->get('files/list', $params, \false, 'files');
+        return $this->get('files/list', $params, false, 'files');
     }
 
     /**
@@ -98,7 +98,7 @@ final class FilesEngine extends PutIOHelper
             'parent_id' => $parentID
         ];
 
-        return $this->post('files/create-folder', $data, \false, 'file');
+        return $this->post('files/create-folder', $data, false, 'file');
     }
 
     /**
@@ -109,7 +109,7 @@ final class FilesEngine extends PutIOHelper
      */
     public function info(int $fileID)
     {
-        return $this->get("files/{$fileID}", [], \false, 'file');
+        return $this->get("files/{$fileID}", [], false, 'file');
     }
 
     /**
@@ -128,7 +128,7 @@ final class FilesEngine extends PutIOHelper
             'file_ids' => $fileIDs
         ];
 
-        return $this->post('files/delete', $data, \true);
+        return $this->post('files/delete', $data, true);
     }
 
     /**
@@ -145,7 +145,7 @@ final class FilesEngine extends PutIOHelper
             'name'    => $name
         ];
 
-        return $this->post('files/rename', $data, \true);
+        return $this->post('files/rename', $data, true);
     }
 
     /**
@@ -166,7 +166,7 @@ final class FilesEngine extends PutIOHelper
             'parent_id' => $parentID
         ];
 
-        return $this->post('files/move', $data, \true);
+        return $this->post('files/move', $data, true);
     }
 
     /**
@@ -177,7 +177,7 @@ final class FilesEngine extends PutIOHelper
      */
     public function convertToMP4(int $fileID) : bool
     {
-        return $this->post("files/{$fileID}/mp4", [], \true);
+        return $this->post("files/{$fileID}/mp4", [], true);
     }
 
     /**
@@ -188,7 +188,7 @@ final class FilesEngine extends PutIOHelper
      */
     public function getMP4Status(int $fileID) : bool
     {
-        return $this->get("files/{$fileID}/mp4", [], \false, 'mp4');
+        return $this->get("files/{$fileID}/mp4", [], false, 'mp4');
     }
 
     /**
@@ -202,11 +202,11 @@ final class FilesEngine extends PutIOHelper
      *                              of a file.
      * @return boolean
      */
-    public function download(int $fileID, string $saveAs = '', bool $isMP4 = \false) : bool
+    public function download(int $fileID, string $saveAs = '', bool $isMP4 = false) : bool
     {
         if ($saveAs === '') {
             if (!$info = $this->info($fileID)) {
-                return \false;
+                return false;
             }
 
             $saveAs = $info['name'];
@@ -228,7 +228,7 @@ final class FilesEngine extends PutIOHelper
      */
     public function downloadMP4(int $fileID, string $saveAs = '') : bool
     {
-        return $this->download($fileID, $saveAs, \true);
+        return $this->download($fileID, $saveAs, true);
     }
 
     /**
@@ -241,7 +241,7 @@ final class FilesEngine extends PutIOHelper
      *                              of a file.
      * @return string
      */
-    public function getDownloadURL(int $fileID, bool $isMP4 = \false) : string
+    public function getDownloadURL(int $fileID, bool $isMP4 = false) : string
     {
         return sprintf(
             'https://api.put.io/v2/files/%d/%sdownload?oauth_token=%s',
