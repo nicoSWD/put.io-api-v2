@@ -133,7 +133,7 @@ class HTTPHelper
      */
     protected function getCertPath()
     {
-        return realpath(__DIR__ . '/../../Certificates/StarfieldClass2CA.pem');
+        return realpath(__DIR__ . '/../../Certificates/cacert.pem');
     }
 
     /**
